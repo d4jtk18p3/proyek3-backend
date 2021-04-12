@@ -1,15 +1,12 @@
-name: schema-migration
+name: database-migration
 
 on:
   pull_request:
   
 jobs:
-  schema-migration:
+  database-migration:
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: src/server
     strategy:
       matrix:
         node-version: [15.x]
