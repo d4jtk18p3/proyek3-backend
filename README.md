@@ -48,7 +48,7 @@ Konfigurasi standar yang dibuat membutuhkan database dengan nama `proyek3`, nama
 
 ### Menjalankan & menkonfigurasi Keycloak
 
-Project backend ini sudah dihubungkan dengan client-id node-microservice.Jika ingin
+Project backend ini sudah dihubungkan dengan client-id nodejs-microservice.Jika ingin
 bereksplorasi menggunakan client sendiri, bisa sesuaikan konfigurasinya di file .env
 
 ``` sh
