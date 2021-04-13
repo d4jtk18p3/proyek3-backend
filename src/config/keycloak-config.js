@@ -10,7 +10,8 @@ let keycloakConfig = {
   bearerOnly: true,
   serverUrl: process.env.DEV_KEYCLOAK_AUTH_URL,
   realm: process.env.DEV_KEYCLOAK_REALM,
-  realmPublicKey: process.env.DEV_KEYCLOAK_REALM_PUBLIC_KEY,
+  realmPublicKey:
+    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnEF7iaMslkjykYp3YviJmJaygc7tfTeqRJLbdHitJtGLNOsoDxJxZ10J7bAqlXvYoLm03tGmgtR8IOFGjvAWMGxlQrJ60xi3ZAs6lcXFmOB9+ik2CU5vhwFouVnG+bvkPgIs+qbFcxbBEgk8LJGUsLfGgNh104FO8OfqusG6MHtWKuddooEIGu1zxe0ZKGORtdP/VNxF5YG+5PAJzFH1uHsUkItCrAvCkkLzN2rjuT5Q1MhpaaIz4n2DCoaj7uuPhS7erXcOqGYR/6dEOOYPoK6Vw0M1tB2vQeBqjLbHayzdVgksZlDLlEWiluFwgoLkkXy2AuDSInRcTQtqXH1rtQIDAQAB",
 };
 
 function initKeycloak() {
