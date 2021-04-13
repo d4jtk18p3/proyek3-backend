@@ -11,6 +11,7 @@ module.exports = {
           model: 'Kelas', 
           key: 'id_kelas', 
         },
+        unique: true
       }
     );
     await queryInterface.addColumn(
@@ -22,6 +23,7 @@ module.exports = {
           model: 'Jadwal', 
           key: 'id_kelas', 
         },
+        unique: true
       }
     );
     await queryInterface.addColumn(
@@ -33,6 +35,7 @@ module.exports = {
           model: 'Jadwal', 
           key: 'id_jadwal', 
         },
+        unique: true
       }
     );
     await queryInterface.addColumn(
@@ -44,6 +47,7 @@ module.exports = {
           model: 'Kuliah_Mahasiswa', 
           key: 'id_mahasiswa', 
         },
+        unique: true
       }
     );
     await queryInterface.addColumn(
@@ -55,22 +59,30 @@ module.exports = {
           model: 'Mahasiswa', 
           key: 'NIM', 
         },
+        unique: true
       }
     );
     await queryInterface.addColumn(
       'Nilai',
       'id_mata_kuliah',
       {
-        type: Sequelize.STRING(8),
+        type: Sequelize.INTEGER,
         references: {
           model: 'MataKuliah', 
           key: 'id_mata_kuliah', 
         },
+        unique: true
       }
     );
+    await queryInterface.addConstraint('Presensi', {
+      fields: ['id_mahasiswa', 'id_kelas'],
+      type: 'unique',
+      name: 'c_unique0_presensi'
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.removeConstraint('Presensi','c_unique0_presensi');
     await queryInterface.removeColumn('Nilai', 'id_mata_kuliah');
     await queryInterface.removeColumn('Nilai', 'NIM');
     await queryInterface.removeColumn('Presensi', 'id_mahasiswa');

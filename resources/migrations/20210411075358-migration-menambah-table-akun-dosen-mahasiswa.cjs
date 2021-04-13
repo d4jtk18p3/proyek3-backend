@@ -38,7 +38,7 @@ module.exports = {
         NIM: {
             type: Sequelize.STRING,
             allowNull: false,
-            primaryKey: true
+            unique: true
         },
         nama_mahasiswa: {
             type: Sequelize.STRING
