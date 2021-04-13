@@ -8,4 +8,17 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(router);
 
+//error handling
+app.use((error, req, res, next) => {
+  console.log(error);
+  const status = error.statusCode || 500;
+  const message = error.message;
+  const cause = error.cause || "Internal Server Error";
+  res.status(status).json({
+    message: message,
+    error: status,
+    cause: cause,
+  });
+});
+
 export default app;
