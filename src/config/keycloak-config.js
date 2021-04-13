@@ -1,5 +1,8 @@
-const session = require('express-session');
-const Keycloak = require('keycloak-connect');
+// const session = require('express-session');
+// const Keycloak = require('keycloak-connect');
+import session from 'express-session';
+import Keycloak from 'keycloak-connect'
+
 
 let keycloak;
 
@@ -35,7 +38,4 @@ function getKeycloak(){
     return keycloak;
 }
 
-module.exports = {
-    initKeycloak,
-    getKeycloak
-}
+export { initKeycloak, getKeycloak};

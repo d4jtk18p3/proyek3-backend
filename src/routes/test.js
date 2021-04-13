@@ -1,23 +1,14 @@
-// const express = require('express');
-// const router = express.Router();
-// const testController = require('../controller/test');
-// const keycloak = require('../config/keycloak-config').getKeycloak();
-
 import express from 'express'
-import Keycloak from '../config/keycloak-config'
-import testController from '../controller/test'
+import { initKeycloak, getKeycloak } from '../config/keycloak-config'
+import {anonymousController} from '../controller/test'
 
 const router = express.Router();
-const keycloak = Keycloak.getKeycloak();
+const keycloak = initKeycloak();
 
+router.use(keycloak.middleware());
 router.use(keycloak.protect());
 
-router.get('/anonymous',testController.anonymousController);
+router.get('/anonymous', anonymousController);
 
-router.get('/user', testController.userController);
 
-router.get('/admin', testController.adminController);
-
-router.get('/all-user', testController.alluserController);
-
-module.exports = router;
+export default router;
