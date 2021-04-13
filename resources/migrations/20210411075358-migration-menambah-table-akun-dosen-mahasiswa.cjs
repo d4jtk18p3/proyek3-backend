@@ -37,13 +37,12 @@ module.exports = {
         },
         NIM: {
             type: Sequelize.STRING,
-            allowNull: false,
-            primaryKey: true
+            unique: true
         },
         nama_mahasiswa: {
             type: Sequelize.STRING
         },
-        angaktan: {
+        angkatan: {
             type: Sequelize.INTEGER
         },
         tingkat: {
@@ -62,11 +61,13 @@ module.exports = {
             type: Sequelize.STRING
         }
       });
+      await queryInterface.addIndex('Mahasiswa', ['NIM']);
   },
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Akun');
     await queryInterface.dropTable('Dosen');
+    await queryInterface.removeIndex('Mahasiswa', ['NIM']);
     await queryInterface.dropTable('Mahasiswa');
   }
 };
