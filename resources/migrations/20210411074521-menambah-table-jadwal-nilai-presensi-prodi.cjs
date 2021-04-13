@@ -9,9 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id_kelas: {
-        type: Sequelize.INTEGER
-      },
       waktu_mulai: {
         type: Sequelize.DATE
       },
@@ -20,26 +17,11 @@ module.exports = {
       }
     });
     await queryInterface.createTable('Nilai', {
-      NIM: {
-        type: Sequelize.INTEGER
-      },
-      id_mata_kuliah: {
-        type: Sequelize.INTEGER
-      },
       nilai_semester: {
         type: Sequelize.STRING(2)
       }
     });
     await queryInterface.createTable('Presensi', {
-      id_mahasiswa: {
-        type: Sequelize.INTEGER
-      },
-      id_kelas: {
-        type: Sequelize.INTEGER
-      },
-      id_jadwal: {
-        type: Sequelize.INTEGER
-      },
       tipe_presensi: {
         type: Sequelize.STRING(10)
       }

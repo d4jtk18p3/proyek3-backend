@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-      await queryInterface.createTable('Akun', {
+      await queryInterface.createTable('akun', {
         username: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -15,7 +15,7 @@ module.exports = {
             type: Sequelize.STRING
         }
       });
-      await queryInterface.createTable('Dosen', {
+      await queryInterface.createTable('dosen', {
         NIP: {
             type: Sequelize.INTEGER,
             allowNull: false,
@@ -28,7 +28,7 @@ module.exports = {
             type: Sequelize.STRING
         }
       });
-      await queryInterface.createTable('Mahasiswa', {
+      await queryInterface.createTable('mahasiswa', {
         id_mahasiswa: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
@@ -65,8 +65,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Akun');
-    await queryInterface.dropTable('Dosen');
-    await queryInterface.dropTable('Mahasiswa');
+    //kosong
   }
 };
