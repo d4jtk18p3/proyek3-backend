@@ -1,7 +1,14 @@
-const express = require('express');
+// const express = require('express');
+// const router = express.Router();
+// const testController = require('../controller/test');
+// const keycloak = require('../config/keycloak-config').getKeycloak();
+
+import express from 'express'
+import Keycloak from '../config/keycloak-config'
+import testController from '../controller/test'
+
 const router = express.Router();
-const testController = require('../controller/test');
-const keycloak = require('../config/keycloak-config').getKeycloak();
+const keycloak = Keycloak.getKeycloak();
 
 router.use(keycloak.protect());
 
