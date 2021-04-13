@@ -18,7 +18,7 @@ function initKeycloak(){
     }else{
         console.log("Initilizing keycloak....");
         // kalo mau server manage authentication, maka harus ada session storage
-        // tapi pada kasus ini, kita hanya ingin server melakukan validasi token dari FE
+        // tapi pada kasus ini, kita hanya ingin server melakukan validasi token dari FE ke Keycloak
         // jadi gaperlu ada storage untuk session (misal Redis)
         
         // let memoryStore = new session.MemoryStore();
