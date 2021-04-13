@@ -7,13 +7,13 @@ const TataUsaha = db.define('TataUsaha', {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
-    primaryKey: true,
+    primaryKey: true
   },
   nip: {
     type: Sequelize.INTEGER,
-    allowNull : false
+    allowNull: false
   },
-  nama : {
+  nama: {
     type: Sequelize.STRING,
     allowNull: false
   }

@@ -7,7 +7,7 @@ const MataKuliah = db.define('MataKuliah', {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
-    primaryKey: true,
+    primaryKey: true
   },
   semester: {
     type: Sequelize.INTEGER,
@@ -15,13 +15,13 @@ const MataKuliah = db.define('MataKuliah', {
   },
   nama_mata_kuliah: {
     type: Sequelize.STRING(50),
-    allowNull: false  
+    allowNull: false
   },
   sks_teori: {
     type: Sequelize.INTEGER,
     allowNull: true
   },
-  sks_praktek:{
+  sks_praktek: {
     type: Sequelize.INTEGER,
     allowNull: true
   }

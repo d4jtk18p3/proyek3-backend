@@ -3,7 +3,7 @@ import Sequelize from 'sequelize'
 import db from '../db'
 
 const Kelas = db.define('Kelas', {
-  id_kelas:{
+  id_kelas: {
     type: Sequelize.INTEGER,
     allowNull: false,
     primaryKey: true,

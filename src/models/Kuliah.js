@@ -7,12 +7,12 @@ const Kuliah = db.define('Kuliah', {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
-    primaryKey: true,
+    primaryKey: true
   },
   tahun_akademik: {
     type: Sequelize.INTEGER,
-    allowNull : false
-  },
+    allowNull: false
+  }
 })
 
 export default Kuliah
