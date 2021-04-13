@@ -37,7 +37,7 @@ module.exports = {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             allowNull: false,
-            primaryKey: true
+            unique: true
         },
         NIM: {
             type: Sequelize.STRING,
