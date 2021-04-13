@@ -46,6 +46,19 @@ $ nvm use
 
 Konfigurasi standar yang dibuat membutuhkan database dengan nama `proyek3`, nama user `proyek3`, dan password `proyek3`.
 
+### Menjalankan & menkonfigurasi Keycloak
+
+Project backend ini sudah dihubungkan dengan client-id node-microservice.Jika ingin
+bereksplorasi menggunakan client sendiri, bisa sesuaikan konfigurasinya di file .env
+
+``` sh
+DEV_KEYCLOAK_CLIENTID=nodejs-microservice
+DEV_KEYCLOAK_AUTH_URL=https://keycloak.ca9db134.nip.io/auth/
+DEV_KEYCLOAK_REALM=Polban-Realm
+DEV_KEYCLOAK_REALM_PUBLIC_KEY=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8.......
+```
+
+
 ###### Windows (dengan pgAdmin)
 
 Untuk membuat user dengan nama `proyek3` dan password `proyek3`, ikuti langkah berikut:
