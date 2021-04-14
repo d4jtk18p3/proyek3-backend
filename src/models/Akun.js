@@ -6,7 +6,7 @@ const Akun = db.define('Akun', {
     username: {
         type: Sequelize.STRING,
         allowNull: false,
-        primaryKey: true,
+        primaryKey: true
     },
     password: {
         type: Sequelize.STRING,
@@ -14,7 +14,7 @@ const Akun = db.define('Akun', {
     },
     tipe_akun: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
     }
 })
 
