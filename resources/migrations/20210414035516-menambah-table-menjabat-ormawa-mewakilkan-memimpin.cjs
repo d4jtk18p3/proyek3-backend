@@ -26,7 +26,7 @@ module.exports = {
             type: Sequelize.STRING(30)
         }
         }); 
-        await queryInterface.createTable('Mewakilkan', {
+        await queryInterface.createTable('Mewalikan', {
         tahun_mulai: {
             type: Sequelize.STRING(4)
         },
@@ -49,7 +49,7 @@ module.exports = {
     down: async (queryInterface, Sequelize) => {
         await queryInterface.dropTable('Menjabat');
         await queryInterface.dropTable('Ormawa');
-        await queryInterface.dropTable('Mewakilkan');
+        await queryInterface.dropTable('Mewalikan');
         await queryInterface.dropTable('Memimpin');
   }
 };

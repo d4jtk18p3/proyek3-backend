@@ -2,10 +2,10 @@ import Sequelize from 'sequelize'
 
 import db from '../db'
 
-const Mewakilkan = db.define('Mewakilkan', {
+const Mewalikan = db.define('Mewalikan', {
   NIP: {
     type: Sequelize.INTEGER,
-    allowNull: false,
+    allowNull: false
   },
   id_kelas: {
     type: Sequelize.INTEGER,
@@ -25,4 +25,4 @@ const Mewakilkan = db.define('Mewakilkan', {
   }
 })
 
-export default Mewakilkan
+export default Mewalikan

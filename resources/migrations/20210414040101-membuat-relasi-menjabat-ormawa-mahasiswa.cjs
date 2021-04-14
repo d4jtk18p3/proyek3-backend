@@ -53,7 +53,7 @@ module.exports = {
     );
 
     await queryInterface.addColumn(
-        'Mewakilkan',
+        'Mewalikan',
         'NIP',
         {
             type: Sequelize.INTEGER,
@@ -65,7 +65,7 @@ module.exports = {
     );
 
     await queryInterface.addColumn(
-        'Mewakilkan',
+        'Mewalikan',
         'id_kelas',
         {
             type: Sequelize.INTEGER,
@@ -82,7 +82,7 @@ module.exports = {
     await queryInterface.removeColumn('Menjabat', 'id_mahasiswa')
     await queryInterface.removeColumn('Memimpin', 'NIP')
     await queryInterface.removeColumn('Memimpin', 'kode_prodi')
-    await queryInterface.removeColumn('Mewakilkan', 'NIP')
-    await queryInterface.removeColumn('Mewakilkan', 'id_kelas')
+    await queryInterface.removeColumn('Mewalikan', 'NIP')
+    await queryInterface.removeColumn('Mewalikan', 'id_kelas')
     }
 };

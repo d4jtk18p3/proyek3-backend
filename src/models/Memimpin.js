@@ -5,7 +5,7 @@ import db from '../db'
 const Memimpin = db.define('Memimpin', {
   NIP: {
     type: Sequelize.INTEGER,
-    allowNull: false,
+    allowNull: false
   },
   kode_prodi: {
     type: Sequelize.STRING(15),
