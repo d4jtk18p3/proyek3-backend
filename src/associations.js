@@ -1,13 +1,10 @@
 const Dosen = require('./models/Dosen')
-const Mengajar = require('./models/Mengajar')
-const Memimpin = require('./models/Memimpin')
-const Mewalikan = require('./models/Mewalikan')
 const Prodi = require('./models/prodi')
 const TataUsaha = require('./models/TataUsaha')
 const Akun = require('./models/Akun')
 const Kuliah = require('./models/Kuliah')
 const Kelas = require('./models/Kelas')
-
+const Presensi = require('./models/presensi')
 const setAssociations = () => {
     Dosen.hasOne(Akun, {
         foreignKey: 'username'
