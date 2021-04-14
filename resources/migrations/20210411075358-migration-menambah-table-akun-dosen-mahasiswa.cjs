@@ -9,10 +9,12 @@ module.exports = {
             primaryKey: true
         },
         password: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false
         },
         tipe_akun: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false
         }
       });
       await queryInterface.createTable('Dosen', {
@@ -22,10 +24,12 @@ module.exports = {
             primaryKey: true
         },
         nama_dosen: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false
         },
         jabatan: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false
         }
       });
       await queryInterface.createTable('Mahasiswa', {
@@ -33,7 +37,7 @@ module.exports = {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             allowNull: false,
-            primaryKey: true
+            unique: true
         },
         NIM: {
             type: Sequelize.STRING,
@@ -41,13 +45,16 @@ module.exports = {
             unique: true
         },
         nama_mahasiswa: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false
         },
         angaktan: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            allowNull: false
         },
         tingkat: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            allowNull: false
         },
         email: {
             type: Sequelize.STRING
@@ -59,7 +66,8 @@ module.exports = {
             type: Sequelize.STRING
         },
         status: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false
         }
       });
   },
