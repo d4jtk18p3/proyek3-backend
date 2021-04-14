@@ -3,76 +3,76 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.addColumn(
-      'Rencana_Studi',
+      'RencanaStudi',
       'id_mahasiswa',
       {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Mahasiswa', 
-          key: 'id_mahasiswa', 
+          model: 'Mahasiswa',
+          key: 'id_mahasiswa',
         },
         unique: true
       }
     );
     await queryInterface.addColumn(
-      'Rencana_Studi',
+      'RencanaStudi',
       'id_kuliah',
       {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Kuliah', 
-          key: 'id_kuliah', 
+          model: 'Kuliah',
+          key: 'id_kuliah',
         },
         unique: true
       }
     );
-    await queryInterface.addConstraint('Rencana_Studi', {
+    await queryInterface.addConstraint('RencanaStudi', {
         fields: ['id_mahasiswa', 'id_kuliah'],
         type: 'unique',
         name: 'c_unique0_rencana_studi'
     });
     await queryInterface.addColumn(
-      'Kuliah_Mahasiswa',
+      'KuliahMahasiswa',
       'id_mahasiswa',
       {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Rencana_Studi', 
-          key: 'id_mahasiswa', 
+          model: 'RencanaStudi',
+          key: 'id_mahasiswa',
         },
         unique: true
       }
     );
     await queryInterface.addColumn(
-      'Kuliah_Mahasiswa',
+      'KuliahMahasiswa',
       'id_kuliah',
       {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Rencana_Studi', 
-          key: 'id_kuliah', 
+          model: 'RencanaStudi',
+          key: 'id_kuliah',
         },
         unique: true
       }
     );
     await queryInterface.addColumn(
-      'Kuliah_Mahasiswa',
+      'KuliahMahasiswa',
       'id_kelas',
       {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Kelas', 
-          key: 'id_kelas', 
+          model: 'Kelas',
+          key: 'id_kelas',
         },
         unique: true
       }
     );
-    await queryInterface.addConstraint('Kuliah_Mahasiswa', {
+    await queryInterface.addConstraint('KuliahMahasiswa', {
       fields: ['id_mahasiswa', 'id_kuliah'],
       type: 'unique',
       name: 'c_unique0_kuliah_mahasiswa'
     });
-    await queryInterface.addConstraint('Kuliah_Mahasiswa', {
+    await queryInterface.addConstraint('KuliahMahasiswa', {
       fields: ['id_mahasiswa', 'id_kelas'],
       type: 'unique',
       name: 'c_unique1_kuliah_mahasiswa'
@@ -80,13 +80,13 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeConstraint('Kuliah_Mahasiswa','c_unique1_kuliah_mahasiswa');
-    await queryInterface.removeConstraint('Kuliah_Mahasiswa','c_unique0_kuliah_mahasiswa');
-    await queryInterface.removeColumn('Kuliah_Mahasiswa', 'id_kelas');
-    await queryInterface.removeColumn('Kuliah_Mahasiswa', 'id_kuliah');
-    await queryInterface.removeColumn('Kuliah_Mahasiswa', 'id_mahasiswa');
-    await queryInterface.removeConstraint('Rencana_Studi','c_unique0_rencana_studi');
-    await queryInterface.removeColumn('Rencana_Studi', 'id_kuliah');
-    await queryInterface.removeColumn('Rencana_Studi', 'id_mahasiswa');
+    await queryInterface.removeConstraint('KuliahMahasiswa','c_unique1_kuliah_mahasiswa');
+    await queryInterface.removeConstraint('KuliahMahasiswa','c_unique0_kuliah_mahasiswa');
+    await queryInterface.removeColumn('KuliahMahasiswa', 'id_kelas');
+    await queryInterface.removeColumn('KuliahMahasiswa', 'id_kuliah');
+    await queryInterface.removeColumn('KuliahMahasiswa', 'id_mahasiswa');
+    await queryInterface.removeConstraint('RencanaStudi','c_unique0_rencana_studi');
+    await queryInterface.removeColumn('RencanaStudi', 'id_kuliah');
+    await queryInterface.removeColumn('RencanaStudi', 'id_mahasiswa');
   }
 };

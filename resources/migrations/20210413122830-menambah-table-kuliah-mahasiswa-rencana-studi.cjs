@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Kuliah_Mahasiswa', {
+    await queryInterface.createTable('KuliahMahasiswa', {
       kuliah_mahasiswa_id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,11 +10,11 @@ module.exports = {
         type: Sequelize.INTEGER
       }
     });
-    await queryInterface.createTable('Rencana_Studi',{});
+    await queryInterface.createTable('RencanaStudi',{});
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Kuliah_Mahasiswa');
-    await queryInterface.dropTable('Rencana_Studi');
+    await queryInterface.dropTable('KuliahMahasiswa');
+    await queryInterface.dropTable('RencanaStudi');
   }
 };

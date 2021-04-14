@@ -8,8 +8,8 @@ module.exports = {
       {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Kelas', 
-          key: 'id_kelas', 
+          model: 'Kelas',
+          key: 'id_kelas',
         },
         unique: true
       }
@@ -20,8 +20,8 @@ module.exports = {
       {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Jadwal', 
-          key: 'id_kelas', 
+          model: 'Jadwal',
+          key: 'id_kelas',
         },
         unique: true
       }
@@ -32,8 +32,8 @@ module.exports = {
       {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Jadwal', 
-          key: 'id_jadwal', 
+          model: 'Jadwal',
+          key: 'id_jadwal',
         },
         unique: true
       }
@@ -44,8 +44,8 @@ module.exports = {
       {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Kuliah_Mahasiswa', 
-          key: 'id_mahasiswa', 
+          model: 'KuliahMahasiswa',
+          key: 'id_mahasiswa',
         },
         unique: true
       }
@@ -56,8 +56,8 @@ module.exports = {
       {
         type: Sequelize.STRING(9),
         references: {
-          model: 'Mahasiswa', 
-          key: 'NIM', 
+          model: 'Mahasiswa',
+          key: 'NIM',
         },
         unique: true
       }
@@ -68,8 +68,8 @@ module.exports = {
       {
         type: Sequelize.INTEGER,
         references: {
-          model: 'MataKuliah', 
-          key: 'id_mata_kuliah', 
+          model: 'MataKuliah',
+          key: 'id_mata_kuliah',
         },
         unique: true
       }

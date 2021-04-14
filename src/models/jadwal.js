@@ -12,9 +12,9 @@ const Jadwal = db.define('Jadwal', {
   waktu_mulai: {
     type: Sequelize.DATE
   },
-  waktu_mulai: {
+  waktu_selesai: {
     type: Sequelize.DATE
   }
-});
+})
 
-export default Jadwal;
+export default Jadwal
