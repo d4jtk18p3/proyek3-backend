@@ -6,6 +6,6 @@ const Nilai = db.define('Nilai', {
   nilai_semester: {
     type: Sequelize.STRING(2)
   }
-});
+})
 
-export default Nilai;
+export default Nilai

@@ -9,6 +9,6 @@ const Prodi = db.define('Prodi', {
     primaryKey: true,
     autoIncrement: true
   }
-});
+})
 
-export default Prodi;
+export default Prodi

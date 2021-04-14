@@ -6,6 +6,6 @@ const Presensi = db.define('Presensi', {
   tipe_presensi: {
     type: Sequelize.STRING(10)
   }
-});
+})
 
-export default Presensi;
+export default Presensi
