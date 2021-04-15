@@ -8,8 +8,8 @@ module.exports = {
         {
             type: Sequelize.STRING,
             reference: {
-                model: 'Akun',
-                key: 'username',
+              model: 'Akun',
+              key: 'username',
             },
         }
     )
@@ -20,15 +20,28 @@ module.exports = {
         {
             type: Sequelize.STRING,
             reference: {
-                model: 'Akun',
-                key: 'username',
+              model: 'Akun',
+              key: 'username',
             }
         }
+    )
+
+    await queryInterface.addColumn(
+      'Nilai',
+      'NIM',
+      {
+        type: Sequelize.STRING,
+        reference: {
+          model: 'Mahasiswa',
+          key: 'NIM',
+        }
+      }
     )
   },
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.removeColumn('Dosen', 'username')
     await queryInterface.removeColumn('Mahasiswa', 'username')
+    await queryInterface.removeColumn('Nilai', 'NIM')
   }
 };
