@@ -72,8 +72,7 @@ const setAssociations = () => {
     foreignKey: 'NIM'
   })
   RencanaStudi.hasMany(KuliahMahasiswa, {
-    foreignKey: 'id_mahasiswa',
-    foreignKey: 'id_kuliah'
+    foreignKey: ['id_mahasiswa', 'id_kuliah']
   })
 }
 
