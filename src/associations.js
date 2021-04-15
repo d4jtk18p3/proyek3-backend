@@ -11,6 +11,8 @@ const Nilai = require('./models/nilai')
 const Prodi = require('./models/prodi')
 const TataUsaha = require('./models/TataUsaha')
 const Akun = require('./models/Akun')
+const OrganisasiMahasiswa = require('./models/OrganisasiMahasiswa')
+const Menjabat = require('./models/Menjabat')
 const setAssociations = () => {
   Kuliah.belongsToMany(Mahasiswa, {
     through: 'RencanaStudi'
@@ -57,8 +59,17 @@ const setAssociations = () => {
   Mahasiswa.belongsTo(Akun, {
     foreignKey: 'username'
   })
+  Mahasiswa.hasMany(RencanaStudi, {
+    foreignKey: 'id_mahasiswa'
+  })
   TataUsaha.belongTo(Akun, {
     foreignKey: 'username'
+  })
+  OrganisasiMahasiswa.hasMany(Menjabat, {
+    foreignKey: 'id_ormawa'
+  })
+  Menjabat.belongTo(Mahasiswa, {
+    foreignKey: 'NIM'
   })
 }
 
