@@ -68,8 +68,12 @@ const setAssociations = () => {
   OrganisasiMahasiswa.hasMany(Menjabat, {
     foreignKey: 'id_ormawa'
   })
-  Menjabat.belongTo(Mahasiswa, {
+  Menjabat.hasMany(Mahasiswa, {
     foreignKey: 'NIM'
+  })
+  RencanaStudi.hasMany(KuliahMahasiswa, {
+    foreignKey: 'id_mahasiswa',
+    foreignKey: 'id_kuliah'
   })
 }
 
