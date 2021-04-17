@@ -13,6 +13,7 @@ const TataUsaha = require('./models/TataUsaha')
 const Akun = require('./models/Akun')
 const OrganisasiMahasiswa = require('./models/OrganisasiMahasiswa')
 const Menjabat = require('./models/Menjabat')
+const Jurusan = require('./models/Jurusan')
 
 const setAssociations = () => {
   Kuliah.belongsToMany(Mahasiswa, {
@@ -74,6 +75,27 @@ const setAssociations = () => {
   })
   RencanaStudi.hasMany(KuliahMahasiswa, {
     foreignKey: ['id_mahasiswa', 'id_kuliah']
+  })
+  Dosen.hasOne(Akun, {
+    foreignKey: 'username'
+  })
+  Dosen.belongsToMany(Prodi, {
+    through: 'Memimpin'
+  })
+  Dosen.belongsToMany(Kuliah, {
+    through: 'Mengajar'
+  })
+  Prodi.hasMany(Kelas, {
+    foreignKey: 'kode_prodi'
+  })
+  TataUsaha.hasOne(Akun, {
+    foreignKey: 'username'
+  })
+  TataUsaha.hasMany(Presensi, {
+    foreignKey: 'nip'
+  })
+  Jurusan.hasMany(Prodi, {
+    foreignKey: 'kode_prodi'
   })
 }
 
