@@ -13,7 +13,6 @@ module.exports = {
             },
         }
     )
-
     await queryInterface.addColumn(
         'Mahasiswa',
         'username',
@@ -25,22 +24,9 @@ module.exports = {
             }
         }
     )
-
-    await queryInterface.addColumn(
-      'Nilai',
-      'NIM',
-      {
-        type: Sequelize.STRING,
-        reference: {
-          model: 'Mahasiswa',
-          key: 'NIM',
-        }
-      }
-    )
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeColumn('Nilai', 'NIM')
     await queryInterface.removeColumn('Mahasiswa', 'username')
     await queryInterface.removeColumn('Dosen', 'username')
   }
