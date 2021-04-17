@@ -67,7 +67,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      angaktan: {
+      angkatan: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
