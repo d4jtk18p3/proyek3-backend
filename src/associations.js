@@ -13,6 +13,7 @@ const TataUsaha = require('./models/TataUsaha')
 const Akun = require('./models/Akun')
 const OrganisasiMahasiswa = require('./models/OrganisasiMahasiswa')
 const Menjabat = require('./models/Menjabat')
+
 const setAssociations = () => {
   Kuliah.belongsToMany(Mahasiswa, {
     through: 'RencanaStudi'
@@ -74,6 +75,7 @@ const setAssociations = () => {
   RencanaStudi.hasMany(KuliahMahasiswa, {
     foreignKey: ['id_mahasiswa', 'id_kuliah']
   })
+
 }
 
 module.exports = setAssociations
