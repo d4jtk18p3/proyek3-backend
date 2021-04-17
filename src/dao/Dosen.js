@@ -10,7 +10,7 @@ const insertOneDosen = async (NIP, namaDosen, jabatan) => {
   try {
     const dosen = await Dosen.create({
       NIP,
-      namaDosen,
+      nama_dosen: namaDosen,
       jabatan
     })
     return dosen
