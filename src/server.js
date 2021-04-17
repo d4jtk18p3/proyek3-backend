@@ -1,12 +1,18 @@
 import express from 'express'
-import router from './routes/test'
 import morgan from 'morgan'
 import cors from 'cors'
+import bodyParser from 'body-parser'
+import keycloak from './middleware/keycloak'
+import dosenRouter from './routes/Dosen'
 
 const app = express()
 app.use(cors())
+// Non aktifkan dulu keycloak agar tidak ada validasi token
+// app.use(keycloak.middleware())
+// app.use(keycloak.protect())
+app.use(bodyParser.json())
 app.use(morgan('dev'))
-app.use(router)
+app.use('/dosen',dosenRouter)
 
 // error handling
 app.use((error, req, res, next) => {
