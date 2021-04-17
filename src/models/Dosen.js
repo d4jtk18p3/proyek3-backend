@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize'
 
-import db from '../db'
+import db from '../db.js'
 
 const Dosen = db.define('Dosen', {
   NIP: {
@@ -16,6 +16,8 @@ const Dosen = db.define('Dosen', {
     type: Sequelize.STRING,
     allowNull: false
   }
+}, {
+  tableName: 'Dosen'
 })
 
 export default Dosen
