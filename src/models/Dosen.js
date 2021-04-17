@@ -19,5 +19,5 @@ const Dosen = db.define('Dosen', {
 }, {
   tableName: 'Dosen'
 })
-console.log("Halo");
+
 export default Dosen

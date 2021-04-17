@@ -2,7 +2,7 @@ import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import keycloak from './middleware/keycloak'
+// import keycloak from './middleware/keycloak'
 import dosenRouter from './routes/Dosen'
 
 const app = express()
@@ -12,7 +12,7 @@ app.use(cors())
 // app.use(keycloak.protect())
 app.use(bodyParser.json())
 app.use(morgan('dev'))
-app.use('/dosen',dosenRouter)
+app.use('/dosen', dosenRouter)
 
 // error handling
 app.use((error, req, res, next) => {

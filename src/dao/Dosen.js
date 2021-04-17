@@ -6,21 +6,21 @@ import Dosen from '../models/Dosen.js'
     Contoh : \d "Dosen"
 */
 
-const insertOneDosen = async (NIP, nama_dosen, jabatan) => {
-    try {
-        const dosen = await Dosen.create({
-            NIP,
-            nama_dosen,
-            jabatan
-        })
-        return dosen;   
-    } catch (error) {
-        console.error(error);
-    }
+const insertOneDosen = async (NIP, namaDosen, jabatan) => {
+  try {
+    const dosen = await Dosen.create({
+      NIP,
+      namaDosen,
+      jabatan
+    })
+    return dosen
+  } catch (error) {
+    console.error(error)
+  }
 }
 
-var DosenDAO = {
-    insertOneDosen
+const DosenDAO = {
+  insertOneDosen
 }
 
-export default DosenDAO;
+export default DosenDAO
