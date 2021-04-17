@@ -15,11 +15,30 @@ import DosenDAO from '../dao/Dosen'
 const postNewDosen = async (req, res, next) => {
   try {
     const { NIP, namaDosen, jabatan } = req.body
-    // console.log("BODY YANG DIKIRM ",NIP, nama_dosen, jabatan);
+    const error = new Error()
+
+    // Validasi data yang dikirim
+    if (!NIP || !namaDosen || !jabatan) {
+      error.message = 'Bad Request - Anda harus mengirimkan NIP, namaDosen, dan jabatan'
+      error.statusCode = 400
+      error.cause = 'Client tidak mengirimkan seluruh data yang dibutuhkan'
+      throw error
+    }
+
     const dosen = await DosenDAO.insertOneDosen(NIP, namaDosen, jabatan)
+
+    if (typeof dosen === 'undefined') {
+      error.message = 'NIP dosen sudah terdaftar'
+      error.statusCode = 400
+      error.cause = 'Client mengirimkan NIP yang sudah terdaftar'
+      throw error
+    }
+
     res.status(200).json({
       message: 'insert dosen sukses',
-      data: dosen
+      data: {
+        dosen
+      }
     })
   } catch (error) {
     next(error)
