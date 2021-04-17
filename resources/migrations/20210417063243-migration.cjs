@@ -15,6 +15,12 @@ module.exports = {
         tipe_akun: {
           type: Sequelize.STRING,
           allowNull: false
+        },
+        createdAt: {
+          type: Sequelize.DATE
+        },
+        updatedAt: {
+          type: Sequelize.DATE
         }
     });
     await queryInterface.createTable('Dosen', {
@@ -37,6 +43,12 @@ module.exports = {
           model: 'Akun',
           key: 'username',
         },
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('Mahasiswa', {
@@ -82,6 +94,12 @@ module.exports = {
           model: 'Akun',
           key: 'username',
         },
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('TataUsaha', {
@@ -106,6 +124,12 @@ module.exports = {
           model: 'Akun',
           key: 'username',
         },
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('Jurusan', {
@@ -113,6 +137,12 @@ module.exports = {
         type: Sequelize.STRING(15),
         allowNull: false,
         primaryKey: true
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('Prodi', {
@@ -129,6 +159,12 @@ module.exports = {
        },
        allowNull: false
       },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      }
     });
     await queryInterface.createTable('Ormawa', {
       id_ormawa: {
@@ -142,6 +178,12 @@ module.exports = {
       },
       url_logo_ormawa: {
         type: Sequelize.STRING(30)
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('Menjabat', {
@@ -168,6 +210,12 @@ module.exports = {
           model: 'Mahasiswa',
           key: 'id_mahasiswa',
         },
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('Memimpin', {
@@ -193,6 +241,12 @@ module.exports = {
           key: 'kode_prodi', 
         },
         unique: true
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('MataKuliah', {
@@ -218,6 +272,12 @@ module.exports = {
       sks_praktek:{
         type: Sequelize.INTEGER,
         allowNull: true
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('Kuliah', { 
@@ -238,6 +298,12 @@ module.exports = {
           key: 'id_mata_kuliah', 
         },
         allowNull: false
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     })
     await queryInterface.createTable('Kelas', {
@@ -267,6 +333,12 @@ module.exports = {
           key: 'id_kuliah',
         },
         allowNull: false
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     })
     await queryInterface.createTable('Mewakilkan', {
@@ -295,6 +367,12 @@ module.exports = {
           key: 'id_kelas', 
         },
         unique: true
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('Kuliah_Mahasiswa', {
@@ -327,7 +405,13 @@ module.exports = {
           key: 'id_kelas', 
         },
         unique: true
-    }
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      }
       });
     await queryInterface.createTable('Rencana_Studi',{
         id_mahasiswa: {
@@ -345,6 +429,12 @@ module.exports = {
             key: 'id_kuliah', 
           },
           unique: true
+        },
+        createdAt: {
+          type: Sequelize.DATE
+        },
+        updatedAt: {
+          type: Sequelize.DATE
         }
     });
     await queryInterface.createTable('Jadwal', {
@@ -367,6 +457,12 @@ module.exports = {
           key: 'id_kelas', 
         },
         unique: true
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('Nilai', {
@@ -388,6 +484,12 @@ module.exports = {
           key: 'id_mata_kuliah', 
         },
         unique: true
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('Presensi', {
@@ -418,6 +520,12 @@ module.exports = {
         },
         unique: true
       },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      }
     });
     await queryInterface.createTable('Mengajar', {
       id_kuliah: {
@@ -433,6 +541,12 @@ module.exports = {
         allowNull: false,
         primaryKey: true
       },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      }
     })
 
   //constraint
