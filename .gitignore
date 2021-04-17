@@ -5,6 +5,7 @@ tmp/
 
 *.tern-port
 node_modules/
+.vscode
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
