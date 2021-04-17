@@ -75,7 +75,6 @@ const setAssociations = () => {
   RencanaStudi.hasMany(KuliahMahasiswa, {
     foreignKey: ['id_mahasiswa', 'id_kuliah']
   })
-
 }
 
 module.exports = setAssociations
