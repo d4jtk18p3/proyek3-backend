@@ -15,6 +15,14 @@ module.exports = {
         tipe_akun: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        createdAt: {
+            allowNull: false,
+            type: Sequelize.DATE
+          },
+        updatedAt: {
+            allowNull: false,
+            type: Sequelize.DATE
         }
       });
       await queryInterface.createTable('Dosen', {
@@ -30,6 +38,14 @@ module.exports = {
         jabatan: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        createdAt: {
+            allowNull: false,
+            type: Sequelize.DATE
+          },
+        updatedAt: {
+            allowNull: false,
+            type: Sequelize.DATE
         }
       });
       await queryInterface.createTable('Mahasiswa', {
@@ -68,6 +84,14 @@ module.exports = {
         status: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        createdAt: {
+            allowNull: false,
+            type: Sequelize.DATE
+          },
+        updatedAt: {
+            allowNull: false,
+            type: Sequelize.DATE
         }
       });
   },

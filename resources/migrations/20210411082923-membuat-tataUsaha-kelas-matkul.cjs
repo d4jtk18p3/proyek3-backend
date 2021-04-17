@@ -16,6 +16,14 @@ module.exports = {
       nama : {
         type: Sequelize.STRING,
         allowNull: false
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('MataKuliah', {
@@ -40,6 +48,14 @@ module.exports = {
       sks_praktek:{
           type: Sequelize.INTEGER,
           allowNull: true
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('Kelas', {
@@ -52,6 +68,14 @@ module.exports = {
       kode_kelas: {
         type: Sequelize.STRING,
         allowNull: false
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE
       }
     })
 

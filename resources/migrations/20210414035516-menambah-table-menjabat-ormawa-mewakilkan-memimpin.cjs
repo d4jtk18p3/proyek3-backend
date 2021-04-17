@@ -11,6 +11,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
         },
+        createdAt: {
+            allowNull: false,
+            type: Sequelize.DATE
+          },
+        updatedAt: {
+            allowNull: false,
+            type: Sequelize.DATE
+        }
         });
     await queryInterface.createTable('Ormawa', {
         id_ormawa: {
@@ -24,6 +32,14 @@ module.exports = {
         },
         url_logo_ormawa: {
             type: Sequelize.STRING(30)
+        },
+        createdAt: {
+            allowNull: false,
+            type: Sequelize.DATE
+          },
+        updatedAt: {
+            allowNull: false,
+            type: Sequelize.DATE
         }
         }); 
         await queryInterface.createTable('Mewalikan', {
@@ -36,6 +52,14 @@ module.exports = {
         status_aktif: {
             type: Sequelize.BOOLEAN
         },
+        createdAt: {
+            allowNull: false,
+            type: Sequelize.DATE
+          },
+        updatedAt: {
+            allowNull: false,
+            type: Sequelize.DATE
+        }
         });
         await queryInterface.createTable('Memimpin', {
         tahun_mulai: {
@@ -44,6 +68,14 @@ module.exports = {
         tahun_berakhir: {
             type: Sequelize.STRING(4)
         },
+        createdAt: {
+            allowNull: false,
+            type: Sequelize.DATE
+          },
+        updatedAt: {
+            allowNull: false,
+            type: Sequelize.DATE
+        }
         });
 },
     down: async (queryInterface, Sequelize) => {

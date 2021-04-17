@@ -14,16 +14,40 @@ module.exports = {
       },
       waktu_selesai: {
         type: Sequelize.DATE
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('Nilai', {
       nilai_semester: {
         type: Sequelize.STRING(2)
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('Presensi', {
       tipe_presensi: {
         type: Sequelize.STRING(10)
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('Prodi', {
@@ -31,6 +55,14 @@ module.exports = {
         type: Sequelize.STRING(15),
         allowNull: false,
         primaryKey: true
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },
