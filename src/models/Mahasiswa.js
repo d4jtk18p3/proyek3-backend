@@ -42,6 +42,8 @@ const Mahasiswa = db.define('Mahasiswa', {
     type: Sequelize.STRING,
     allowNull: false
   }
+}, {
+  tableName: 'Mahasiswa'
 })
 
 export default Mahasiswa
