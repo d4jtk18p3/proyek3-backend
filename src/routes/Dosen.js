@@ -1,8 +1,10 @@
 import express from 'express'
-import DosenController from '../controller/Dosen'
+import * as DosenController from '../controller/Dosen'
+import * as ValidatorSanitizer from '../middleware/InputValidatorSanitizer'
 
 const router = express.Router()
 
-router.post('/new-dosen', DosenController.postNewDosen)
+router.get('/:NIP', DosenController.getDosenByNIP)
+router.post('/new-dosen', ValidatorSanitizer.postNewDosen, DosenController.postNewDosen)
 
 export default router
