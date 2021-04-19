@@ -2,11 +2,11 @@ import Dosen from '../models/Dosen.js'
 
 /*
     CATATAN :
-    1.Kalo mau liat Description table di psql, pake petik dua
-    Contoh : \d "Dosen"
+  1.File ini berisi seluruh function yang mengakses database
+  untuk mendapatkan data yang berkaitan dengan dosen
 */
 
-const insertOneDosen = async (NIP, namaDosen, jabatan) => {
+export const insertOneDosen = async (NIP, namaDosen, jabatan) => {
   try {
     const dosen = await Dosen.create({
       NIP,
@@ -19,8 +19,15 @@ const insertOneDosen = async (NIP, namaDosen, jabatan) => {
   }
 }
 
-const DosenDAO = {
-  insertOneDosen
+export const findDosenByNIP = async (NIP) => {
+  try {
+    const dosen = await Dosen.findAll({
+      where: {
+        NIP
+      }
+    })
+    return dosen[0]
+  } catch (error) {
+    console.error(error)
+  }
 }
-
-export default DosenDAO
