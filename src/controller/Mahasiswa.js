@@ -5,15 +5,15 @@ export const postNewMahasiswa = async (req, res, next) => {
   try {
     const { NIM, namaMahasiswa, angkatan, tingkat, email, nomorHp, urlFoto, status, username } = req.body
     const error = validationResult(req)
-    
-    if(!error.isEmpty()){
+
+    if (!error.isEmpty()) {
       error.status = 400
       throw error
     }
 
     const mahasiswa = await MahasiswaDAO.insertOneMahasiswa(NIM, namaMahasiswa, parseInt(angkatan), parseInt(tingkat), email, nomorHp, urlFoto, status, username)
 
-    if(typeof mahasiswa === 'undefined'){
+    if (typeof mahasiswa === 'undefined') {
       error.status = 500
       error.message = 'Insert Mahasiswa gagal'
       throw error
@@ -25,7 +25,6 @@ export const postNewMahasiswa = async (req, res, next) => {
         mahasiswa
       }
     })
-    
   } catch (error) {
     res.status(error.status).json(error)
   }

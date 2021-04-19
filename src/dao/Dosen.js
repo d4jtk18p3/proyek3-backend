@@ -2,8 +2,8 @@ import Dosen from '../models/Dosen.js'
 
 /*
     CATATAN :
-    1.File ini berisi seluruh function yang mengakses database 
-    untuk mendapatkan data yang berkaitan dengan dosen
+  1.File ini berisi seluruh function yang mengakses database
+  untuk mendapatkan data yang berkaitan dengan dosen
 */
 
 export const insertOneDosen = async (NIP, namaDosen, jabatan) => {

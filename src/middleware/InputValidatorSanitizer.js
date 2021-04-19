@@ -10,8 +10,8 @@ export const postNewDosen = [
   body('NIP', 'NIP wajib diisi').exists().bail(),
   body('NIP').custom(value => {
     return DosenDAO.findDosenByNIP(value).then(dosen => {
-      if(dosen){
-        return Promise.reject('NIP sudah terdaftar')
+      if (dosen) {
+        return Promise.reject(new Error('NIP sudah terdaftar'))
       }
     })
   }),
@@ -25,8 +25,8 @@ export const postNewMahasiswa = [
   body('NIM', 'NIM wajib diisi').exists().bail(),
   body('NIM').custom(value => {
     return MahasiswaDAO.findMahasiswaByNIM(value).then(mhs => {
-      if(mhs){
-        return Promise.reject('NIM sudah terdaftar')
+      if (mhs) {
+        return Promise.reject(new Error('NIM sudah terdaftar'))
       }
     })
   }),
@@ -35,6 +35,6 @@ export const postNewMahasiswa = [
   body('tingkat', 'Tingkat wajib diisi').exists(),
   body('email', 'Format email tidak valid').isEmail(),
   body('status', 'Status wajib diisi').exists(),
-  body('nomorHp', 'Nomor Hp tidak valid').exists().isLength({ min: 11}),
+  body('nomorHp', 'Nomor Hp tidak valid').exists().isLength({ min: 11 }),
   body('urlFoto').exists()
 ]
