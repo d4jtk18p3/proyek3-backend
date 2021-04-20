@@ -8,8 +8,8 @@ import * as MahasiswaDAO from '../dao/Mahasiswa'
 
 export const postNewDosen = [
   body('NIP', 'NIP wajib diisi').exists().bail(),
-  body('NIP').custom(value => {
-    return DosenDAO.findDosenByNIP(value).then(dosen => {
+  body('NIP').custom((value) => {
+    return DosenDAO.findDosenByNIP(value).then((dosen) => {
       if (dosen) {
         return Promise.reject(new Error('NIP sudah terdaftar'))
       }
@@ -23,8 +23,8 @@ export const postNewDosen = [
 
 export const postNewMahasiswa = [
   body('NIM', 'NIM wajib diisi').exists().bail(),
-  body('NIM').custom(value => {
-    return MahasiswaDAO.findMahasiswaByNIM(value).then(mhs => {
+  body('NIM').custom((value) => {
+    return MahasiswaDAO.findMahasiswaByNIM(value).then((mhs) => {
       if (mhs) {
         return Promise.reject(new Error('NIM sudah terdaftar'))
       }
@@ -34,7 +34,16 @@ export const postNewMahasiswa = [
   body('angkatan', 'Angkatan wajib diisi').exists(),
   body('tingkat', 'Tingkat wajib diisi').exists(),
   body('email', 'Format email tidak valid').isEmail(),
-  body('status', 'Status wajib diisi').exists(),
-  body('nomorHp', 'Nomor Hp tidak valid').exists().isLength({ min: 11 }),
-  body('urlFoto').exists()
+  body('status', 'Status wajib diisi').exists()
+  // body('nomorHp', 'Nomor Hp tidak valid').isLength({ min: 11 })
+  // body('urlFoto').exists()
+]
+
+export const createUser = [
+  body('noInduk', 'No induk wajib diisi').exists().bail(),
+  body('jenisNoInduk', 'Jenis no iduk wajib diisi').exists(),
+  body('nama', 'Nama wajib diisi').exists(),
+  body('email', 'Format email tidak valid').isEmail(),
+  body('role', 'Role wajib diisi').exists(),
+  body('permissions', 'Permission wajib diisi').exists()
 ]
