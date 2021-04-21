@@ -16,7 +16,8 @@ export const postNewDosen = [
     })
   }),
   body('namaDosen', 'Nama dosen wajib diisi').exists(),
-  body('jabatan', 'Jabatan wajib diisi').exists()
+  body('email', 'format email tidak valid').isEmail(),
+  body('permission', 'permission wajib diisi').exists()
 ]
 
 /* Validator dan Sanitizer untuk Mahasiswa */
