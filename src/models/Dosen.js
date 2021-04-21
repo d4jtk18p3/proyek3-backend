@@ -16,7 +16,6 @@ const Dosen = db.define(
     },
     jabatan: {
       type: Sequelize.STRING
-      // allowNull: false
     },
     email: {
       type: Sequelize.STRING,

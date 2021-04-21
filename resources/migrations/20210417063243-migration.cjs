@@ -35,7 +35,6 @@ module.exports = {
       },
       jabatan: {
         type: Sequelize.STRING
-        // allowNull: false
       },
       email: {
         type: Sequelize.STRING,

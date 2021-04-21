@@ -1,5 +1,3 @@
-// const session = require('express-session');
-// const Keycloak = require('keycloak-connect');
 // import session from 'express-session';
 import Keycloak from 'keycloak-connect'
 
@@ -33,9 +31,7 @@ function initKeycloak () {
 
 function getKeycloak () {
   if (!keycloak) {
-    console.error(
-      'keycloak has not been initialized. Please called init first'
-    )
+    console.error('keycloak has not been initialized. Please called init first')
   }
   return keycloak
 }

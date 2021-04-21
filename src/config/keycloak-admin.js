@@ -25,5 +25,3 @@ export const adminAuth = async (client) => {
 export const getAdminClient = () => {
   return kcAdminClient
 }
-
-// module.exports = { adminAuth, getAdminClient }

@@ -36,7 +36,6 @@ export const postNewMahasiswa = [
   body('email', 'Format email tidak valid').isEmail(),
   body('status', 'Status wajib diisi').exists()
   // body('nomorHp', 'Nomor Hp tidak valid').isLength({ min: 11 })
-  // body('urlFoto').exists()
 ]
 
 export const createUser = [
