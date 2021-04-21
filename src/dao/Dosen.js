@@ -6,12 +6,22 @@ import Dosen from '../models/Dosen.js'
   untuk mendapatkan data yang berkaitan dengan dosen
 */
 
-export const insertOneDosen = async (NIP, namaDosen, jabatan) => {
+export const insertOneDosen = async (
+  NIP,
+  namaDosen,
+  jabatan,
+  email,
+  permissions,
+  username
+) => {
   try {
     const dosen = await Dosen.create({
       NIP,
       nama_dosen: namaDosen,
-      jabatan
+      jabatan,
+      email,
+      permissions,
+      username
     })
     return dosen
   } catch (error) {

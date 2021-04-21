@@ -25,7 +25,7 @@ module.exports = {
     })
     await queryInterface.createTable('Dosen', {
       NIP: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         primaryKey: true
       },
@@ -34,6 +34,14 @@ module.exports = {
         allowNull: false
       },
       jabatan: {
+        type: Sequelize.STRING
+        // allowNull: false
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      permissions: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -115,7 +123,7 @@ module.exports = {
         primaryKey: true
       },
       nip: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true
       },
@@ -129,6 +137,14 @@ module.exports = {
           model: 'Akun',
           key: 'username'
         }
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      permissions: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         type: Sequelize.DATE

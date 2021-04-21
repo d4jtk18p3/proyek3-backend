@@ -4,10 +4,6 @@ import * as ValidatorSanitizer from '../middleware/InputValidatorSanitizer'
 
 const router = express.Router()
 
-router.post(
-  '/new-user',
-  ValidatorSanitizer.createUser,
-  UserController.createUser
-)
+router.post('/create', ValidatorSanitizer.createUser, UserController.createUser)
 
 export default router

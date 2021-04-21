@@ -2,20 +2,26 @@ import Sequelize from 'sequelize'
 
 import db from '../db'
 
-const Akun = db.define('Akun', {
-  username: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    primaryKey: true
+const Akun = db.define(
+  'Akun',
+  {
+    username: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      primaryKey: true
+    },
+    password: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    tipe_akun: {
+      type: Sequelize.STRING,
+      allowNull: false
+    }
   },
-  password: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  tipe_akun: {
-    type: Sequelize.STRING,
-    allowNull: false
+  {
+    tableName: 'Akun'
   }
-})
+)
 
 export default Akun
