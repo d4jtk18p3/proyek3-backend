@@ -43,3 +43,14 @@ export const insertOneMahasiswa = async (
     console.error(error)
   }
 }
+
+export const updateNomorHpMahasiswa = async (nim, nomorHP) => {
+  try {
+    const mahasiswa = await Mahasiswa.update({nomor_hp: nomorHP}, 
+      {where : {NIM: nim}}
+    )
+    return mahasiswa
+  } catch (error) {
+    console.error(error)
+  }
+}
