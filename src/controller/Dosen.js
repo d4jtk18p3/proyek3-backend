@@ -37,7 +37,7 @@ export const getDosenByNIP = async (req, res, next) => {
 
 export const postNewDosen = async (req, res, next) => {
   try {
-    const { NIP, namaDosen, jabatan } = req.body
+    const { NIP, namaDosen, jabatan, email, permission, username } = req.body
     const error = validationResult(req)
 
     if (!error.isEmpty()) {
@@ -45,13 +45,7 @@ export const postNewDosen = async (req, res, next) => {
       throw error
     }
 
-    const dosen = await DosenDAO.insertOneDosen(NIP, namaDosen, jabatan)
-
-    if (typeof dosen === 'undefined') {
-      error.status = 500
-      error.message = 'Insert Dosen gagal'
-      throw error
-    }
+    const dosen = await DosenDAO.insertOneDosen(NIP, namaDosen, jabatan, email, permission, username)
 
     res.status(200).json({
       message: 'insert dosen sukses',
