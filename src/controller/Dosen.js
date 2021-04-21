@@ -45,7 +45,7 @@ export const postNewDosen = async (req, res, next) => {
       throw error
     }
 
-    const dosen = await DosenDAO.insertOneDosen(NIP, namaDosen, jabatan, email, permission, username )
+    const dosen = await DosenDAO.insertOneDosen(NIP, namaDosen, jabatan, email, permission, username)
 
     res.status(200).json({
       message: 'insert dosen sukses',

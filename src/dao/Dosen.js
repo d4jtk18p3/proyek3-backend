@@ -25,7 +25,7 @@ export const insertOneDosen = async (
     })
     return dosen
   } catch (error) {
-    return Promise.reject(new Error("Insert dosen gagal"))
+    return Promise.reject(new Error('Insert dosen gagal'))
   }
 }
 
@@ -38,6 +38,6 @@ export const findDosenByNIP = async (NIP) => {
     })
     return dosen[0]
   } catch (error) {
-    return Promise.reject(new Error("Find dosen by NIP gagal"))
+    return Promise.reject(new Error('Find dosen by NIP gagal'))
   }
 }
