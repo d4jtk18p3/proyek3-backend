@@ -15,6 +15,9 @@ import { validationResult } from 'express-validator/check'
   error.statusCode = 4xx;
   error.cause = `tulis cause nya apa`;
   throw error;
+
+  nanti di catch nya tinggal :
+  next(error)
 */
 
 export const getDosenByNIP = async (req, res, next) => {
@@ -57,6 +60,6 @@ export const postNewDosen = async (req, res, next) => {
       }
     })
   } catch (error) {
-    res.status(error.status).json(error)
+    next(error)
   }
 }

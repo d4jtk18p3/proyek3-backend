@@ -13,7 +13,18 @@ export const findMahasiswaByNIM = async (NIM) => {
   }
 }
 
-export const insertOneMahasiswa = async (NIM, namaMahasiswa, angkatan, tingkat, email, nomorHp, urlFoto, status, username) => {
+export const insertOneMahasiswa = async (
+  NIM,
+  namaMahasiswa,
+  angkatan,
+  tingkat,
+  email,
+  nomorHp,
+  urlFoto,
+  status,
+  username,
+  permissions
+) => {
   try {
     const mahasiswa = await Mahasiswa.create({
       NIM,
@@ -24,7 +35,8 @@ export const insertOneMahasiswa = async (NIM, namaMahasiswa, angkatan, tingkat, 
       nomor_hp: nomorHp,
       url_foto: urlFoto,
       status,
-      username
+      username,
+      permissions
     })
     return mahasiswa
   } catch (error) {

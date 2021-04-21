@@ -3,7 +3,17 @@ import { validationResult } from 'express-validator/check'
 
 export const postNewMahasiswa = async (req, res, next) => {
   try {
-    const { NIM, namaMahasiswa, angkatan, tingkat, email, nomorHp, urlFoto, status, username } = req.body
+    const {
+      NIM,
+      namaMahasiswa,
+      angkatan,
+      tingkat,
+      email,
+      nomorHp,
+      urlFoto,
+      status,
+      username
+    } = req.body
     const error = validationResult(req)
 
     if (!error.isEmpty()) {
@@ -11,7 +21,17 @@ export const postNewMahasiswa = async (req, res, next) => {
       throw error
     }
 
-    const mahasiswa = await MahasiswaDAO.insertOneMahasiswa(NIM, namaMahasiswa, parseInt(angkatan), parseInt(tingkat), email, nomorHp, urlFoto, status, username)
+    const mahasiswa = await MahasiswaDAO.insertOneMahasiswa(
+      NIM,
+      namaMahasiswa,
+      parseInt(angkatan),
+      parseInt(tingkat),
+      email,
+      nomorHp,
+      urlFoto,
+      status,
+      username
+    )
 
     if (typeof mahasiswa === 'undefined') {
       error.status = 500
@@ -26,6 +46,6 @@ export const postNewMahasiswa = async (req, res, next) => {
       }
     })
   } catch (error) {
-    res.status(error.status).json(error)
+    next(error)
   }
 }
