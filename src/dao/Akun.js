@@ -1,11 +1,11 @@
 import Akun from '../models/Akun'
 
-export const insertOneAkun = async (username, password, tipe_akun) => {
+export const insertOneAkun = async (username, password, tipeAkun) => {
   try {
     const akun = await Akun.create({
       username,
       password,
-      tipe_akun
+      tipe_akun: tipeAkun
     })
     return akun
   } catch (error) {

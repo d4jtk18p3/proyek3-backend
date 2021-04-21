@@ -37,7 +37,7 @@ export const createUser = async (req, res, next) => {
       if (typeof result === 'undefined') {
         const error = new Error('Insert Mahasiswa ke pg gagal')
         error.statusCode = 500
-        error.cause = `Insert Mahasiswa ke pg gagal`
+        error.cause = 'Insert Mahasiswa ke pg gagal'
         throw error
       }
     } else if (jenisNoInduk === 'nip' && role === 'dosen') {
@@ -52,7 +52,7 @@ export const createUser = async (req, res, next) => {
       if (typeof result === 'undefined') {
         const error = new Error('Insert dosen ke pg gagal')
         error.statusCode = 500
-        error.cause = `Insert dosen ke pg gagal`
+        error.cause = 'Insert dosen ke pg gagal'
         throw error
       }
     } else if (jenisNoInduk === 'nip' && role === 'tata_usaha') {
@@ -61,13 +61,13 @@ export const createUser = async (req, res, next) => {
       if (typeof result === 'undefined') {
         const error = new Error('Insert tata usaha ke pg gagal')
         error.statusCode = 500
-        error.cause = `Insert tata usaha ke pg gagal`
+        error.cause = 'Insert tata usaha ke pg gagal'
         throw error
       }
     } else {
       const error = new Error('Bad request')
       error.statusCode = 500
-      error.cause = `Bad request`
+      error.cause = 'Bad request'
       throw error
     }
 
@@ -79,14 +79,14 @@ export const createUser = async (req, res, next) => {
     })
     result.dataValues.idUserKc = resultInsertToKc.id
 
-    const tempPassword = uuid() //this is random password for keycloak
+    const tempPassword = uuid() // this is random password for keycloak
 
     await kcAdminClient.users.resetPassword({
       id: resultInsertToKc.id,
       credential: {
         temporary: false,
         type: 'password',
-        value: tempPassword //this is random password for keycloak
+        value: tempPassword // this is random password for keycloak
       },
       realm: 'Polban-Realm'
     })
@@ -97,7 +97,7 @@ export const createUser = async (req, res, next) => {
     if (typeof resultAkun === 'undefined') {
       const error = new Error('Insert akun ke pg gagal')
       error.statusCode = 500
-      error.cause = `Insert akun ke pg gagal`
+      error.cause = 'Insert akun ke pg gagal'
       throw error
     }
 

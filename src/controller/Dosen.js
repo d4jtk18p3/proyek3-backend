@@ -16,7 +16,7 @@ import { validationResult } from 'express-validator/check'
   error.cause = `tulis cause nya apa`;
   throw error;
 
-  nanti di catch nya tinggal : 
+  nanti di catch nya tinggal :
   next(error)
 */
 

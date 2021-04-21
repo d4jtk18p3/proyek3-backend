@@ -5,7 +5,7 @@ const require = createRequire(import.meta.url)
 
 const KcAdminClient = require('keycloak-admin').default
 
-var kcAdminClient = new KcAdminClient({
+const kcAdminClient = new KcAdminClient({
   baseUrl: 'https://keycloak.ca9db134.nip.io/auth',
   realmName: 'master',
   requestConfig: {
@@ -13,7 +13,7 @@ var kcAdminClient = new KcAdminClient({
   }
 })
 
-export async function adminAuth(client) {
+export const adminAuth = async (client) => {
   await client.auth({
     username: 'admin',
     password: 'admin',
@@ -22,7 +22,7 @@ export async function adminAuth(client) {
   })
 }
 
-export function getAdminClient() {
+export const getAdminClient = () => {
   return kcAdminClient
 }
 
