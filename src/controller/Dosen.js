@@ -35,6 +35,35 @@ export const getDosenByNIP = async (req, res, next) => {
   }
 }
 
+export const getAllDosen = async (req, res, next) => {
+  try {
+    const dosen = await DosenDAO.findAllDosen()
+    res.status(200).json({
+      message: 'get all dosen sukses',
+      data: {
+        dosen
+      }
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getDosenByJabatan = async (req, res, next) => {
+  try {
+    const jabatan = req.query.jabatan
+    const dosen = await DosenDAO.findDosenByJabatan(jabatan)
+    res.status(200).json({
+      message: 'get dosen yang menjadi ' + jabatan + ' sukses',
+      data: {
+        dosen
+      }
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const postNewDosen = async (req, res, next) => {
   try {
     const { NIP, namaDosen, jabatan, email, permission, username } = req.body
