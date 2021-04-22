@@ -44,10 +44,12 @@ export const insertOneMahasiswa = async (
   }
 }
 
-export const deleteMahasiswabyId = async (idMahasiswa) => {
+export const deleteMahasiswabyId = async (id_mahasiswa) => {
   try {
     const result = await Mahasiswa.destroy({
-      where : {id_mahasiswa: idMahasiswa}
+      where : {
+        id_mahasiswa
+      }
     })
     return result
   } catch (error) {
