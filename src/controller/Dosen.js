@@ -86,3 +86,25 @@ export const postNewDosen = async (req, res, next) => {
     next(error)
   }
 }
+
+export const deleteDosenByNIP = async (req, res, next) => {
+  try {
+    const { NIP } = req.params
+    const error = validationResult(req)
+
+    if (!error.isEmpty()) {
+      error.status = 400
+      throw error
+    }
+    
+    const dosen = await DosenDAO.destroyDosenByNip(NIP)
+    res.status(200).json({
+      message: 'delete dosen by NIP sukses',
+      data: {
+        dosen
+      }
+    })
+  } catch (error) {
+    next(error)
+  }
+}

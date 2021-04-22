@@ -79,3 +79,16 @@ export const findDosenByJabatan = async (jabatanDosen) => {
     return Promise.reject(new Error('Find dosen by jabatan gagal'))
   }
 }
+
+export const destroyDosenByNip = async (NIP) => {
+  try {
+    const dosen = await Dosen.destroy({
+      where: {
+        NIP
+      },
+    })
+    return dosen
+  } catch (error) {
+    return Promise.reject(new Error('Delete dosen by NIP gagal'))
+  }
+}
