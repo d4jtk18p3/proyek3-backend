@@ -25,3 +25,16 @@ export const findAkunByUsername = async (username) => {
     console.error(error)
   }
 }
+
+export const deleteAkunByUsername = async (username) => {
+  try {
+    const akun =  await Akun.destroy({
+      where : {
+        username
+      }
+    })
+    return akun
+  } catch (error) {
+    console.error(error)
+  }
+}
