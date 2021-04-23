@@ -1,5 +1,5 @@
 import { insertOneDosen } from '../dao/Dosen'
-import { insertOneAkun } from '../dao/Akun'
+import { insertOneAkun, deleteAkunByUsername } from '../dao/Akun'
 import { insertOneTataUsaha } from '../dao/TataUsaha'
 import { insertOneMahasiswa } from '../dao/Mahasiswa'
 import { validationResult } from 'express-validator/check'
@@ -123,4 +123,29 @@ const setTingkat = (nim) => {
   const angkatan = parseInt('20' + getTahunMasuk)
   const currentYear = new Date().getFullYear()
   return currentYear - angkatan
+}
+
+export const deleteUserbyUsername = async (req, res, next) => {
+  try {
+    //  Disini ditulis kode hapus user pada data keycloak (Dikerjakan oleh tim framework)
+    //  Menghapus data akun di pg (backend)
+
+    const { username } = req.params
+    const resultDeleteAkun = await deleteAkunByUsername(username)
+    if (resultDeleteAkun === 1) {
+      res.status(200).json({
+        message: 'Delete akun berhasil',
+        data: {
+          username
+        }
+      })
+    } else {
+      const error = new Error('Delete akun dari pg gagal')
+      error.statusCode = 500
+      error.cause = 'Delete akun dari pg gagal'
+      throw error
+    }
+  } catch (error) {
+    next(error)
+  }
 }

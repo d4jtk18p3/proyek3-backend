@@ -89,3 +89,16 @@ export const insertOneMahasiswa = async (
     console.error(error)
   }
 }
+
+export const deleteMahasiswabyId = async (mahasiswaId) => {
+  try {
+    const result = await Mahasiswa.destroy({
+      where: {
+        id_mahasiswa: mahasiswaId
+      }
+    })
+    return result
+  } catch (error) {
+    console.log(error)
+  }
+}

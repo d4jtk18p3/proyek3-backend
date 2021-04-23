@@ -50,6 +50,27 @@ export const postNewMahasiswa = async (req, res, next) => {
   }
 }
 
+export const deleteMahasiswabyId = async (req, res, next) => {
+  try {
+    const mahasiswaId = req.params.id_mahasiswa
+    const result = await MahasiswaDAO.deleteMahasiswabyId(mahasiswaId)
+    if (result === 1) {
+      res.status(200).json({
+        message: 'Delete mahasiswa berhasil',
+        data: {
+          mahasiswaId
+        }
+      })
+    } else {
+      const error = new Error('Delete mahasiswa gagal')
+      error.statusCode = 500
+      throw error
+    }
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const getAllMahasiswa = async (req, res, next) => {
   try {
     const mahasiswa = await MahasiswaDAO.findAllMahasiswa()
