@@ -568,6 +568,16 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
+    await queryInterface.addColumn('Akun', 'id_keycloak', {
+      type: Sequelize.STRING,
+      references: {
+        model: {
+          tableName: 'user_entity',
+          schema: 'keycloak'
+        },
+        key: 'id'
+      }
+    })
 
     //constraint
     await queryInterface.addConstraint('Rencana_Studi', {

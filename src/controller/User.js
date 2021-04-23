@@ -1,5 +1,5 @@
 import { insertOneDosen } from '../dao/Dosen'
-import { insertOneAkun } from '../dao/Akun'
+import { insertOneAkun, getAllAkun } from '../dao/Akun'
 import { insertOneTataUsaha } from '../dao/TataUsaha'
 import { insertOneMahasiswa } from '../dao/Mahasiswa'
 import { validationResult } from 'express-validator/check'
@@ -93,7 +93,29 @@ export const createUser = async (req, res, next) => {
 
     result.dataValues.tempPwdKc = tempPassword
 
-    const resultAkun = await insertOneAkun(noInduk, tempPassword, role)
+    const roleKc = await kcAdminClient.roles.findOneByName({
+      name: role,
+      realm: 'Polban-Realm'
+    })
+
+    await kcAdminClient.users.addRealmRoleMappings({
+      id: resultInsertToKc.id,
+      // at least id and name should appear
+      roles: [
+        {
+          id: roleKc.id,
+          name: roleKc.name
+        }
+      ],
+      realm: 'Polban-Realm'
+    })
+
+    const resultAkun = await insertOneAkun(
+      noInduk,
+      tempPassword,
+      role,
+      resultInsertToKc.id
+    )
     if (typeof resultAkun === 'undefined') {
       const error = new Error('Insert akun ke pg gagal')
       error.statusCode = 500
@@ -103,6 +125,34 @@ export const createUser = async (req, res, next) => {
 
     res.status(200).json({
       message: 'insert user sukses',
+      data: result
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getAllUser = async (req, res, next) => {
+  try {
+    const kcAdminClient = getAdminClient()
+    await adminAuth(kcAdminClient)
+
+    const roleParams = req.query.role || 'mahasiswa'
+    const key = req.query.key || ''
+    const page = req.query.page || 1
+    const perPage = req.query.perpage || 10
+    const offset = (page - 1) * perPage
+
+    const result = await getAllAkun(roleParams, offset, perPage, key)
+    if (typeof result === 'undefined') {
+      const error = new Error('Get akun gagal')
+      error.statusCode = 401
+      error.cause = 'Get akun gagal'
+      throw error
+    }
+
+    res.status(200).json({
+      message: 'Success retrieve all user data',
       data: result
     })
   } catch (error) {
