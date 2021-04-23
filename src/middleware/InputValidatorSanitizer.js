@@ -1,4 +1,4 @@
-import { body } from 'express-validator'
+import { body, param } from 'express-validator'
 import * as DosenDAO from '../dao/Dosen'
 import * as MahasiswaDAO from '../dao/Mahasiswa'
 
@@ -47,4 +47,14 @@ export const createUser = [
   body('email', 'Format email tidak valid').isEmail(),
   body('role', 'Role wajib diisi').exists(),
   body('permissions', 'Permission wajib diisi').exists()
+]
+
+export const deleteDosenByNIP = [
+  param('NIP').custom((value) => {
+    return DosenDAO.findDosenByNIP(value).then((dosen) => {
+      if (dosen) {
+        return Promise.reject(new Error('Dosen dengan NIP tersebut tidak ditemukan'))
+      }
+    })
+  })
 ]
