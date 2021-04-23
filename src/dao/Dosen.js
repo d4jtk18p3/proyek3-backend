@@ -85,7 +85,7 @@ export const destroyDosenByNip = async (NIP) => {
     const dosen = await Dosen.destroy({
       where: {
         NIP
-      },
+      }
     })
     return dosen
   } catch (error) {

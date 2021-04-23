@@ -56,5 +56,5 @@ export const deleteDosenByNIP = [
         return Promise.reject(new Error('Dosen dengan NIP tersebut tidak ditemukan'))
       }
     })
-  }),
+  })
 ]

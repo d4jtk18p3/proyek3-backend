@@ -96,7 +96,6 @@ export const deleteDosenByNIP = async (req, res, next) => {
       error.status = 400
       throw error
     }
-    
     const dosen = await DosenDAO.destroyDosenByNip(NIP)
     res.status(200).json({
       message: 'delete dosen by NIP sukses',
