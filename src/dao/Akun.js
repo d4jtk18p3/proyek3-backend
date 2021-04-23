@@ -28,8 +28,8 @@ export const findAkunByUsername = async (username) => {
 
 export const deleteAkunByUsername = async (username) => {
   try {
-    const akun =  await Akun.destroy({
-      where : {
+    const akun = await Akun.destroy({
+      where: {
         username
       }
     })
