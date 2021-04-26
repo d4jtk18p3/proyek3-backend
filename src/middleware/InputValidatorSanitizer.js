@@ -39,9 +39,9 @@ export const postNewMahasiswa = [
 ]
 
 export const updateNomorHpMahasiswa = [
-  body('nomorHp', 'Nomor HP wajib diisi').exists,
-  body('nomorHp', 'Nomor HP harus maksimal 13 angka').isLength({max:13}),
-  body('nomorHp', 'Nomor HP harus terdiri dari angka').isNumeric()
+  body('nomorHP', 'Nomor HP wajib diisi').exists(),
+  // body('nomorHP', 'Nomor HP harus maksimal 13 angka').isLength({ max: 13}),
+  // body('nomorHP', 'Nomor HP harus numerik').isNumeric(),
 ]
 
 export const createUser = [
