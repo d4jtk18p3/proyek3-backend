@@ -52,11 +52,10 @@ export const postNewMahasiswa = async (req, res, next) => {
 
 export const updateNomorHpMahasiswa = async (req, res, next) => {
   try {
-    const nomorHpUpdate = req.body.nomorHP
-    const nim = req.params.nim
-    const updateMahasiswa = await MahasiswaDAO.updateNomorHpMahasiswa(nim, nomorHpUpdate)
+    const { NIM } = req.params
+    const updateMahasiswa = await MahasiswaDAO.updateNomorHpMahasiswa(NIM, req.body.nomorHP)
     if (updateMahasiswa === 1) {
-      const mahasiswa = await MahasiswaDAO.findMahasiswaByNIM(nim)
+      const mahasiswa = await MahasiswaDAO.findMahasiswaByNIM(NIM)
       res.status(200).json({
         message: 'Update Nomor HP Mahasiswa berhasil',
         data: {
