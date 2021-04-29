@@ -2,7 +2,7 @@ import Sequelize from 'sequelize'
 
 import db from '../db'
 
-const mata_kuliah = db.define('mata_kuliah', {
+const mataKuliah = db.define('mata_kuliah', {
   id_mata_kuliah: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -16,16 +16,16 @@ const mata_kuliah = db.define('mata_kuliah', {
   nama_mata_kuliah: {
     type: Sequelize.STRING(50),
     allowNull: false,
-    unique: true  
+    unique: true
   },
   sks_teori: {
     type: Sequelize.INTEGER,
     allowNull: true
   },
-  sks_praktek:{
+  sks_praktek: {
     type: Sequelize.INTEGER,
     allowNull: true
   }
 })
 
-export default mata_kuliah
+export default mataKuliah
