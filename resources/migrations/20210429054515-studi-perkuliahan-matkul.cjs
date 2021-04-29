@@ -57,8 +57,8 @@ module.exports = {
     id_perkuliahan: {
       type: Sequelize.INTEGER,
       references: {
-        model: 'Perkuliahan', 
-        key: 'id_perkuliahan', 
+        model: 'Perkuliahan',
+        key: 'id_perkuliahan'
       },
       unique: true
     },

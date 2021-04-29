@@ -8,7 +8,7 @@ const Studi = db.define('Studi', {
     allowNull: false,
     primaryKey: true,
     autoIncrement: true
-  },
+  }
 })
 
 export default Studi
