@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize'
 import db from '../db'
 
-const Program_Studi = db.define('Program_Studi', {
+const Prodi = db.define('Prodi', {
   kode_prodi: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -9,4 +9,4 @@ const Program_Studi = db.define('Program_Studi', {
   }
 })
 
-export default Program_Studi
+export default Prodi
