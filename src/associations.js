@@ -2,6 +2,7 @@ const mataKuliah = require('./models/Mata_Kuliah')
 const programStudi = require('./models/Program_Studi')
 const mahasiswa = require('./models/Mahasiswa')
 const kelas = require('./models/Kelas')
+const perkuliahan = require('./models/Perkuliahan')
 
 const setAssociations = () => {
   programStudi.hasMany(mataKuliah, {
