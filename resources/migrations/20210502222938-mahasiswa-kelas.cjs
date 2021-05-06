@@ -24,7 +24,9 @@ module.exports = {
       url_foto:{
           type: Sequelize.STRING,
           allowNull: false
-      }
+      },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
     });
     await queryInterface.createTable('Kelas', {
       kode_kelas: {
@@ -36,6 +38,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
   });  
 
 },
