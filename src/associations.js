@@ -7,13 +7,13 @@ const perkuliahan = require('./models/Perkuliahan')
 const setAssociations = () => {
   programStudi.hasMany(mataKuliah, {
     foreignKey: 'kode_program_studi'
-  }),
+  })
   mahasiswa.belongsToMany(perkuliahan, {
     through: 'Studi'
-  }),
+  })
   kelas.hasMany(mahasiswa, {
     foreignKey: 'kode_kelas'
-  }),
+  })
   kelas.hasMany(perkuliahan, {
     foreignKey: 'kode_kelas'
   })
