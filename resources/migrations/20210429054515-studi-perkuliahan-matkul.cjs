@@ -25,7 +25,9 @@ module.exports = {
       sks_praktek:{
           type: Sequelize.INTEGER,
           allowNull: true
-      }
+      },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
     });
     await queryInterface.createTable('Perkuliahan', {
       id_perkuliahan: {
@@ -46,6 +48,8 @@ module.exports = {
         },
         unique: true
       },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
   });
   await queryInterface.createTable('Studi', {
     id: {
@@ -62,13 +66,15 @@ module.exports = {
       },
       unique: true
     },
+    createdAt: Sequelize.DATE,
+    updatedAt: Sequelize.DATE
   });
 
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('studi');
-    await queryInterface.dropTable('perkuliahan');
+    await queryInterface.dropTable('Studi');
+    await queryInterface.dropTable('Perkuliahan');
     await queryInterface.dropTable('Mata_Kuliah');
   }
 };
