@@ -32,12 +32,12 @@ module.exports = {
           key: 'id_mahasiswa'
         }
     })  
-    await queryInterface.addConstrain('Studi',{
+    await queryInterface.addConstraint('Studi',{
       fields: ['id_perkuliahan', 'id_mahasiswa'],
       type: 'Unique',
       name: 'c_unique0_studi'
     })
-    await queryInterface.addConstrain('Perkuliahan',{
+    await queryInterface.addConstraint('Perkuliahan',{
       fields: ['id_mata_kuliah', 'kode_kelas'],
       type: 'Unique',
       name: 'c_unique0_perkuliahan'
