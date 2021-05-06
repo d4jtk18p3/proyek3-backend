@@ -3,8 +3,8 @@ const programStudi = require('./models/Program_Studi')
 
 const setAssociations = () => {
   programStudi.hasMany(mataKuliah, {
-  foreignKey: 'kode_program_studi'
+    foreignKey: 'kode_program_studi'
   })
 }
 
-module.exports = setAssociations;
+module.exports = setAssociations
