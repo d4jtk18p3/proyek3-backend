@@ -10,16 +10,23 @@ module.exports = {
       },
       nama_dosen: {
         type: Sequelize.STRING(30)
-      }
+      },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
     });
     await queryInterface.createTable('Jabatan', {
       id_jabatan: {
         type: Sequelize.STRING,
         allowNull: false,
         primaryKey: true
-      }
+      },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
     });
-    await queryInterface.createTable('Pengajar', {});
+    await queryInterface.createTable('Pengajar', {
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
+    });
   },
 
   down: async (queryInterface, Sequelize) => {

@@ -3,6 +3,9 @@ const programStudi = require('./models/Program_Studi')
 const mahasiswa = require('./models/Mahasiswa')
 const kelas = require('./models/Kelas')
 const perkuliahan = require('./models/Perkuliahan')
+const dosen = require('./models/Dosen')
+const jabatan = require('./models/Jabatan')
+const pengajar = require('./models/Pengajar')
 
 const setAssociations = () => {
   programStudi.hasMany(mataKuliah, {
@@ -17,6 +20,7 @@ const setAssociations = () => {
   kelas.hasMany(perkuliahan, {
     foreignKey: 'kode_kelas'
   })
+  
 }
 
 module.exports = setAssociations
