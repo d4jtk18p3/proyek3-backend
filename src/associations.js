@@ -7,6 +7,7 @@ const dosen = require('./models/Dosen')
 const jabatan = require('./models/Jabatan')
 const jurusan = require('./models/Jurusan')
 
+
 const setAssociations = () => {
   programStudi.hasMany(mataKuliah, {
     foreignKey: 'kode_program_studi'
