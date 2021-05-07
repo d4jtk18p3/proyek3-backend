@@ -38,6 +38,15 @@ const setAssociations = () => {
   jabatan.hasOne(dosen, {
     foreignKey: 'id_jabatan'
   })
+  programStudi.hasMany(mataKuliah, {
+    foreignKey: 'kode_program_studi'
+  })
+  programStudi.hasMany(kelas, {
+    foreignKey: 'kode_program_studi'
+  })
+  jurusan.hasMany(programStudi, {
+    foreignKey: 'kode_jurusan'
+  })
 }
 
 module.exports = setAssociations
