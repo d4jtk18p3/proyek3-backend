@@ -1,6 +1,7 @@
 import Mahasiswa from '../models/Mahasiswa'
+import sequelize from '../db.js'
 
-export const findMahasiswaByNIM = async (NIM) => {
+export const findOneMahasiswaByNIM = async (NIM) => {
   try {
     const mahasiswa = await Mahasiswa.findAll({
       where: {
@@ -8,6 +9,51 @@ export const findMahasiswaByNIM = async (NIM) => {
       }
     })
     return mahasiswa[0]
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const findAllMahasiswa = async () => {
+  try {
+    const mahasiswa = await Mahasiswa.findAll({
+      order: [
+        ['NIM', 'ASC']
+      ]
+    })
+    return mahasiswa
+  } catch (error) {
+    return Promise.reject(new Error('Get all mahasiswa'))
+  }
+}
+
+export const findMahasiswaByName = async (nama) => {
+  try {
+    const mahasiswa = await Mahasiswa.findAll({
+      where: {
+        nama_mahasiswa: sequelize.where(sequelize.fn('LOWER', sequelize.col('nama_mahasiswa')), 'LIKE', '%' + nama.toLowerCase() + '%')
+      },
+      order: [
+        ['nama_mahasiswa', 'ASC']
+      ]
+    })
+    return mahasiswa
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const findMahasiswaByNIM = async (NIM) => {
+  try {
+    const mahasiswa = await Mahasiswa.findAll({
+      where: {
+        NIM: sequelize.where(sequelize.fn('LOWER', sequelize.col('NIM')), 'LIKE', '%' + NIM.toLowerCase() + '%')
+      },
+      order: [
+        ['NIM', 'ASC']
+      ]
+    })
+    return mahasiswa
   } catch (error) {
     console.error(error)
   }
@@ -58,5 +104,18 @@ export const updateNomorHpMahasiswa = async (NIM, nomorHP) => {
     return mahasiswa[0]
   } catch (error) {
     console.error(error)
+  }
+}
+
+export const deleteMahasiswabyId = async (mahasiswaId) => {
+  try {
+    const result = await Mahasiswa.destroy({
+      where: {
+        id_mahasiswa: mahasiswaId
+      }
+    })
+    return result
+  } catch (error) {
+    console.log(error)
   }
 }
