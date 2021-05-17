@@ -90,6 +90,23 @@ export const insertOneMahasiswa = async (
   }
 }
 
+export const updateNomorHpMahasiswa = async (NIM, nomorHP) => {
+  try {
+    const mahasiswa = await Mahasiswa.update({
+      nomor_hp: nomorHP
+    },
+    {
+      where: {
+        NIM
+      },
+      silent: true
+    })
+    return mahasiswa[0]
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const deleteMahasiswabyId = async (mahasiswaId) => {
   try {
     const result = await Mahasiswa.destroy({
