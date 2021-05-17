@@ -64,7 +64,7 @@ export const findMahasiswaByNIM = async (NIM) => {
 export const insertOneMahasiswa = async (
   NIM,
   namaMahasiswa,
-  kode_kelas,
+  kodeKelas,
   email,
   nomorHp,
   urlFoto
@@ -73,7 +73,7 @@ export const insertOneMahasiswa = async (
     const mahasiswa = await Mahasiswa.create({
       nim: NIM,
       nama: namaMahasiswa,
-      kode_kelas,
+      kode_kelas: kodeKelas,
       email,
       nomor_ponsel: nomorHp,
       url_foto: urlFoto

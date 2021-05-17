@@ -101,27 +101,27 @@ export const getAllUser = async (req, res, next) => {
   }
 }
 
-export const deleteUserbyUsername = async (req, res, next) => {
-  try {
-    //  Disini ditulis kode hapus user pada data keycloak (Dikerjakan oleh tim framework)
-    //  Menghapus data akun di pg (backend)
+// export const deleteUserbyUsername = async (req, res, next) => {
+//   try {
+//     //  Disini ditulis kode hapus user pada data keycloak (Dikerjakan oleh tim framework)
+//     //  Menghapus data akun di pg (backend)
 
-    const { username } = req.params
-    const resultDeleteAkun = await deleteAkunByUsername(username)
-    if (resultDeleteAkun === 1) {
-      res.status(200).json({
-        message: 'Delete akun berhasil',
-        data: {
-          username
-        }
-      })
-    } else {
-      const error = new Error('Delete akun dari pg gagal')
-      error.statusCode = 500
-      error.cause = 'Delete akun dari pg gagal'
-      throw error
-    }
-  } catch (error) {
-    next(error)
-  }
-}
+//     const { username } = req.params
+//     const resultDeleteAkun = await deleteAkunByUsername(username)
+//     if (resultDeleteAkun === 1) {
+//       res.status(200).json({
+//         message: 'Delete akun berhasil',
+//         data: {
+//           username
+//         }
+//       })
+//     } else {
+//       const error = new Error('Delete akun dari pg gagal')
+//       error.statusCode = 500
+//       error.cause = 'Delete akun dari pg gagal'
+//       throw error
+//     }
+//   } catch (error) {
+//     next(error)
+//   }
+// }
