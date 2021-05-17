@@ -50,6 +50,29 @@ export const postNewMahasiswa = async (req, res, next) => {
   }
 }
 
+export const updateNomorHpMahasiswa = async (req, res, next) => {
+  try {
+    const { NIM } = req.params
+    const updateMahasiswa = await MahasiswaDAO.updateNomorHpMahasiswa(NIM, req.body.nomorHP)
+    if (updateMahasiswa === 1) {
+      const mahasiswa = await MahasiswaDAO.findMahasiswaByNIM(NIM)
+      res.status(200).json({
+        message: 'Update Nomor HP Mahasiswa berhasil',
+        data: {
+          mahasiswa
+        }
+      })
+    } else {
+      const error = new Error('Update Nomor HP gagal')
+      error.statusCode = 500
+      error.cause = 'Update Nomor HP gagal'
+      throw error
+    }
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const deleteMahasiswabyId = async (req, res, next) => {
   try {
     const mahasiswaId = req.params.id_mahasiswa
