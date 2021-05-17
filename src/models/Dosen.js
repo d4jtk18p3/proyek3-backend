@@ -1,37 +1,15 @@
 import Sequelize from 'sequelize'
+import db from '../db'
 
-import db from '../db.js'
-
-const Dosen = db.define(
-  'Dosen',
-  {
-    NIP: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      primaryKey: true
-    },
-    nama_dosen: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    jabatan: {
-      type: Sequelize.STRING
-    },
-    email: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    permissions: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    username: {
-      type: Sequelize.STRING
-    }
+const Dosen = db.define('Dosen', {
+  nip: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    primaryKey: true
   },
-  {
-    tableName: 'Dosen'
+  nama_dosen: {
+    type: Sequelize.STRING(30)
   }
-)
+})
 
 export default Dosen

@@ -1,12 +1,12 @@
 import Sequelize from 'sequelize'
 import db from '../db'
 
-const Jurusan = db.define('Jurusan', {
-  kode_jurusan: {
+const Prodi = db.define('Prodi', {
+  kode_prodi: {
     type: Sequelize.STRING,
     allowNull: false,
     primaryKey: true
   }
 })
 
-export default Jurusan
+export default Prodi
