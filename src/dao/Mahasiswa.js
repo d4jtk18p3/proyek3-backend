@@ -17,9 +17,7 @@ export const findOneMahasiswaByNIM = async (NIM) => {
 export const findAllMahasiswa = async () => {
   try {
     const mahasiswa = await Mahasiswa.findAll({
-      order: [
-        ['NIM', 'ASC']
-      ]
+      order: [['NIM', 'ASC']]
     })
     return mahasiswa
   } catch (error) {
@@ -31,11 +29,13 @@ export const findMahasiswaByName = async (nama) => {
   try {
     const mahasiswa = await Mahasiswa.findAll({
       where: {
-        nama_mahasiswa: sequelize.where(sequelize.fn('LOWER', sequelize.col('nama_mahasiswa')), 'LIKE', '%' + nama.toLowerCase() + '%')
+        nama_mahasiswa: sequelize.where(
+          sequelize.fn('LOWER', sequelize.col('nama_mahasiswa')),
+          'LIKE',
+          '%' + nama.toLowerCase() + '%'
+        )
       },
-      order: [
-        ['nama_mahasiswa', 'ASC']
-      ]
+      order: [['nama_mahasiswa', 'ASC']]
     })
     return mahasiswa
   } catch (error) {
@@ -47,11 +47,13 @@ export const findMahasiswaByNIM = async (NIM) => {
   try {
     const mahasiswa = await Mahasiswa.findAll({
       where: {
-        NIM: sequelize.where(sequelize.fn('LOWER', sequelize.col('NIM')), 'LIKE', '%' + NIM.toLowerCase() + '%')
+        NIM: sequelize.where(
+          sequelize.fn('LOWER', sequelize.col('NIM')),
+          'LIKE',
+          '%' + NIM.toLowerCase() + '%'
+        )
       },
-      order: [
-        ['NIM', 'ASC']
-      ]
+      order: [['NIM', 'ASC']]
     })
     return mahasiswa
   } catch (error) {
@@ -62,27 +64,19 @@ export const findMahasiswaByNIM = async (NIM) => {
 export const insertOneMahasiswa = async (
   NIM,
   namaMahasiswa,
-  angkatan,
-  tingkat,
+  kode_kelas,
   email,
   nomorHp,
-  urlFoto,
-  status,
-  username,
-  permissions
+  urlFoto
 ) => {
   try {
     const mahasiswa = await Mahasiswa.create({
-      NIM,
-      nama_mahasiswa: namaMahasiswa,
-      angkatan,
-      tingkat,
+      nim: NIM,
+      nama: namaMahasiswa,
+      kode_kelas,
       email,
-      nomor_hp: nomorHp,
-      url_foto: urlFoto,
-      status,
-      username,
-      permissions
+      nomor_ponsel: nomorHp,
+      url_foto: urlFoto
     })
     return mahasiswa
   } catch (error) {
@@ -92,15 +86,17 @@ export const insertOneMahasiswa = async (
 
 export const updateNomorHpMahasiswa = async (NIM, nomorHP) => {
   try {
-    const mahasiswa = await Mahasiswa.update({
-      nomor_hp: nomorHP
-    },
-    {
-      where: {
-        NIM
+    const mahasiswa = await Mahasiswa.update(
+      {
+        nomor_hp: nomorHP
       },
-      silent: true
-    })
+      {
+        where: {
+          NIM
+        },
+        silent: true
+      }
+    )
     return mahasiswa[0]
   } catch (error) {
     console.error(error)

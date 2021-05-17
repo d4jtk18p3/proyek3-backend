@@ -2,12 +2,11 @@ import Sequelize from 'sequelize'
 
 import db from '../db'
 
-const Mahasiswa = db.define('mahasiswa', {
+const Mahasiswa = db.define('Mahasiswa', {
   nim: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    primaryKey: true,
-    autoIncrement: true
+    primaryKey: true
   },
   nama: {
     type: Sequelize.STRING(30),
@@ -15,7 +14,7 @@ const Mahasiswa = db.define('mahasiswa', {
   },
   kode_kelas: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    allowNull: true
   },
   email: {
     type: Sequelize.STRING,
@@ -27,7 +26,7 @@ const Mahasiswa = db.define('mahasiswa', {
   },
   url_foto: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: true
   }
 })
 

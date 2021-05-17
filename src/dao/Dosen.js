@@ -7,22 +7,11 @@ import sequelize from '../db.js'
   untuk mendapatkan data yang berkaitan dengan dosen
 */
 
-export const insertOneDosen = async (
-  NIP,
-  namaDosen,
-  jabatan,
-  email,
-  permissions,
-  username
-) => {
+export const insertOneDosen = async (NIP, namaDosen) => {
   try {
     const dosen = await Dosen.create({
-      NIP,
-      nama_dosen: namaDosen,
-      jabatan,
-      email,
-      permissions,
-      username
+      nip: NIP,
+      nama_dosen: namaDosen
     })
     return dosen
   } catch (error) {
@@ -60,19 +49,19 @@ export const findDosenByJabatan = async (jabatanDosen) => {
         where: {
           jabatan: null
         },
-        order: [
-          ['nama_dosen', 'ASC']
-        ]
+        order: [['nama_dosen', 'ASC']]
       })
       return dosenNoJabatan
     }
     const dosen = await Dosen.findAll({
       where: {
-        jabatan: sequelize.where(sequelize.fn('LOWER', sequelize.col('jabatan')), 'LIKE', '%' + jabatanDosen.toLowerCase() + '%')
+        jabatan: sequelize.where(
+          sequelize.fn('LOWER', sequelize.col('jabatan')),
+          'LIKE',
+          '%' + jabatanDosen.toLowerCase() + '%'
+        )
       },
-      order: [
-        ['nama_dosen', 'ASC']
-      ]
+      order: [['nama_dosen', 'ASC']]
     })
     return dosen
   } catch (error) {

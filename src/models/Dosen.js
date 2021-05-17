@@ -3,12 +3,13 @@ import db from '../db'
 
 const Dosen = db.define('Dosen', {
   nip: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING(30),
     allowNull: false,
     primaryKey: true
   },
   nama_dosen: {
-    type: Sequelize.STRING(30)
+    type: Sequelize.STRING(30),
+    allowNull: false
   }
 })
 
