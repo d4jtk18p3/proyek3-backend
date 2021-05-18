@@ -7,15 +7,16 @@ import sequelize from '../db.js'
   untuk mendapatkan data yang berkaitan dengan dosen
 */
 
-export const insertOneDosen = async (NIP, namaDosen) => {
+export const insertOneDosen = async (NIP, namaDosen, idJabatan) => {
   try {
     const dosen = await Dosen.create({
       nip: NIP,
-      nama_dosen: namaDosen
+      nama_dosen: namaDosen,
+      id_jabatan: idJabatan
     })
     return dosen
   } catch (error) {
-    return Promise.reject(new Error('Insert dosen gagal'))
+    console.log(error)
   }
 }
 

@@ -1,5 +1,4 @@
 import { insertOneDosen } from '../dao/Dosen'
-import { getAllAkun } from '../dao/Akun'
 import { insertOneMahasiswa } from '../dao/Mahasiswa'
 import { validationResult } from 'express-validator/check'
 import { getAdminClient, adminAuth } from '../config/keycloak-admin'
@@ -78,23 +77,32 @@ export const getAllUser = async (req, res, next) => {
     const kcAdminClient = getAdminClient()
     await adminAuth(kcAdminClient)
 
-    const roleParams = req.query.role || 'mahasiswa'
+    const roleParams = req.query.role || ''
     const key = req.query.key || ''
     const page = req.query.page || 1
     const perPage = req.query.perpage || 10
-    const offset = (page - 1) * perPage
 
-    const result = await getAllAkun(roleParams, offset, perPage, key)
-    if (typeof result === 'undefined') {
-      const error = new Error('Get akun gagal')
-      error.statusCode = 401
-      error.cause = 'Get akun gagal'
-      throw error
+    const result = await kcAdminClient.users.find({
+      realm: 'Polban-Realm'
+    })
+    const resultFiltered = []
+
+    for (const elementData of result) {
+      const cond1 =
+        elementData.attributes.role[0].toLowerCase() ===
+        roleParams.toLowerCase()
+      const cond2 = elementData.username
+        .toLowerCase()
+        .includes(key.toLowerCase())
+      const cond3 = elementData.email.toLowerCase().includes(key.toLowerCase())
+      if (cond1 && (cond2 || cond3)) {
+        resultFiltered.push(elementData)
+      }
     }
 
     res.status(200).json({
       message: 'Success retrieve all user data',
-      data: result
+      data: resultFiltered.slice((page - 1) * perPage, page * perPage)
     })
   } catch (error) {
     next(error)

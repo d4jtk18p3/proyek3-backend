@@ -223,7 +223,7 @@ module.exports = {
     })
     await queryInterface.addColumn('Dosen', 'id_jabatan', {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
       reference: {
         model: 'Jabatan',
         key: 'id_jabatan'
