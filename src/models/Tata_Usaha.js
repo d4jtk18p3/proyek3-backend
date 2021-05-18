@@ -10,7 +10,7 @@ const TataUsaha = db.define('Tata_Usaha', {
   nama_staff: {
     type: Sequelize.STRING(30),
     allowNull: false
-  },
+  }
 })
 
 export default TataUsaha
