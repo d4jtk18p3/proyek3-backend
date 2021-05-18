@@ -2,7 +2,7 @@ import Sequelize from 'sequelize'
 
 import db from '../db'
 
-const mataKuliah = db.define('mata_kuliah', {
+const mataKuliah = db.define('Mata_Kuliah', {
   id_mata_kuliah: {
     type: Sequelize.INTEGER,
     allowNull: false,
