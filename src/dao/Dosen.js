@@ -1,5 +1,5 @@
-import Dosen from '../models/Dosen.js'
-import sequelize from '../db.js'
+import Dosen from '@proyek3/postgres-database/models/Dosen'
+import sequelize from '@proyek3/postgres-database/db'
 
 /*
     CATATAN :
