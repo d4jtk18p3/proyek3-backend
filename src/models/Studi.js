@@ -3,7 +3,7 @@ import Sequelize from 'sequelize'
 import db from '../db'
 
 const Studi = db.define('Studi', {
-  id_studi: {
+  id: {
     type: Sequelize.INTEGER,
     allowNull: false,
     primaryKey: true,
