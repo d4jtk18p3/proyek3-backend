@@ -3,7 +3,7 @@ import Sequelize from 'sequelize'
 import db from '../db'
 
 const Perkuliahan = db.define('Perkuliahan', {
-  id_perkuliahan: {
+  id: {
     type: Sequelize.INTEGER,
     allowNull: false,
     primaryKey: true,
