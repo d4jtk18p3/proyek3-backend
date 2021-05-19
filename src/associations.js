@@ -24,10 +24,10 @@ const setAssociations = () => {
   mataKuliah.hasMany(perkuliahan, {
     foreignKey: 'id'
   })
-  perkuliahan.hasMany(Studi, {
+  perkuliahan.hasMany(studi, {
     foreignKey: 'id'
   })
-  mahasiswa.hasMany(Studi, {
+  mahasiswa.hasMany(studi, {
     foreignKey: 'id'
   })
   dosen.belongsToMany(perkuliahan, {
