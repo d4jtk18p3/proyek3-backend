@@ -93,7 +93,6 @@ module.exports = {
         type: Sequelize.STRING(8),
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
       },
       semester: {
         type: Sequelize.INTEGER,
