@@ -90,7 +90,7 @@ module.exports = {
     })
     await queryInterface.createTable('Mata_Kuliah', {
       id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING(8),
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
@@ -164,7 +164,7 @@ module.exports = {
         allowNull: false
       },
       id_mata_kuliah: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING(8),
         references: {
           model: 'Mata_Kuliah',
           key: 'id'
