@@ -70,3 +70,7 @@ export const deleteDosenByNIP = [
     })
   })
 ]
+
+export const deleteUserbyUsername = [
+  param('username', 'Username wajib diisi').exists()
+]

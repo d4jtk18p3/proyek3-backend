@@ -103,15 +103,15 @@ export const updateNomorHpMahasiswa = async (NIM, nomorHP) => {
   }
 }
 
-export const deleteMahasiswabyId = async (mahasiswaId) => {
+export const deleteMahasiswabyId = async (nim) => {
   try {
     const result = await Mahasiswa.destroy({
       where: {
-        id_mahasiswa: mahasiswaId
+        nim
       }
     })
     return result
   } catch (error) {
-    console.log(error)
+    return Promise.reject(new Error('Delete mahasiswa by NIM gagal'))
   }
 }
