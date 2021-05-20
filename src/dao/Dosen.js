@@ -70,11 +70,11 @@ export const findDosenByJabatan = async (jabatanDosen) => {
   }
 }
 
-export const destroyDosenByNip = async (NIP) => {
+export const destroyDosenByNip = async (nip) => {
   try {
     const dosen = await Dosen.destroy({
       where: {
-        NIP
+        nip
       }
     })
     return dosen

@@ -1,19 +1,20 @@
-import { insertOneDosen } from '../dao/Dosen'
-import { insertOneMahasiswa } from '../dao/Mahasiswa'
+import { insertOneDosen, destroyDosenByNip } from '../dao/Dosen'
+import { insertOneMahasiswa, deleteMahasiswabyId } from '../dao/Mahasiswa'
+import { insertOneTataUsaha, deleteTataUsahaByNIP } from '../dao/TataUsaha'
 import { validationResult } from 'express-validator/check'
 import { getAdminClient, adminAuth } from '../config/keycloak-admin'
 import { uuid } from 'uuidv4'
 
 export const createUser = async (req, res, next) => {
   try {
-    const kcAdminClient = getAdminClient()
-    await adminAuth(kcAdminClient)
-
     const error = validationResult(req)
     if (!error.isEmpty()) {
       error.status = 400
       throw error
     }
+
+    const kcAdminClient = getAdminClient()
+    await adminAuth(kcAdminClient)
 
     const { noInduk, jenisNoInduk, nama, email, role } = req.body
     let result
@@ -33,6 +34,14 @@ export const createUser = async (req, res, next) => {
         const error = new Error('Insert dosen ke pg gagal')
         error.statusCode = 500
         error.cause = 'Insert dosen ke pg gagal'
+        throw error
+      }
+    } else if (jenisNoInduk === 'nip' && role === 'tata_usaha') {
+      result = await insertOneTataUsaha(noInduk, nama)
+      if (typeof result === 'undefined') {
+        const error = new Error('Insert tu ke pg gagal')
+        error.statusCode = 500
+        error.cause = 'Insert tu ke pg gagal'
         throw error
       }
     }
@@ -109,27 +118,61 @@ export const getAllUser = async (req, res, next) => {
   }
 }
 
-// export const deleteUserbyUsername = async (req, res, next) => {
-//   try {
-//     //  Disini ditulis kode hapus user pada data keycloak (Dikerjakan oleh tim framework)
-//     //  Menghapus data akun di pg (backend)
+export const deleteUserbyUsername = async (req, res, next) => {
+  try {
+    const error = validationResult(req)
+    if (!error.isEmpty()) {
+      error.status = 400
+      throw error
+    }
 
-//     const { username } = req.params
-//     const resultDeleteAkun = await deleteAkunByUsername(username)
-//     if (resultDeleteAkun === 1) {
-//       res.status(200).json({
-//         message: 'Delete akun berhasil',
-//         data: {
-//           username
-//         }
-//       })
-//     } else {
-//       const error = new Error('Delete akun dari pg gagal')
-//       error.statusCode = 500
-//       error.cause = 'Delete akun dari pg gagal'
-//       throw error
-//     }
-//   } catch (error) {
-//     next(error)
-//   }
-// }
+    const kcAdminClient = getAdminClient()
+    await adminAuth(kcAdminClient)
+
+    const { username } = req.params
+
+    const userKc = await kcAdminClient.users.find({
+      username: username,
+      realm: 'Polban-Realm'
+    })
+
+    if (userKc.length === 0) {
+      const error = new Error('Username tidak ditemukan')
+      error.statusCode = 400
+      error.cause = 'Username tidak ditemukan'
+      throw error
+    }
+
+    let resultDeleteOnDB
+
+    if (userKc[0].attributes.role[0] === 'mahasiswa') {
+      resultDeleteOnDB = await deleteMahasiswabyId(
+        userKc[0].attributes.noInduk[0]
+      )
+    } else if (userKc[0].attributes.role[0] === 'dosen') {
+      resultDeleteOnDB = await destroyDosenByNip(
+        userKc[0].attributes.noInduk[0]
+      )
+    } else if (userKc[0].attributes.role[0] === 'tata_usaha') {
+      resultDeleteOnDB = await deleteTataUsahaByNIP(
+        userKc[0].attributes.noInduk[0]
+      )
+    }
+
+    if (resultDeleteOnDB instanceof Error) {
+      throw resultDeleteOnDB
+    }
+
+    await kcAdminClient.users.del({
+      id: userKc[0].id,
+      realm: 'Polban-Realm'
+    })
+
+    res.status(200).json({
+      message: 'Delete akun berhasil',
+      data: username
+    })
+  } catch (error) {
+    next(error)
+  }
+}
