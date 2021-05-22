@@ -12,8 +12,9 @@ router.post(
   UserController.createUser
 )
 router.get('/', UserController.getAllUser)
+
 router.delete(
-  '/delete/:username',
+  '/:username',
   ValidatorSanitizer.deleteUserbyUsername,
   transactionMiddleware,
   UserController.deleteUserbyUsername
