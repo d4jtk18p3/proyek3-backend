@@ -20,4 +20,11 @@ router.delete(
   UserController.deleteUserbyUsername
 )
 
+router.put(
+  '/update-account',
+  ValidatorSanitizer.updateAccount,
+  transactionMiddleware,
+  UserController.updateAccount
+)
+
 export default router
