@@ -19,7 +19,7 @@ const Kelas = db.define('Kelas', {
     allowNull: false
   },
   tahun: {
-    type: Sequelize.STRING(9),
+    type: Sequelize.INTEGER,
     allowNull: false
   }
 })
