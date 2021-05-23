@@ -4,11 +4,7 @@ import db from '../db'
 
 const mataKuliah = db.define('Mata_Kuliah', {
   id: {
-<<<<<<< HEAD:src/models/Mata_Kuliah.js
-    type: Sequelize.INTEGER,
-=======
     type: Sequelize.STRING(8),
->>>>>>> 277af543a6446f9e0ce89e8a3849bcc5da691443:src/models/MataKuliah.js
     allowNull: false,
     primaryKey: true,
     autoIncrement: true
