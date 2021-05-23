@@ -1,101 +1,61 @@
-const Jadwal = require('./models/jadwal')
-const Presensi = require('./models/presensi')
-const MataKuliah = require('./models/MataKuliah')
-const Kuliah = require('./models/Kuliah')
-const Kelas = require('./models/Kelas')
-const KuliahMahasiswa = require('./models/kuliah_mahasiswa')
-const Mahasiswa = require('./models/Mahasiswa')
-const Dosen = require('./models/Dosen')
-const RencanaStudi = require('./models/rencana_studi')
-const Nilai = require('./models/nilai')
-const Prodi = require('./models/prodi')
-const TataUsaha = require('./models/TataUsaha')
-const Akun = require('./models/Akun')
-const OrganisasiMahasiswa = require('./models/OrganisasiMahasiswa')
-const Menjabat = require('./models/Menjabat')
-const Jurusan = require('./models/Jurusan')
+const mataKuliah = require('./models/Mata_Kuliah')
+const programStudi = require('./models/Program_Studi')
+const mahasiswa = require('./models/Mahasiswa')
+const kelas = require('./models/Kelas')
+const perkuliahan = require('./models/Perkuliahan')
+const dosen = require('./models/Dosen')
+const jabatan = require('./models/Jabatan')
+const jurusan = require('./models/Jurusan')
+const studi = require('./models/Studi')
 
 const setAssociations = () => {
-  Kuliah.belongsToMany(Mahasiswa, {
-    through: 'RencanaStudi'
+  programStudi.hasMany(mataKuliah, {
+    foreignKey: 'kode_program_studi'
   })
-  Kuliah.hasMany(Kelas, {
-    foreignKey: 'id_kuliah'
+  mahasiswa.belongsToMany(perkuliahan, {
+    through: 'Studi'
   })
-  Kuliah.belongsToMany(Dosen, {
-    through: 'Mengajar'
+  kelas.hasMany(mahasiswa, {
+    foreignKey: 'kode_kelas'
   })
-  MataKuliah.hasMany(Kuliah, {
-    foreignKey: 'id_mata_kuliah'
+  kelas.hasMany(perkuliahan, {
+    foreignKey: 'kode_kelas'
   })
-  MataKuliah.hasMany(Nilai, {
-    foreignKey: 'id_mata_kuliah'
+  mataKuliah.hasMany(perkuliahan, {
+    foreignKey: 'id'
   })
-  Kelas.hasMany(Jadwal, {
-    foreignKey: 'id_kelas'
+  perkuliahan.hasMany(studi, {
+    foreignKey: 'id'
   })
-  Kelas.belongsToMany(Dosen, {
-    through: 'Mewalikan'
+  mahasiswa.hasMany(studi, {
+    foreignKey: 'id'
   })
-  Kelas.belongsTo(Prodi, {
-    foreignKey: 'kode_prodi'
+  dosen.belongsToMany(perkuliahan, {
+    through: 'Pengajar'
   })
-  KuliahMahasiswa.hasMany(Presensi, {
-    foreignKey: 'kuliah_mahasiswa_id'
+  perkuliahan.belongsToMany(dosen, {
+    through: 'Pengajar'
   })
-  RencanaStudi.belongsToMany(Kelas, {
-    through: 'KuliahMahasiswa'
-  })
-  Jadwal.hasMany(Presensi, {
-    foreignKey: 'id_jadwal'
-  })
-  Presensi.belongsTo(TataUsaha, {
+  dosen.hasOne(kelas, {
     foreignKey: 'nip'
   })
-  Mahasiswa.hasMany(Nilai, {
-    foreignKey: 'NIM'
-  })
-  Dosen.belongsTo(Akun, {
-    foreignKey: 'username'
-  })
-  Mahasiswa.belongsTo(Akun, {
-    foreignKey: 'username'
-  })
-  Mahasiswa.hasMany(RencanaStudi, {
-    foreignKey: 'id_mahasiswa'
-  })
-  TataUsaha.belongTo(Akun, {
-    foreignKey: 'username'
-  })
-  OrganisasiMahasiswa.hasMany(Menjabat, {
-    foreignKey: 'id_ormawa'
-  })
-  Menjabat.hasMany(Mahasiswa, {
-    foreignKey: 'NIM'
-  })
-  RencanaStudi.hasMany(KuliahMahasiswa, {
-    foreignKey: ['id_mahasiswa', 'id_kuliah']
-  })
-  Dosen.hasOne(Akun, {
-    foreignKey: 'username'
-  })
-  Dosen.belongsToMany(Prodi, {
-    through: 'Memimpin'
-  })
-  Dosen.belongsToMany(Kuliah, {
-    through: 'Mengajar'
-  })
-  Prodi.hasMany(Kelas, {
-    foreignKey: 'kode_prodi'
-  })
-  TataUsaha.hasOne(Akun, {
-    foreignKey: 'username'
-  })
-  TataUsaha.hasMany(Presensi, {
+  dosen.hasMany(programStudi, {
     foreignKey: 'nip'
   })
-  Jurusan.hasMany(Prodi, {
-    foreignKey: 'kode_prodi'
+  dosen.hasMany(jurusan, {
+    foreignKey: 'nip'
+  })
+  jabatan.hasOne(dosen, {
+    foreignKey: 'id_jabatan'
+  })
+  programStudi.hasMany(mataKuliah, {
+    foreignKey: 'kode_program_studi'
+  })
+  programStudi.hasMany(kelas, {
+    foreignKey: 'kode_program_studi'
+  })
+  jurusan.hasMany(programStudi, {
+    foreignKey: 'kode_jurusan'
   })
 }
 

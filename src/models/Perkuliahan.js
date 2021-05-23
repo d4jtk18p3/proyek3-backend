@@ -2,12 +2,12 @@ import Sequelize from 'sequelize'
 
 import db from '../db'
 
-const Kuliah = db.define('Kuliah', {
-  id_kuliah: {
+const Perkuliahan = db.define('Perkuliahan', {
+  id: {
     type: Sequelize.INTEGER,
-    autoIncrement: true,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
+    autoIncrement: true
   },
   tahun_akademik: {
     type: Sequelize.INTEGER,
@@ -15,4 +15,4 @@ const Kuliah = db.define('Kuliah', {
   }
 })
 
-export default Kuliah
+export default Perkuliahan

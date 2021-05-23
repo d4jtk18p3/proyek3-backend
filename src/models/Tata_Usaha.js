@@ -1,20 +1,16 @@
 import Sequelize from 'sequelize'
 import db from '../db'
 
-const Dosen = db.define('Dosen', {
+const TataUsaha = db.define('Tata_Usaha', {
   nip: {
     type: Sequelize.STRING(30),
     allowNull: false,
     primaryKey: true
   },
-  nama_dosen: {
+  nama_staff: {
     type: Sequelize.STRING(30),
     allowNull: false
-  },
-  id_jabatan: {
-    type: Sequelize.STRING,
-    allowNull: true
   }
 })
 
-export default Dosen
+export default TataUsaha
