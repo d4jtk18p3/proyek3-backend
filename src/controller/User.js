@@ -109,6 +109,8 @@ export const getAllUser = async (req, res, next) => {
       }
     }
 
+    
+
     res.status(200).json({
       message: 'Success retrieve all user data',
       data: resultFiltered.slice((page - 1) * perPage, page * perPage)
@@ -120,12 +122,6 @@ export const getAllUser = async (req, res, next) => {
 
 export const deleteUserbyUsername = async (req, res, next) => {
   try {
-    const error = validationResult(req)
-    if (!error.isEmpty()) {
-      error.status = 400
-      throw error
-    }
-
     const kcAdminClient = getAdminClient()
     await adminAuth(kcAdminClient)
 
@@ -167,12 +163,13 @@ export const deleteUserbyUsername = async (req, res, next) => {
       id: userKc[0].id,
       realm: 'Polban-Realm'
     })
-
+    
     res.status(200).json({
       message: 'Delete akun berhasil',
-      data: username
+    data: username
     })
-  } catch (error) {
+  }
+  catch(error){
     next(error)
   }
 }
@@ -220,10 +217,8 @@ export const updateAccount = async(req, res, next) => {
       role : newRole,
       status : newStatus
     })
-
-
   }
   catch(error){
-    next(error)
+
   }
 }

@@ -73,6 +73,7 @@ export const deleteDosenByNIP = [
 
 export const deleteUserbyUsername = [
   param('username', 'Username wajib diisi').exists()
+<<<<<<< HEAD
 ]
 
 export const updateAccount = [
@@ -80,4 +81,6 @@ export const updateAccount = [
   body('newRole', 'Role wajib diisi').exists(),
   body('newEmail', 'Format email tidak valid').isEmail(),
   body('newStatus', 'Status wajib diisi').isBoolean()
+=======
+>>>>>>> 277af543a6446f9e0ce89e8a3849bcc5da691443
 ]

@@ -19,7 +19,11 @@ const Kelas = db.define('Kelas', {
     allowNull: false
   },
   tahun: {
+<<<<<<< HEAD
     type: Sequelize.STRING(9),
+=======
+    type: Sequelize.INTEGER,
+>>>>>>> 277af543a6446f9e0ce89e8a3849bcc5da691443
     allowNull: false
   }
 })
