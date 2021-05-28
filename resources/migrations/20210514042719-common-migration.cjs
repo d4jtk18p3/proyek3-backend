@@ -90,16 +90,9 @@ module.exports = {
     })
     await queryInterface.createTable('Mata_Kuliah', {
       id: {
-<<<<<<< HEAD
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true
-=======
         type: Sequelize.STRING(8),
         allowNull: false,
         primaryKey: true,
->>>>>>> 277af543a6446f9e0ce89e8a3849bcc5da691443
       },
       semester: {
         type: Sequelize.INTEGER,
@@ -170,11 +163,7 @@ module.exports = {
         allowNull: false
       },
       id_mata_kuliah: {
-<<<<<<< HEAD
-        type: Sequelize.INTEGER,
-=======
         type: Sequelize.STRING(8),
->>>>>>> 277af543a6446f9e0ce89e8a3849bcc5da691443
         references: {
           model: 'Mata_Kuliah',
           key: 'id'
