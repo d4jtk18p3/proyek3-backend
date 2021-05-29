@@ -119,10 +119,30 @@ export const deleteDosenByNIP = async (req, res, next) => {
 export const getPengajarByNipDosen = async (req, res, next) => {
   try {
     const nip = req.query.nip
+
     const resultPengajar = await PengajarDAO.getPengajarByNipDosen(nip)
     if (resultPengajar instanceof Error) throw resultPengajar
     res.status(200).json({
       message: 'Sukses retrieve data pengajar by nip dosen',
+      data: resultPengajar
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+// get pengajar by kode matakuliah dan tahun akademik
+export const getPengajarByKMTA = async (req, res, next) => {
+  try {
+    const tahunAkademik = req.query['tahun-akademik']
+    const kodeMatkul = req.query['kode-matakuliah']
+    const resultPengajar = await PengajarDAO.getPengajarByKMTA(
+      kodeMatkul,
+      tahunAkademik
+    )
+    if (resultPengajar instanceof Error) throw resultPengajar
+    res.status(200).json({
+      message: 'Sukses retrieve data pengajar by kode kelas dan tahun akademik',
       data: resultPengajar
     })
   } catch (error) {
