@@ -115,3 +115,17 @@ export const deleteMahasiswabyId = async (nim) => {
     return Promise.reject(new Error('Delete mahasiswa by NIM gagal'))
   }
 }
+
+export const getMahasiswaByKelas = async (kodeKelas) => {
+  try {
+    const resultMahasiswa = await Mahasiswa.findAll({
+      where: {
+        kode_kelas: kodeKelas
+      },
+      order: [['nim', 'ASC']]
+    })
+    return resultMahasiswa
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}

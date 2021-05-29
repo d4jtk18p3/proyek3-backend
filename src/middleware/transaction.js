@@ -1,4 +1,4 @@
-import sequelize, { namespace } from '../db'
+import sequelize, { namespace } from '@proyek3/postgres-database/db'
 import onFinished from 'on-finished'
 
 export const transactionMiddleware = async (req, res, next) => {
