@@ -42,13 +42,13 @@ export const findAllDosen = async () => {
   }
 }
 
-export const findDosenByJabatan = async (jabatanDosen) => {
+export const findDosenByJabatan = async (idJabatanDosen) => {
   try {
-    if (jabatanDosen === '') {
-      jabatanDosen = null
+    if (idJabatanDosen === '') {
+      idJabatanDosen = null
       const dosenNoJabatan = await Dosen.findAll({
         where: {
-          jabatan: null
+          id_jabatan: null
         },
         order: [['nama_dosen', 'ASC']]
       })
@@ -56,11 +56,12 @@ export const findDosenByJabatan = async (jabatanDosen) => {
     }
     const dosen = await Dosen.findAll({
       where: {
-        jabatan: sequelize.where(
-          sequelize.fn('LOWER', sequelize.col('jabatan')),
-          'LIKE',
-          '%' + jabatanDosen.toLowerCase() + '%'
-        )
+        // id_jabatan: sequelize.where(
+        //   sequelize.fn('LOWER', sequelize.col('id_jabatan')),
+        //   'LIKE',
+        //   '%' + idJabatanDosen.toLowerCase() + '%'
+        // )
+        id_jabatan: idJabatanDosen
       },
       order: [['nama_dosen', 'ASC']]
     })

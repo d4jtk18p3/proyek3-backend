@@ -52,10 +52,10 @@ export const getAllDosen = async (req, res, next) => {
 
 export const getDosenByJabatan = async (req, res, next) => {
   try {
-    const jabatan = req.query.jabatan
-    const dosen = await DosenDAO.findDosenByJabatan(jabatan)
+    const id_jabatan = req.query.id_jabatan
+    const dosen = await DosenDAO.findDosenByJabatan(id_jabatan)
     res.status(200).json({
-      message: 'get dosen yang menjadi ' + jabatan + ' sukses',
+      message: 'get dosen dengan id jabatan sukses',
       data: {
         dosen
       }
