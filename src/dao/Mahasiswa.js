@@ -1,5 +1,5 @@
-import Mahasiswa from '../models/Mahasiswa'
-import sequelize from '../db.js'
+import Mahasiswa from '@proyek3/postgres-database/models/Mahasiswa'
+import sequelize from '@proyek3/postgres-database/db'
 
 export const findOneMahasiswaByNIM = async (NIM) => {
   try {
@@ -113,5 +113,19 @@ export const deleteMahasiswabyId = async (nim) => {
     return result
   } catch (error) {
     return Promise.reject(new Error('Delete mahasiswa by NIM gagal'))
+  }
+}
+
+export const getMahasiswaByKelas = async (kodeKelas) => {
+  try {
+    const resultMahasiswa = await Mahasiswa.findAll({
+      where: {
+        kode_kelas: kodeKelas
+      },
+      order: [['nim', 'ASC']]
+    })
+    return resultMahasiswa
+  } catch (error) {
+    return Promise.reject(error)
   }
 }
