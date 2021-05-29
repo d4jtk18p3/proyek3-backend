@@ -161,14 +161,14 @@ export const deleteUserbyUsername = async (req, res, next) => {
       id: userKc[0].id,
       realm: 'Polban-Realm'
     })
-    
+
     res.status(200).json({
       message: 'Delete akun berhasil',
       data: username
     })
-    } catch (error) {
-      next(error)
-    }
+  } catch (error) {
+    next(error)
+  }
 }
 
 export const updateAccount = async (req, res, next) => {
