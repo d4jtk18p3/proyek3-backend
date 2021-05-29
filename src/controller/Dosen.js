@@ -1,4 +1,5 @@
 import * as DosenDAO from '../dao/Dosen'
+import * as PengajarDAO from '../dao/Pengajar'
 import { validationResult } from 'express-validator/check'
 
 /*
@@ -74,7 +75,14 @@ export const postNewDosen = async (req, res, next) => {
       throw error
     }
 
-    const dosen = await DosenDAO.insertOneDosen(NIP, namaDosen, jabatan, email, permission, username)
+    const dosen = await DosenDAO.insertOneDosen(
+      NIP,
+      namaDosen,
+      jabatan,
+      email,
+      permission,
+      username
+    )
 
     res.status(200).json({
       message: 'insert dosen sukses',
@@ -102,6 +110,20 @@ export const deleteDosenByNIP = async (req, res, next) => {
       data: {
         dosen
       }
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getPengajarByNipDosen = async (req, res, next) => {
+  try {
+    const nip = req.query.nip
+    const resultPengajar = await PengajarDAO.getPengajarByNipDosen(nip)
+    if (resultPengajar instanceof Error) throw resultPengajar
+    res.status(200).json({
+      message: 'Sukses retrieve data pengajar by nip dosen',
+      data: resultPengajar
     })
   } catch (error) {
     next(error)
