@@ -53,7 +53,10 @@ export const postNewMahasiswa = async (req, res, next) => {
 export const updateNomorHpMahasiswa = async (req, res, next) => {
   try {
     const { NIM } = req.params
-    const updateMahasiswa = await MahasiswaDAO.updateNomorHpMahasiswa(NIM, req.body.nomorHP)
+    const updateMahasiswa = await MahasiswaDAO.updateNomorHpMahasiswa(
+      NIM,
+      req.body.nomorHP
+    )
     if (updateMahasiswa === 1) {
       const mahasiswa = await MahasiswaDAO.findMahasiswaByNIM(NIM)
       res.status(200).json({
@@ -147,6 +150,22 @@ export const searchMahasiswaByNIM = async (req, res, next) => {
       data: {
         mahasiswa
       }
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getMahasiswaByKelas = async (req, res, next) => {
+  try {
+    const kodeKelas = req.params.kode_kelas
+    const resultMahasiswa = await MahasiswaDAO.getMahasiswaByKelas(kodeKelas)
+    if (resultMahasiswa instanceof Error) {
+      throw resultMahasiswa
+    }
+    res.status(200).json({
+      message: 'Sukses retrieve data mahasiswa by kelas',
+      data: resultMahasiswa
     })
   } catch (error) {
     next(error)
