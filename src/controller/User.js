@@ -109,8 +109,6 @@ export const getAllUser = async (req, res, next) => {
       }
     }
 
-    
-
     res.status(200).json({
       message: 'Success retrieve all user data',
       data: resultFiltered.slice((page - 1) * perPage, page * perPage)
@@ -166,16 +164,15 @@ export const deleteUserbyUsername = async (req, res, next) => {
     
     res.status(200).json({
       message: 'Delete akun berhasil',
-    data: username
+      data: username
     })
-  }
-  catch(error){
-    next(error)
-  }
+    } catch (error) {
+      next(error)
+    }
 }
 
-export const updateAccount = async(req, res, next) => {
-  try{
+export const updateAccount = async (req, res, next) => {
+  try {
     const error = validationResult(req)
     if (!error.isEmpty()) {
       error.status = 400
@@ -186,7 +183,6 @@ export const updateAccount = async(req, res, next) => {
     await adminAuth(kcAdminClient)
 
     const { username, newRole, newEmail, newStatus } = req.body
-    let result
 
     const userKc = await kcAdminClient.users.find({
       username: username,
@@ -200,8 +196,8 @@ export const updateAccount = async(req, res, next) => {
       throw error
     }
 
-    const updateAccount = await kcAdminClient.users.update({
-      id : userKc[0].id,
+    await kcAdminClient.users.update({
+      id: userKc[0].id,
       realm: 'Polban-Realm',
       attributes: {
         mail: newEmail,
@@ -213,12 +209,11 @@ export const updateAccount = async(req, res, next) => {
     res.status(200).json({
       message: 'Update akun berhasil',
       data: username,
-      email : newEmail,
-      role : newRole,
-      status : newStatus
+      email: newEmail,
+      role: newRole,
+      status: newStatus
     })
-  }
-  catch(error){
-
+  } catch (error) {
+    next(error)
   }
 }
