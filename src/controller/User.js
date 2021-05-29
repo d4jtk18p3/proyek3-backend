@@ -120,12 +120,6 @@ export const getAllUser = async (req, res, next) => {
 
 export const deleteUserbyUsername = async (req, res, next) => {
   try {
-    const error = validationResult(req)
-    if (!error.isEmpty()) {
-      error.status = 400
-      throw error
-    }
-
     const kcAdminClient = getAdminClient()
     await adminAuth(kcAdminClient)
 
@@ -171,6 +165,53 @@ export const deleteUserbyUsername = async (req, res, next) => {
     res.status(200).json({
       message: 'Delete akun berhasil',
       data: username
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const updateAccount = async (req, res, next) => {
+  try {
+    const error = validationResult(req)
+    if (!error.isEmpty()) {
+      error.status = 400
+      throw error
+    }
+
+    const kcAdminClient = getAdminClient()
+    await adminAuth(kcAdminClient)
+
+    const { username, newRole, newEmail, newStatus } = req.body
+
+    const userKc = await kcAdminClient.users.find({
+      username: username,
+      realm: 'Polban-Realm'
+    })
+
+    if (userKc.length === 0) {
+      const error = new Error('Username tidak ditemukan')
+      error.statusCode = 400
+      error.cause = 'Username tidak ditemukan'
+      throw error
+    }
+
+    await kcAdminClient.users.update({
+      id: userKc[0].id,
+      realm: 'Polban-Realm',
+      attributes: {
+        mail: newEmail,
+        role: newRole,
+        isActive: newStatus
+      }
+    })
+
+    res.status(200).json({
+      message: 'Update akun berhasil',
+      data: username,
+      email: newEmail,
+      role: newRole,
+      status: newStatus
     })
   } catch (error) {
     next(error)
