@@ -97,9 +97,12 @@ export const getAllUser = async (req, res, next) => {
     const resultFiltered = []
 
     for (const elementData of result) {
-      const cond1 =
+      var cond1 =
         elementData.attributes.role[0].toLowerCase() ===
         roleParams.toLowerCase()
+      if(roleParams === ''){
+        cond1 = true 
+      }
       const cond2 = elementData.username
         .toLowerCase()
         .includes(key.toLowerCase())
