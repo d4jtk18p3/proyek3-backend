@@ -97,11 +97,11 @@ export const getAllUser = async (req, res, next) => {
     const resultFiltered = []
 
     for (const elementData of result) {
-      var cond1 =
+      let cond1 =
         elementData.attributes.role[0].toLowerCase() ===
         roleParams.toLowerCase()
-      if(roleParams === ''){
-        cond1 = true 
+      if (roleParams === '') {
+        cond1 = true
       }
       const cond2 = elementData.username
         .toLowerCase()
@@ -199,23 +199,24 @@ export const updateAccount = async (req, res, next) => {
       throw error
     }
 
-    const role = userKc[0].attributes.role[0];
-    const noInduk = userKc[0].username;
+    const role = userKc[0].attributes.role[0]
+    const noInduk = userKc[0].username
 
     await kcAdminClient.users.update({
       id: userKc[0].id,
-      realm: 'Polban-Realm'},
-      {
-        enabled: newStatus,
-        email: newEmail,
-        attributes: {
-          noInduk: noInduk,
-          role: role,
-          uname: noInduk,
-          mail: newEmail,
-          isActive: newStatus
-        }
-      },
+      realm: 'Polban-Realm'
+    },
+    {
+      enabled: newStatus,
+      email: newEmail,
+      attributes: {
+        noInduk: noInduk,
+        role: role,
+        uname: noInduk,
+        mail: newEmail,
+        isActive: newStatus
+      }
+    }
     )
 
     const updatedUserKc = await kcAdminClient.users.find({
