@@ -19,3 +19,17 @@ export const getKuliahByIdTA = async (req, res, next) => {
     next(error)
   }
 }
+
+export const getKuliahByKodeKelas = async (req, res, next) => {
+  try {
+    const kodeKelas = req.params.kode_kelas
+    const result = await PerkuliahanDAO.getKuliahByKodeKelas(kodeKelas)
+    if (result instanceof Error) throw result
+    res.status(200).json({
+      message: 'Success retrieve data',
+      data: result
+    })
+  } catch (error) {
+    next(error)
+  }
+}

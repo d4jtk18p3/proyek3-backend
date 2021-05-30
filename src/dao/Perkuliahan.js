@@ -1,4 +1,4 @@
-// import Perkuliahan from '@proyek3/postgres-database/models/Perkuliahan'
+import Perkuliahan from '@proyek3/postgres-database/models/Perkuliahan'
 import sequelize from '@proyek3/postgres-database/db'
 
 export const getKuliahByIdTA = async (idKuliah, tahunAkademik) => {
@@ -12,6 +12,23 @@ export const getKuliahByIdTA = async (idKuliah, tahunAkademik) => {
         type: sequelize.QueryTypes.SELECT
       }
     )
+    return result
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export const getKuliahByKodeKelas = async (kodeKelas) => {
+  try {
+    const parsedKodeKelas =
+      kodeKelas instanceof String ? parseInt(kodeKelas) : kodeKelas
+    const result = await Perkuliahan.findAll({
+      where: {
+        kode_kelas: parsedKodeKelas
+      },
+      order: [['id', 'ASC']]
+    })
+    if (result instanceof Error) throw result
     return result
   } catch (error) {
     return Promise.reject(error)

@@ -81,3 +81,60 @@ export const updateAccount = [
   body('newEmail', 'Format email tidak valid').isEmail(),
   body('newStatus', 'Status wajib diisi').isBoolean()
 ]
+
+export const newMataKuliah = [
+  body('id').exists().isLength({
+    min: 1,
+    max: 8
+  }),
+  body('semester').exists().isInt(),
+  body('nama_mata_kuliah').exists().isLength({
+    min: 1,
+    max: 50
+  }),
+  body('sks_teori').isInt(),
+  body('sks_praktek').isInt(),
+  body('kode_program_studi').exists().isLength({
+    min: 1,
+    max: 15
+  })
+]
+
+export const newProdi = [
+  body('kode_program_studi').exists().isLength({
+    min: 1,
+    max: 15
+  }),
+  body('nip').exists().isLength({
+    min: 1,
+    max: 30
+  }),
+  body('kode_jurusan').exists().isLength({
+    min: 1,
+    max: 255
+  })
+]
+
+export const updateProdi = [
+  body('kode_program_studi').exists().isLength({
+    min: 1,
+    max: 15
+  }),
+  body('nip').exists().isLength({
+    min: 1,
+    max: 30
+  })
+]
+
+export const newKelas = [
+  body('kode_kelas').exists().isInt(),
+  body('tahun').exists().isInt(),
+  body('kode_program_studi').exists().isLength({
+    min: 1,
+    max: 15
+  }),
+  body('nip').exists().isLength({
+    min: 1,
+    max: 30
+  })
+]
