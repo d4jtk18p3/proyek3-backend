@@ -138,3 +138,21 @@ export const newKelas = [
     max: 30
   })
 ]
+
+export const newJabatan = [
+  body('id').exists().isLength({
+    min: 1,
+    max: 255
+  })
+]
+
+export const newJurusan = [
+  body('kode_jurusan').exists().isLength({
+    min: 1,
+    max: 255
+  }),
+  body('nip').exists().isLength({
+    min: 1,
+    max: 30
+  })
+]
