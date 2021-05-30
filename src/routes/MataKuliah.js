@@ -11,7 +11,7 @@ router.post(
   transactionMiddleware,
   MataKuliahController.newMataKuliah
 )
-router.get('/all-mata-kuliah', MataKuliahController.getAllMataKuliah())
+router.get('/all-mata-kuliah', MataKuliahController.getAllMataKuliah)
 router.get('/:id', MataKuliahController.getMataKuliahById)
 
 export default router
