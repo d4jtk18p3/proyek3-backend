@@ -182,7 +182,7 @@ export const updateAccount = async (req, res, next) => {
     const kcAdminClient = getAdminClient()
     await adminAuth(kcAdminClient)
 
-    const { username, newRole, newEmail, newStatus } = req.body
+    const { username, newEmail, newStatus } = req.body
 
     const userKc = await kcAdminClient.users.find({
       username: username,
@@ -196,22 +196,33 @@ export const updateAccount = async (req, res, next) => {
       throw error
     }
 
+    const role = userKc[0].attributes.role[0];
+    const noInduk = userKc[0].username;
+
     await kcAdminClient.users.update({
       id: userKc[0].id,
-      realm: 'Polban-Realm',
-      attributes: {
-        mail: newEmail,
-        role: newRole,
-        isActive: newStatus
-      }
+      realm: 'Polban-Realm'},
+      {
+        enabled: newStatus,
+        email: newEmail,
+        attributes: {
+          noInduk: noInduk,
+          role: role,
+          uname: noInduk,
+          mail: newEmail,
+          isActive: newStatus
+        }
+      },
+    )
+
+    const updatedUserKc = await kcAdminClient.users.find({
+      username: username,
+      realm: 'Polban-Realm'
     })
 
     res.status(200).json({
       message: 'Update akun berhasil',
-      data: username,
-      email: newEmail,
-      role: newRole,
-      status: newStatus
+      data: updatedUserKc
     })
   } catch (error) {
     next(error)
