@@ -90,6 +90,8 @@ export const getAllUser = async (req, res, next) => {
     const key = req.query.key || ''
     const page = req.query.page || 1
     const perPage = req.query.perpage || 10
+    console.log(page)
+    console.log(perPage)
 
     const result = await kcAdminClient.users.find({
       realm: 'Polban-Realm'
@@ -111,10 +113,10 @@ export const getAllUser = async (req, res, next) => {
         resultFiltered.push(elementData)
       }
     }
-
+    // resultFiltered.slice((page - 1) * perPage, page * perPage)
     res.status(200).json({
       message: 'Success retrieve all user data',
-      data: resultFiltered.slice((page - 1) * perPage, page * perPage)
+      data: resultFiltered
     })
   } catch (error) {
     next(error)
@@ -202,21 +204,22 @@ export const updateAccount = async (req, res, next) => {
     const role = userKc[0].attributes.role[0]
     const noInduk = userKc[0].username
 
-    await kcAdminClient.users.update({
-      id: userKc[0].id,
-      realm: 'Polban-Realm'
-    },
-    {
-      enabled: newStatus,
-      email: newEmail,
-      attributes: {
-        noInduk: noInduk,
-        role: role,
-        uname: noInduk,
-        mail: newEmail,
-        isActive: newStatus
+    await kcAdminClient.users.update(
+      {
+        id: userKc[0].id,
+        realm: 'Polban-Realm'
+      },
+      {
+        enabled: newStatus,
+        email: newEmail,
+        attributes: {
+          noInduk: noInduk,
+          role: role,
+          uname: noInduk,
+          mail: newEmail,
+          isActive: newStatus
+        }
       }
-    }
     )
 
     const updatedUserKc = await kcAdminClient.users.find({
