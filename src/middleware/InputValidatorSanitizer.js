@@ -155,3 +155,7 @@ export const newJurusan = [
     max: 30
   })
 ]
+
+export const resetPasswordRequest = [
+  body('email').exists().isEmail()
+]

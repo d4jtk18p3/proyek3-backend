@@ -27,4 +27,10 @@ router.put(
   UserController.updateAccount
 )
 
+router.post(
+  '/forget-passwrd',
+  ValidatorSanitizer.resetPasswordRequest,
+  UserController.resetPasswordRequest
+)
+
 export default router
