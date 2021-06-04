@@ -4,6 +4,8 @@ import { insertOneTataUsaha, deleteTataUsahaByNIP } from '../dao/TataUsaha'
 import { validationResult } from 'express-validator/check'
 import { getAdminClient, adminAuth } from '../config/keycloak-admin'
 import { uuid } from 'uuidv4'
+import jwt from 'jsonwebtoken'
+import { resetPassword } from '../util/mailer/mailer'
 
 export const createUser = async (req, res, next) => {
   try {
@@ -233,5 +235,45 @@ export const updateAccount = async (req, res, next) => {
     })
   } catch (error) {
     next(error)
+  }
+}
+
+export const resetPasswordRequest = async (req, res, next) => {
+  try {
+    const error = validationResult(req)
+    if (!error.isEmpty()) {
+      error.status = 400
+      throw error
+    }
+    const kcAdminClient = getAdminClient()
+    await adminAuth(kcAdminClient)
+
+    const email = req.body.email
+
+    const userKc = await kcAdminClient.users.find({
+      email: email,
+      realm: 'Polban-Realm'
+    })
+
+    if (userKc.length === 0) {
+      const error = new Error('Username tidak ditemukan')
+      error.statusCode = 400
+      error.cause = 'Username tidak ditemukan'
+      throw error
+    }
+
+    const token = jwt.sign(
+      { userId: userKc[0].id },
+      process.env.RESET_EMAIL_PRIVATE_KEY,
+      { expiresIn: 60 * 60 * 15 }
+    )
+
+    await resetPassword(email, userKc[0].username, token)
+
+    res.status(200).json({
+      message: 'Kami telah mengirim email untuk melakukan reset password'
+    })
+  } catch (e) {
+    next(e)
   }
 }

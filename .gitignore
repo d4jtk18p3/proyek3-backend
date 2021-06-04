@@ -12,3 +12,5 @@ yarn-error.log*
 *.tsbuildinfo
 .npm
 .eslintcache
+.prettierrc
+rest.http
