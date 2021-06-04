@@ -13,3 +13,4 @@ yarn-error.log*
 .npm
 .eslintcache
 .prettierrc
+rest.http

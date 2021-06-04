@@ -5,7 +5,7 @@ import { validationResult } from 'express-validator/check'
 import { getAdminClient, adminAuth } from '../config/keycloak-admin'
 import { uuid } from 'uuidv4'
 import jwt from 'jsonwebtoken'
-import mailer from '../util/mailer/mailer'
+import { resetPassword } from '../util/mailer/mailer'
 
 export const createUser = async (req, res, next) => {
   try {
@@ -18,13 +18,7 @@ export const createUser = async (req, res, next) => {
     const kcAdminClient = getAdminClient()
     await adminAuth(kcAdminClient)
 
-    const {
-      noInduk,
-      jenisNoInduk,
-      nama,
-      email,
-      role
-    } = req.body
+    const { noInduk, jenisNoInduk, nama, email, role } = req.body
     let result
 
     if (jenisNoInduk === 'nim' && role === 'mahasiswa') {
@@ -195,11 +189,7 @@ export const updateAccount = async (req, res, next) => {
     const kcAdminClient = getAdminClient()
     await adminAuth(kcAdminClient)
 
-    const {
-      username,
-      newEmail,
-      newStatus
-    } = req.body
+    const { username, newEmail, newStatus } = req.body
 
     const userKc = await kcAdminClient.users.find({
       username: username,
@@ -258,7 +248,7 @@ export const resetPasswordRequest = async (req, res, next) => {
     const kcAdminClient = getAdminClient()
     await adminAuth(kcAdminClient)
 
-    const email = req.email
+    const email = req.body.email
 
     const userKc = await kcAdminClient.users.find({
       email: email,
@@ -278,7 +268,7 @@ export const resetPasswordRequest = async (req, res, next) => {
       { expiresIn: 60 * 60 * 15 }
     )
 
-    await mailer.resetPassword(email, userKc[0].username, token)
+    await resetPassword(email, userKc[0].username, token)
 
     res.status(200).json({
       message: 'Kami telah mengirim email untuk melakukan reset password'

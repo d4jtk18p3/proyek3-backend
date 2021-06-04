@@ -28,7 +28,7 @@ router.put(
 )
 
 router.post(
-  '/forget-passwrd',
+  '/forget-password',
   ValidatorSanitizer.resetPasswordRequest,
   UserController.resetPasswordRequest
 )
