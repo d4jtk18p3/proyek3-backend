@@ -32,6 +32,7 @@ export const createUser = async (req, res, next) => {
       }
     } else if (jenisNoInduk === 'nip' && role === 'dosen') {
       result = await insertOneDosen(noInduk, nama)
+
       if (typeof result === 'undefined') {
         const error = new Error('Insert dosen ke pg gagal')
         error.statusCode = 500
@@ -40,6 +41,7 @@ export const createUser = async (req, res, next) => {
       }
     } else if (jenisNoInduk === 'nip' && role === 'tata_usaha') {
       result = await insertOneTataUsaha(noInduk, nama)
+
       if (typeof result === 'undefined') {
         const error = new Error('Insert tu ke pg gagal')
         error.statusCode = 500
@@ -70,13 +72,32 @@ export const createUser = async (req, res, next) => {
         isActive: true
       }
     })
-    result.dataValues.idUserKc = resultInsertToKc.id
 
+    // Search for role in keycloak realm
+    const keycloakRole = await kcAdminClient.roles.findOneByName({
+      realm: 'Polban-Realm',
+      name: role
+    })
+
+    // map user to role
+    await kcAdminClient.users.addRealmRoleMappings({
+      realm: 'Polban-Realm',
+      id: resultInsertToKc.id,
+      roles: [
+        {
+          id: keycloakRole.id,
+          name: keycloakRole.name
+        }
+      ]
+    })
+
+    result.dataValues.idUserKc = resultInsertToKc.id
     result.dataValues.tempPwdKc = tempPassword
 
     res.status(200).json({
       message: 'insert user sukses',
-      data: result
+      data: result,
+      role: keycloakRole
     })
   } catch (error) {
     next(error)
