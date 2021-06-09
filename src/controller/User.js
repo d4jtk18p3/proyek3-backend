@@ -298,7 +298,7 @@ export const processResetPassword = async (req, res, next) => {
     const kcAdminClient = getAdminClient()
     await adminAuth(kcAdminClient)
 
-    const { token, newPassword, hint } = req.body
+    const { token, newPassword } = req.body
 
     const decodedToken = jwt.verify(token, process.env.RESET_EMAIL_PRIVATE_KEY)
     if (!decodedToken.userId) {
