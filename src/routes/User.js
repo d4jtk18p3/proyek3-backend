@@ -33,4 +33,10 @@ router.post(
   UserController.resetPasswordRequest
 )
 
+router.post(
+  '/reset-password',
+  ValidatorSanitizer.resetPassword,
+  UserController.processResetPassword
+)
+
 export default router

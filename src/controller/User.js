@@ -9,9 +9,12 @@ import { resetPassword } from '../util/mailer/mailer'
 
 export const createUser = async (req, res, next) => {
   try {
-    const error = validationResult(req)
-    if (!error.isEmpty()) {
-      error.status = 400
+    const validatonResult = validationResult(req)
+    console.log(`Sampai disini ${validatonResult}`)
+    if (!validatonResult.isEmpty()) {
+      const error = new Error('Invalid Input')
+      error.statusCode = 400
+      error.cause = validatonResult.errors
       throw error
     }
 
@@ -207,9 +210,11 @@ export const deleteUserbyUsername = async (req, res, next) => {
 
 export const updateAccount = async (req, res, next) => {
   try {
-    const error = validationResult(req)
-    if (!error.isEmpty()) {
-      error.status = 400
+    const validatonResult = validationResult(req)
+    if (!validatonResult.isEmpty()) {
+      const error = new Error('Invalid Input')
+      error.statusCode = 400
+      error.cause = validatonResult.errors
       throw error
     }
 
@@ -267,9 +272,11 @@ export const updateAccount = async (req, res, next) => {
 
 export const resetPasswordRequest = async (req, res, next) => {
   try {
-    const error = validationResult(req)
-    if (!error.isEmpty()) {
-      error.status = 400
+    const validatonResult = validationResult(req)
+    if (!validatonResult.isEmpty()) {
+      const error = new Error('Invalid Input')
+      error.statusCode = 400
+      error.cause = validatonResult.errors
       throw error
     }
     const kcAdminClient = getAdminClient()
@@ -283,9 +290,9 @@ export const resetPasswordRequest = async (req, res, next) => {
     })
 
     if (userKc.length === 0) {
-      const error = new Error('Username tidak ditemukan')
+      const error = new Error('Akun tidak ditemukan')
       error.statusCode = 400
-      error.cause = 'Username tidak ditemukan'
+      error.cause = 'Akun dengan email tersebut tidak ditemukan'
       throw error
     }
 
@@ -299,6 +306,64 @@ export const resetPasswordRequest = async (req, res, next) => {
 
     res.status(200).json({
       message: 'Kami telah mengirim email untuk melakukan reset password'
+    })
+  } catch (e) {
+    next(e)
+  }
+}
+
+export const processResetPassword = async (req, res, next) => {
+  try {
+    const validatonResult = validationResult(req)
+    if (!validatonResult.isEmpty()) {
+      const error = new Error('Invalid Input')
+      error.statusCode = 400
+      error.cause = validatonResult.errors
+      throw error
+    }
+
+    const kcAdminClient = getAdminClient()
+    await adminAuth(kcAdminClient)
+
+    const { token, newPassword } = req.body
+
+    const decodedToken = jwt.verify(token, process.env.RESET_EMAIL_PRIVATE_KEY)
+    if (!decodedToken.userId) {
+      const error = new Error('Invalid Token')
+      error.statusCode = 401
+      error.cause = 'Token yang diberikan tidak valid'
+      throw error
+    }
+    const userId = decodedToken.userId
+
+    const userKc = await kcAdminClient.users.findOne({
+      id: userId,
+      realm: 'Polban-Realm'
+    })
+
+    console.log(`User ditemukan yaitu ${userKc.email}`)
+
+    if (!userKc) {
+      const error = new Error('User Tidak Terdaftar')
+      error.statusCode = 400
+      error.cause = 'User tidak terdaftar'
+      throw error
+    }
+
+    await kcAdminClient.users.resetPassword(
+      {
+        id: userId,
+        realm: 'Polban-Realm',
+        credential: {
+          temporary: false,
+          type: 'password',
+          value: newPassword
+        }
+      }
+    )
+
+    res.status(200).json({
+      message: 'Berhasil mengubah password baru'
     })
   } catch (e) {
     next(e)
