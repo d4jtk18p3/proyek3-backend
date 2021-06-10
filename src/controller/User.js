@@ -57,7 +57,7 @@ export const createUser = async (req, res, next) => {
       // belum ada kejelasan mengenai admin dipegang oleh siapa
       // admin sudah ada di sistem keycloak realm Polban-Realm dengan nama 'admin
       // bagian ini akan ditambahkan kemudian hari
-    } else if (jenisNoInduk === 'nip' && role ==='superadmin') {
+    } else if (jenisNoInduk === 'nip' && role === 'superadmin') {
       // add superadmin to database [insert code]
       // check if insertion is failed [insert code]
       // belum ada kejelasan mengenai admin dipegang oleh siapa
@@ -108,7 +108,7 @@ export const createUser = async (req, res, next) => {
 
     result.dataValues.idUserKc = resultInsertToKc.id
     result.dataValues.tempPwdKc = tempPassword
-    
+
     if (result) {
       result.dataValues.idUserKc = resultInsertToKc.id
       result.dataValues.tempPwdKc = tempPassword
