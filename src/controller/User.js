@@ -100,8 +100,15 @@ export const createUser = async (req, res, next) => {
       ]
     })
 
-    result.dataValues.idUserKc = resultInsertToKc.id
-    result.dataValues.tempPwdKc = tempPassword
+    if (result) {
+      result.dataValues.idUserKc = resultInsertToKc.id
+      result.dataValues.tempPwdKc = tempPassword
+    } else {
+      result = {
+        idUserKc: resultInsertToKc.id,
+        tempPwdKc: tempPassword
+      }
+    }
 
     res.status(200).json({
       message: 'insert user sukses',
@@ -120,31 +127,17 @@ export const getAllUser = async (req, res, next) => {
 
     const roleParams = req.query.role || ''
     const key = req.query.key || ''
-    const page = req.query.page || 1
-    const perPage = req.query.perpage || 10
-    console.log(page)
-    console.log(perPage)
+    // const page = req.query.page || 1
+    // const perPage = req.query.perpage || 10
 
     const result = await kcAdminClient.users.find({
       realm: 'Polban-Realm'
     })
-    const resultFiltered = []
 
-    for (const elementData of result) {
-      let cond1 =
-        elementData.attributes.role[0].toLowerCase() ===
-        roleParams.toLowerCase()
-      if (roleParams === '') {
-        cond1 = true
-      }
-      const cond2 = elementData.username
-        .toLowerCase()
-        .includes(key.toLowerCase())
-      const cond3 = elementData.email.toLowerCase().includes(key.toLowerCase())
-      if (cond1 && (cond2 || cond3)) {
-        resultFiltered.push(elementData)
-      }
-    }
+    const resultFiltered = await queryUser(result, roleParams, key)
+
+    if (resultFiltered instanceof Error) throw resultFiltered
+
     // resultFiltered.slice((page - 1) * perPage, page * perPage)
     res.status(200).json({
       message: 'Success retrieve all user data',
@@ -350,22 +343,115 @@ export const processResetPassword = async (req, res, next) => {
       throw error
     }
 
-    await kcAdminClient.users.resetPassword(
-      {
-        id: userId,
-        realm: 'Polban-Realm',
-        credential: {
-          temporary: false,
-          type: 'password',
-          value: newPassword
-        }
+    await kcAdminClient.users.resetPassword({
+      id: userId,
+      realm: 'Polban-Realm',
+      credential: {
+        temporary: false,
+        type: 'password',
+        value: newPassword
       }
-    )
+    })
 
     res.status(200).json({
       message: 'Berhasil mengubah password baru'
     })
   } catch (e) {
     next(e)
+  }
+}
+
+export const deletePermissionAdmin = async (req, res, next) => {
+  try {
+    const kcAdminClient = getAdminClient()
+    await adminAuth(kcAdminClient)
+
+    const { username } = req.query
+
+    const currentRole = await kcAdminClient.roles.findOneByName({
+      realm: 'Polban-Realm',
+      name: 'admin'
+    })
+
+    const result = await kcAdminClient.users.find({
+      realm: 'Polban-Realm'
+    })
+
+    const currentUser = await findOneUserByUsername(result, 'admin', username)
+
+    if (currentUser.length === 0) {
+      const error = new Error('Admin Tidak Terdaftar')
+      error.statusCode = 400
+      error.cause = 'Admin tidak terdaftar'
+      throw error
+    }
+
+    if (currentUser instanceof Error) throw currentUser
+
+    await kcAdminClient.users.delRealmRoleMappings({
+      id: currentUser[0].id,
+      realm: 'Polban-Realm',
+      roles: [
+        {
+          id: currentRole.id,
+          name: currentRole.name
+        }
+      ]
+    })
+
+    res.status(200).json({
+      message: `Success delete permission admin with id ${currentUser[0].id}`
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+const queryUser = async (userArray, roleParams, key) => {
+  try {
+    let resultFiltered = []
+    for (const elementData of userArray) {
+      let cond1 =
+        elementData.attributes.role[0].toLowerCase() ===
+        roleParams.toLowerCase()
+      if (roleParams === '') {
+        cond1 = true
+      }
+      const cond2 = elementData.username
+        .toLowerCase()
+        .includes(key.toLowerCase())
+      const cond3 = elementData.email.toLowerCase().includes(key.toLowerCase())
+      if (cond1 && (cond2 || cond3)) {
+        resultFiltered.push(elementData)
+      }
+    }
+    return resultFiltered
+  } catch (error) {
+    return error
+  }
+}
+
+const findOneUserByUsername = async (userArray, roleParams, key) => {
+  try {
+    let resultFiltered = []
+    for (const elementData of userArray) {
+      let cond1 =
+        elementData.attributes.role[0].toLowerCase() ===
+        roleParams.toLowerCase()
+      if (roleParams === '') {
+        cond1 = true
+      }
+      const cond2 = elementData.username
+        .toLowerCase()
+        .includes(key.toLowerCase())
+
+      if (cond1 && cond2) {
+        resultFiltered.push(elementData)
+        break
+      }
+    }
+    return resultFiltered
+  } catch (error) {
+    return error
   }
 }

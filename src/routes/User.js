@@ -39,4 +39,6 @@ router.post(
   UserController.processResetPassword
 )
 
+router.post('/delete-permission-admin', UserController.deletePermissionAdmin)
+
 export default router
