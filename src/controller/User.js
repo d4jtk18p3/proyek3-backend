@@ -51,11 +51,17 @@ export const createUser = async (req, res, next) => {
         error.cause = 'Insert tu ke pg gagal'
         throw error
       }
-    } else if (jenisNoInduk === '' && role === 'admin') {
+    } else if (jenisNoInduk === 'nip' && role === 'admin') {
       // add admin account to database [insert code]
       // check if insertion is failed [insert code]
       // belum ada kejelasan mengenai admin dipegang oleh siapa
       // admin sudah ada di sistem keycloak realm Polban-Realm dengan nama 'admin
+      // bagian ini akan ditambahkan kemudian hari
+    } else if (jenisNoInduk === 'nip' && role ==='superadmin') {
+      // add superadmin to database [insert code]
+      // check if insertion is failed [insert code]
+      // belum ada kejelasan mengenai admin dipegang oleh siapa
+      // admin sudah ada di sistem keycloak realm Polban-Realm dengan nama 'superadmin
       // bagian ini akan ditambahkan kemudian hari
     }
 
