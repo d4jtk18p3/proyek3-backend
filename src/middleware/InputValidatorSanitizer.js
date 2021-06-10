@@ -159,3 +159,19 @@ export const newJurusan = [
 export const resetPasswordRequest = [
   body('email').exists().isEmail()
 ]
+
+export const resetPassword = [
+  body('token', 'Gagal reset password, silahkan akses halaman forget password lagi').exists(),
+  body('newPassword')
+    .trim()
+    .exists().withMessage('Anda harus menyertakan password baru')
+    .isLength({ min: 8 }).withMessage('Password minimal 8 karakter')
+    .matches(/[A-Z]/).withMessage('Password harus memiliki huruf kapital')
+    .matches(/[a-z]/).withMessage('Password harus memiliki huruf kecil')
+    .matches(/[0-9]/).withMessage('Password harus memiliki angka')
+    .matches(/[!@#$%^&*]/).withMessage('Password harus memiliki setidaknya satu karakter spesial(!@#$%^&*)'),
+  body('hint')
+    .trim()
+    .exists().withMessage('Hint tidak boleh kosong')
+
+]
