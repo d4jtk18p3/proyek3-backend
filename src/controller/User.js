@@ -382,11 +382,10 @@ export const deletePermissionAdmin = async (req, res, next) => {
       name: 'admin'
     })
 
-    const result = await kcAdminClient.users.find({
+    const currentUser = await kcAdminClient.users.find({
+      username: username,
       realm: 'Polban-Realm'
     })
-
-    const currentUser = await findOneUserByUsername(result, 'admin', username)
 
     if (currentUser.length === 0) {
       const error = new Error('Admin Tidak Terdaftar')
@@ -394,8 +393,6 @@ export const deletePermissionAdmin = async (req, res, next) => {
       error.cause = 'Admin tidak terdaftar'
       throw error
     }
-
-    if (currentUser instanceof Error) throw currentUser
 
     await kcAdminClient.users.delRealmRoleMappings({
       id: currentUser[0].id,
@@ -432,31 +429,6 @@ const queryUser = async (userArray, roleParams, key) => {
       const cond3 = elementData.email.toLowerCase().includes(key.toLowerCase())
       if (cond1 && (cond2 || cond3)) {
         resultFiltered.push(elementData)
-      }
-    }
-    return resultFiltered
-  } catch (error) {
-    return error
-  }
-}
-
-const findOneUserByUsername = async (userArray, roleParams, key) => {
-  try {
-    const resultFiltered = []
-    for (const elementData of userArray) {
-      let cond1 =
-        elementData.attributes.role[0].toLowerCase() ===
-        roleParams.toLowerCase()
-      if (roleParams === '') {
-        cond1 = true
-      }
-      const cond2 = elementData.username
-        .toLowerCase()
-        .includes(key.toLowerCase())
-
-      if (cond1 && cond2) {
-        resultFiltered.push(elementData)
-        break
       }
     }
     return resultFiltered
