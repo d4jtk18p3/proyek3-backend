@@ -409,7 +409,7 @@ export const deletePermissionAdmin = async (req, res, next) => {
 
 const queryUser = async (userArray, roleParams, key) => {
   try {
-    let resultFiltered = []
+    const resultFiltered = []
     for (const elementData of userArray) {
       let cond1 =
         elementData.attributes.role[0].toLowerCase() ===
@@ -433,7 +433,7 @@ const queryUser = async (userArray, roleParams, key) => {
 
 const findOneUserByUsername = async (userArray, roleParams, key) => {
   try {
-    let resultFiltered = []
+    const resultFiltered = []
     for (const elementData of userArray) {
       let cond1 =
         elementData.attributes.role[0].toLowerCase() ===
