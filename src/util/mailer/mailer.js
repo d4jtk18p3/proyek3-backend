@@ -22,8 +22,8 @@ export const verifyMail = async (email, username, token) =>
   transporter.sendMail({
     from: 'Politeknik Negeri Bandung',
     to: email,
-    subject: "Email Verifikasi Akun Politeknik Negeri Bandung",
-    template: "verify",
+    subject: 'Email Verifikasi Akun Politeknik Negeri Bandung',
+    template: 'verify',
     context: {
       user: username,
       verificationToken: token
