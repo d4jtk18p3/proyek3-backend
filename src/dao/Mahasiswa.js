@@ -1,16 +1,16 @@
 import Mahasiswa from '@proyek3/postgres-database/models/Mahasiswa'
 import sequelize from '@proyek3/postgres-database/db'
 
-export const findOneMahasiswaByNIM = async (NIM) => {
+export const getOneMahasiswaByNIM = async (NIM) => {
   try {
-    const mahasiswa = await Mahasiswa.findAll({
+    const mahasiswa = await Mahasiswa.findOne({
       where: {
-        NIM
+        nim: NIM
       }
     })
-    return mahasiswa[0]
+    return mahasiswa
   } catch (error) {
-    console.error(error)
+    return Promise.reject(new Error('Error get one mahasiswa'))
   }
 }
 
@@ -47,13 +47,13 @@ export const findMahasiswaByNIM = async (NIM) => {
   try {
     const mahasiswa = await Mahasiswa.findAll({
       where: {
-        NIM: sequelize.where(
-          sequelize.fn('LOWER', sequelize.col('NIM')),
+        nim: sequelize.where(
+          sequelize.fn('LOWER', sequelize.col('nim')),
           'LIKE',
           '%' + NIM.toLowerCase() + '%'
         )
       },
-      order: [['NIM', 'ASC']]
+      order: [['nim', 'ASC']]
     })
     return mahasiswa
   } catch (error) {

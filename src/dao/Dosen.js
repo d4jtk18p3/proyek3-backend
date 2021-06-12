@@ -22,14 +22,14 @@ export const insertOneDosen = async (NIP, namaDosen, idJabatan) => {
 
 export const findDosenByNIP = async (NIP) => {
   try {
-    const dosen = await Dosen.findAll({
+    const dosen = await Dosen.findOne({
       where: {
-        NIP
+        nip: NIP
       }
     })
-    return dosen[0]
+    return dosen
   } catch (error) {
-    return Promise.reject(new Error('Find dosen by NIP gagal'))
+    console.log(error)
   }
 }
 

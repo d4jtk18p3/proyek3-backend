@@ -114,12 +114,10 @@ export const getAllMahasiswa = async (req, res, next) => {
 export const getOneMahasiswaByNIM = async (req, res, next) => {
   try {
     const { NIM } = req.params
-    const mahasiswa = await MahasiswaDAO.findOneMahasiswaByNIM(NIM)
+    const mahasiswa = await MahasiswaDAO.getOneMahasiswaByNIM(NIM)
     res.status(200).json({
       message: 'get one Mahasiswa by NIM success',
-      data: {
-        mahasiswa
-      }
+      data: mahasiswa
     })
   } catch (error) {
     next(error)
