@@ -14,14 +14,14 @@ export const insertOneTataUsaha = async (nip, namaStaf) => {
 
 export const findTataUsahaByNIP = async (nip) => {
   try {
-    const tataUsaha = await TataUsaha.findAll({
+    const tataUsaha = await TataUsaha.findOne({
       where: {
         nip
       }
     })
-    return tataUsaha[0]
+    return tataUsaha
   } catch (error) {
-    console.error(error)
+    return Promise.reject(new Error('find tata usaha by NIP gagal'))
   }
 }
 

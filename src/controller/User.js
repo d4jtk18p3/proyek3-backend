@@ -1,6 +1,14 @@
-import { insertOneDosen, destroyDosenByNip } from '../dao/Dosen'
-import { insertOneMahasiswa, deleteMahasiswabyId } from '../dao/Mahasiswa'
-import { insertOneTataUsaha, deleteTataUsahaByNIP } from '../dao/TataUsaha'
+import { insertOneDosen, destroyDosenByNip, findDosenByNIP } from '../dao/Dosen'
+import {
+  insertOneMahasiswa,
+  deleteMahasiswabyId,
+  getOneMahasiswaByNIM
+} from '../dao/Mahasiswa'
+import {
+  insertOneTataUsaha,
+  deleteTataUsahaByNIP,
+  findTataUsahaByNIP
+} from '../dao/TataUsaha'
 import { validationResult } from 'express-validator/check'
 import { getAdminClient, adminAuth } from '../config/keycloak-admin'
 import { uuid } from 'uuidv4'
@@ -417,6 +425,37 @@ const queryUser = async (userArray, roleParams, key) => {
   try {
     const resultFiltered = []
     for (const elementData of userArray) {
+      let queryUser = {}
+      let nama = ''
+      let username = ''
+      if (elementData.attributes.role[0].toLowerCase() === 'mahasiswa') {
+        queryUser = await getOneMahasiswaByNIM(elementData.username)
+        if (queryUser) {
+          nama = queryUser.nama
+          username = queryUser.nim
+        }
+      } else if (elementData.attributes.role[0].toLowerCase() === 'dosen') {
+        queryUser = await findDosenByNIP(elementData.username)
+        if (queryUser) {
+          nama = queryUser.nama_dosen
+          username = queryUser.nip
+        }
+      } else if (
+        elementData.attributes.role[0].toLowerCase() === 'tata_usaha'
+      ) {
+        queryUser = await findTataUsahaByNIP(elementData.username)
+        if (queryUser) {
+          nama = queryUser.nama_staff
+          username = queryUser.nip
+        }
+      }
+
+      if (elementData.username.toLowerCase() === username) {
+        elementData.nama = nama
+      } else {
+        elementData.nama = ''
+      }
+
       let cond1 =
         elementData.attributes.role[0].toLowerCase() ===
         roleParams.toLowerCase()
