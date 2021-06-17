@@ -1,14 +1,6 @@
-import { insertOneDosen, destroyDosenByNip, findDosenByNIP } from '../dao/Dosen'
-import {
-  insertOneMahasiswa,
-  deleteMahasiswabyId,
-  getOneMahasiswaByNIM
-} from '../dao/Mahasiswa'
-import {
-  insertOneTataUsaha,
-  deleteTataUsahaByNIP,
-  findTataUsahaByNIP
-} from '../dao/TataUsaha'
+import { insertOneDosen, destroyDosenByNip } from '../dao/Dosen'
+import { insertOneMahasiswa, deleteMahasiswabyId } from '../dao/Mahasiswa'
+import { insertOneTataUsaha, deleteTataUsahaByNIP } from '../dao/TataUsaha'
 import { validationResult } from 'express-validator/check'
 import { getAdminClient, adminAuth } from '../config/keycloak-admin'
 import { uuid } from 'uuidv4'
@@ -79,6 +71,7 @@ export const createUser = async (req, res, next) => {
       realm: 'Polban-Realm',
       username: noInduk,
       email: email,
+      firstName: nama,
       enabled: true,
       credentials: [
         {
@@ -231,7 +224,7 @@ export const updateAccount = async (req, res, next) => {
     const kcAdminClient = getAdminClient()
     await adminAuth(kcAdminClient)
 
-    const { username, newEmail, newStatus } = req.body
+    const { username, newEmail, newStatus, newName } = req.body
 
     const userKc = await kcAdminClient.users.find({
       username: username,
@@ -255,6 +248,7 @@ export const updateAccount = async (req, res, next) => {
       },
       {
         enabled: newStatus,
+        firstName: newName,
         email: newEmail,
         attributes: {
           noInduk: noInduk,
@@ -335,7 +329,7 @@ export const processResetPassword = async (req, res, next) => {
     const kcAdminClient = getAdminClient()
     await adminAuth(kcAdminClient)
 
-    const { token, newPassword } = req.body
+    const { token, newPassword, hintPassword } = req.body
 
     const decodedToken = jwt.verify(token, process.env.RESET_EMAIL_PRIVATE_KEY)
     if (!decodedToken.userId) {
@@ -369,6 +363,18 @@ export const processResetPassword = async (req, res, next) => {
         value: newPassword
       }
     })
+
+    await kcAdminClient.users.update(
+      {
+        id: userId,
+        realm: 'Polban-Realm'
+      },
+      {
+        attributes: {
+          hint: hintPassword
+        }
+      }
+    )
 
     res.status(200).json({
       message: 'Berhasil mengubah password baru'
@@ -425,37 +431,6 @@ const queryUser = async (userArray, roleParams, key) => {
   try {
     const resultFiltered = []
     for (const elementData of userArray) {
-      let queryUser = {}
-      let nama = ''
-      let username = ''
-      if (elementData.attributes.role[0].toLowerCase() === 'mahasiswa') {
-        queryUser = await getOneMahasiswaByNIM(elementData.username)
-        if (queryUser) {
-          nama = queryUser.nama
-          username = queryUser.nim
-        }
-      } else if (elementData.attributes.role[0].toLowerCase() === 'dosen') {
-        queryUser = await findDosenByNIP(elementData.username)
-        if (queryUser) {
-          nama = queryUser.nama_dosen
-          username = queryUser.nip
-        }
-      } else if (
-        elementData.attributes.role[0].toLowerCase() === 'tata_usaha'
-      ) {
-        queryUser = await findTataUsahaByNIP(elementData.username)
-        if (queryUser) {
-          nama = queryUser.nama_staff
-          username = queryUser.nip
-        }
-      }
-
-      if (elementData.username.toLowerCase() === username) {
-        elementData.nama = nama
-      } else {
-        elementData.nama = ''
-      }
-
       let cond1 =
         elementData.attributes.role[0].toLowerCase() ===
         roleParams.toLowerCase()
