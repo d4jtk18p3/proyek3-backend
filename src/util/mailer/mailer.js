@@ -42,3 +42,21 @@ const handlebarOptions = {
 }
 
 transporter.use('compile', hbs(handlebarOptions))
+
+const transporter2 = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.RESET_EMAIL_EMAIL,
+    pass: process.env.RESET_EMAIL_PW
+  }
+})
+
+export const createUserEmail = async (email, token) =>
+  transporter2.sendMail({
+    from: 'Politeknik Negeri Bandung',
+    to: email,
+    subject: 'Akun baru',
+    text: `Lengkapi pendaftaran akun baru anda dengan mengklik url berikut: http://akun.localhost:5000/login?method=token&value=${token}`
+  })

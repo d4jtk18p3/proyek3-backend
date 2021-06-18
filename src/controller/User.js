@@ -2,10 +2,10 @@ import { insertOneDosen, destroyDosenByNip } from '../dao/Dosen'
 import { insertOneMahasiswa, deleteMahasiswabyId } from '../dao/Mahasiswa'
 import { insertOneTataUsaha, deleteTataUsahaByNIP } from '../dao/TataUsaha'
 import { validationResult } from 'express-validator/check'
-import { getAdminClient, adminAuth } from '../config/keycloak-admin'
 import { uuid } from 'uuidv4'
 import jwt from 'jsonwebtoken'
-import { resetPassword } from '../util/mailer/mailer'
+import { resetPassword, createUserEmail } from '../util/mailer/mailer'
+import { adminClient as kcAdminClient } from '../keycloak'
 
 export const createUser = async (req, res, next) => {
   try {
@@ -17,9 +17,6 @@ export const createUser = async (req, res, next) => {
       error.cause = validatonResult.errors
       throw error
     }
-
-    const kcAdminClient = getAdminClient()
-    await adminAuth(kcAdminClient)
 
     const { noInduk, jenisNoInduk, nama, email, role } = req.body
     let result
@@ -68,7 +65,6 @@ export const createUser = async (req, res, next) => {
     const tempPassword = uuid() // this is random password for keycloak
 
     const resultInsertToKc = await kcAdminClient.users.create({
-      realm: 'Polban-Realm',
       username: noInduk,
       email: email,
       firstName: nama,
@@ -81,23 +77,19 @@ export const createUser = async (req, res, next) => {
         }
       ],
       attributes: {
-        noInduk: noInduk,
-        mail: email,
-        uname: noInduk,
+        nomorInduk: noInduk,
         role: role,
-        isActive: true
+        isActive: false
       }
     })
 
     // Search for role in keycloak realm
     const keycloakRole = await kcAdminClient.roles.findOneByName({
-      realm: 'Polban-Realm',
       name: role
     })
 
     // map user to role
     await kcAdminClient.users.addRealmRoleMappings({
-      realm: 'Polban-Realm',
       id: resultInsertToKc.id,
       roles: [
         {
@@ -106,6 +98,16 @@ export const createUser = async (req, res, next) => {
         }
       ]
     })
+
+    const token = jwt.sign(
+      {
+        username: noInduk,
+        password: tempPassword
+      },
+      process.env.RESET_EMAIL_PRIVATE_KEY
+    )
+
+    await createUserEmail(email, token)
 
     result.dataValues.idUserKc = resultInsertToKc.id
     result.dataValues.tempPwdKc = tempPassword
@@ -132,16 +134,12 @@ export const createUser = async (req, res, next) => {
 
 export const getAllUser = async (req, res, next) => {
   try {
-    const kcAdminClient = getAdminClient()
-    await adminAuth(kcAdminClient)
-
     const roleParams = req.query.role || ''
     const key = req.query.key || ''
     // const page = req.query.page || 1
     // const perPage = req.query.perpage || 10
 
     const result = await kcAdminClient.users.find({
-      realm: 'Polban-Realm'
     })
 
     const resultFiltered = await queryUser(result, roleParams, key)
@@ -160,14 +158,10 @@ export const getAllUser = async (req, res, next) => {
 
 export const deleteUserbyUsername = async (req, res, next) => {
   try {
-    const kcAdminClient = getAdminClient()
-    await adminAuth(kcAdminClient)
-
     const { username } = req.params
 
     const userKc = await kcAdminClient.users.find({
-      username: username,
-      realm: 'Polban-Realm'
+      username: username
     })
 
     if (userKc.length === 0) {
@@ -198,8 +192,7 @@ export const deleteUserbyUsername = async (req, res, next) => {
     }
 
     await kcAdminClient.users.del({
-      id: userKc[0].id,
-      realm: 'Polban-Realm'
+      id: userKc[0].id
     })
 
     res.status(200).json({
@@ -221,14 +214,10 @@ export const updateAccount = async (req, res, next) => {
       throw error
     }
 
-    const kcAdminClient = getAdminClient()
-    await adminAuth(kcAdminClient)
-
     const { username, newEmail, newStatus, newName } = req.body
 
     const userKc = await kcAdminClient.users.find({
-      username: username,
-      realm: 'Polban-Realm'
+      username: username
     })
 
     if (userKc.length === 0) {
@@ -243,8 +232,7 @@ export const updateAccount = async (req, res, next) => {
 
     await kcAdminClient.users.update(
       {
-        id: userKc[0].id,
-        realm: 'Polban-Realm'
+        id: userKc[0].id
       },
       {
         enabled: newStatus,
@@ -261,8 +249,7 @@ export const updateAccount = async (req, res, next) => {
     )
 
     const updatedUserKc = await kcAdminClient.users.find({
-      username: username,
-      realm: 'Polban-Realm'
+      username: username
     })
 
     res.status(200).json({
@@ -283,14 +270,11 @@ export const resetPasswordRequest = async (req, res, next) => {
       error.cause = validatonResult.errors
       throw error
     }
-    const kcAdminClient = getAdminClient()
-    await adminAuth(kcAdminClient)
 
     const email = req.body.email
 
     const userKc = await kcAdminClient.users.find({
-      email: email,
-      realm: 'Polban-Realm'
+      email: email
     })
 
     if (userKc.length === 0) {
@@ -326,9 +310,6 @@ export const processResetPassword = async (req, res, next) => {
       throw error
     }
 
-    const kcAdminClient = getAdminClient()
-    await adminAuth(kcAdminClient)
-
     const { token, newPassword, hintPassword } = req.body
 
     const decodedToken = jwt.verify(token, process.env.RESET_EMAIL_PRIVATE_KEY)
@@ -341,8 +322,7 @@ export const processResetPassword = async (req, res, next) => {
     const userId = decodedToken.userId
 
     const userKc = await kcAdminClient.users.findOne({
-      id: userId,
-      realm: 'Polban-Realm'
+      id: userId
     })
 
     console.log(`User ditemukan yaitu ${userKc.email}`)
@@ -356,7 +336,6 @@ export const processResetPassword = async (req, res, next) => {
 
     await kcAdminClient.users.resetPassword({
       id: userId,
-      realm: 'Polban-Realm',
       credential: {
         temporary: false,
         type: 'password',
@@ -366,8 +345,7 @@ export const processResetPassword = async (req, res, next) => {
 
     await kcAdminClient.users.update(
       {
-        id: userId,
-        realm: 'Polban-Realm'
+        id: userId
       },
       {
         attributes: {
@@ -386,19 +364,14 @@ export const processResetPassword = async (req, res, next) => {
 
 export const deletePermissionAdmin = async (req, res, next) => {
   try {
-    const kcAdminClient = getAdminClient()
-    await adminAuth(kcAdminClient)
-
     const { username } = req.query
 
     const currentRole = await kcAdminClient.roles.findOneByName({
-      realm: 'Polban-Realm',
       name: 'admin'
     })
 
     const currentUser = await kcAdminClient.users.find({
-      username: username,
-      realm: 'Polban-Realm'
+      username: username
     })
 
     if (currentUser.length === 0) {
@@ -410,7 +383,6 @@ export const deletePermissionAdmin = async (req, res, next) => {
 
     await kcAdminClient.users.delRealmRoleMappings({
       id: currentUser[0].id,
-      realm: 'Polban-Realm',
       roles: [
         {
           id: currentRole.id,
