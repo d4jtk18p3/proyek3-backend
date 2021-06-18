@@ -81,9 +81,6 @@ export const createUser = async (req, res, next) => {
         }
       ],
       attributes: {
-        noInduk: noInduk,
-        mail: email,
-        uname: noInduk,
         role: role,
         isActive: true
       }
@@ -180,17 +177,11 @@ export const deleteUserbyUsername = async (req, res, next) => {
     let resultDeleteOnDB
 
     if (userKc[0].attributes.role[0] === 'mahasiswa') {
-      resultDeleteOnDB = await deleteMahasiswabyId(
-        userKc[0].attributes.noInduk[0]
-      )
+      resultDeleteOnDB = await deleteMahasiswabyId(userKc[0].username)
     } else if (userKc[0].attributes.role[0] === 'dosen') {
-      resultDeleteOnDB = await destroyDosenByNip(
-        userKc[0].attributes.noInduk[0]
-      )
+      resultDeleteOnDB = await destroyDosenByNip(userKc[0].username)
     } else if (userKc[0].attributes.role[0] === 'tata_usaha') {
-      resultDeleteOnDB = await deleteTataUsahaByNIP(
-        userKc[0].attributes.noInduk[0]
-      )
+      resultDeleteOnDB = await deleteTataUsahaByNIP(userKc[0].username)
     }
 
     if (resultDeleteOnDB instanceof Error) {
@@ -239,7 +230,7 @@ export const updateAccount = async (req, res, next) => {
     }
 
     const role = userKc[0].attributes.role[0]
-    const noInduk = userKc[0].username
+    // const noInduk = userKc[0].username
 
     await kcAdminClient.users.update(
       {
@@ -251,10 +242,7 @@ export const updateAccount = async (req, res, next) => {
         firstName: newName,
         email: newEmail,
         attributes: {
-          noInduk: noInduk,
           role: role,
-          uname: noInduk,
-          mail: newEmail,
           isActive: newStatus
         }
       }
