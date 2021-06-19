@@ -27,9 +27,7 @@ export const getDosenByNIP = async (req, res, next) => {
     const dosen = await DosenDAO.findDosenByNIP(NIP)
     res.status(200).json({
       message: 'get dosen by NIP sukses',
-      data: {
-        dosen
-      }
+      data: dosen
     })
   } catch (error) {
     next(error)

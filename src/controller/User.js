@@ -1,6 +1,14 @@
-import { insertOneDosen, destroyDosenByNip } from '../dao/Dosen'
-import { insertOneMahasiswa, deleteMahasiswabyId } from '../dao/Mahasiswa'
-import { insertOneTataUsaha, deleteTataUsahaByNIP } from '../dao/TataUsaha'
+import { insertOneDosen, destroyDosenByNip, findDosenByNIP } from '../dao/Dosen'
+import {
+  insertOneMahasiswa,
+  deleteMahasiswabyId,
+  getOneMahasiswaByNIM
+} from '../dao/Mahasiswa'
+import {
+  insertOneTataUsaha,
+  deleteTataUsahaByNIP,
+  findTataUsahaByNIP
+} from '../dao/TataUsaha'
 import { validationResult } from 'express-validator/check'
 import { getAdminClient, adminAuth } from '../config/keycloak-admin'
 import { uuid } from 'uuidv4'
@@ -51,11 +59,17 @@ export const createUser = async (req, res, next) => {
         error.cause = 'Insert tu ke pg gagal'
         throw error
       }
-    } else if (jenisNoInduk === '' && role === 'admin') {
+    } else if (jenisNoInduk === 'nip' && role === 'admin') {
       // add admin account to database [insert code]
       // check if insertion is failed [insert code]
       // belum ada kejelasan mengenai admin dipegang oleh siapa
       // admin sudah ada di sistem keycloak realm Polban-Realm dengan nama 'admin
+      // bagian ini akan ditambahkan kemudian hari
+    } else if (jenisNoInduk === 'nip' && role === 'superadmin') {
+      // add superadmin to database [insert code]
+      // check if insertion is failed [insert code]
+      // belum ada kejelasan mengenai admin dipegang oleh siapa
+      // admin sudah ada di sistem keycloak realm Polban-Realm dengan nama 'superadmin
       // bagian ini akan ditambahkan kemudian hari
     }
 
@@ -103,6 +117,16 @@ export const createUser = async (req, res, next) => {
     result.dataValues.idUserKc = resultInsertToKc.id
     result.dataValues.tempPwdKc = tempPassword
 
+    if (result) {
+      result.dataValues.idUserKc = resultInsertToKc.id
+      result.dataValues.tempPwdKc = tempPassword
+    } else {
+      result = {
+        idUserKc: resultInsertToKc.id,
+        tempPwdKc: tempPassword
+      }
+    }
+
     res.status(200).json({
       message: 'insert user sukses',
       data: result,
@@ -120,31 +144,17 @@ export const getAllUser = async (req, res, next) => {
 
     const roleParams = req.query.role || ''
     const key = req.query.key || ''
-    const page = req.query.page || 1
-    const perPage = req.query.perpage || 10
-    console.log(page)
-    console.log(perPage)
+    // const page = req.query.page || 1
+    // const perPage = req.query.perpage || 10
 
     const result = await kcAdminClient.users.find({
       realm: 'Polban-Realm'
     })
-    const resultFiltered = []
 
-    for (const elementData of result) {
-      let cond1 =
-        elementData.attributes.role[0].toLowerCase() ===
-        roleParams.toLowerCase()
-      if (roleParams === '') {
-        cond1 = true
-      }
-      const cond2 = elementData.username
-        .toLowerCase()
-        .includes(key.toLowerCase())
-      const cond3 = elementData.email.toLowerCase().includes(key.toLowerCase())
-      if (cond1 && (cond2 || cond3)) {
-        resultFiltered.push(elementData)
-      }
-    }
+    const resultFiltered = await queryUser(result, roleParams, key)
+
+    if (resultFiltered instanceof Error) throw resultFiltered
+
     // resultFiltered.slice((page - 1) * perPage, page * perPage)
     res.status(200).json({
       message: 'Success retrieve all user data',
@@ -350,22 +360,118 @@ export const processResetPassword = async (req, res, next) => {
       throw error
     }
 
-    await kcAdminClient.users.resetPassword(
-      {
-        id: userId,
-        realm: 'Polban-Realm',
-        credential: {
-          temporary: false,
-          type: 'password',
-          value: newPassword
-        }
+    await kcAdminClient.users.resetPassword({
+      id: userId,
+      realm: 'Polban-Realm',
+      credential: {
+        temporary: false,
+        type: 'password',
+        value: newPassword
       }
-    )
+    })
 
     res.status(200).json({
       message: 'Berhasil mengubah password baru'
     })
   } catch (e) {
     next(e)
+  }
+}
+
+export const deletePermissionAdmin = async (req, res, next) => {
+  try {
+    const kcAdminClient = getAdminClient()
+    await adminAuth(kcAdminClient)
+
+    const { username } = req.query
+
+    const currentRole = await kcAdminClient.roles.findOneByName({
+      realm: 'Polban-Realm',
+      name: 'admin'
+    })
+
+    const currentUser = await kcAdminClient.users.find({
+      username: username,
+      realm: 'Polban-Realm'
+    })
+
+    if (currentUser.length === 0) {
+      const error = new Error('Admin Tidak Terdaftar')
+      error.statusCode = 400
+      error.cause = 'Admin tidak terdaftar'
+      throw error
+    }
+
+    await kcAdminClient.users.delRealmRoleMappings({
+      id: currentUser[0].id,
+      realm: 'Polban-Realm',
+      roles: [
+        {
+          id: currentRole.id,
+          name: currentRole.name
+        }
+      ]
+    })
+
+    res.status(200).json({
+      message: `Success delete permission admin with id ${currentUser[0].id}`
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+const queryUser = async (userArray, roleParams, key) => {
+  try {
+    const resultFiltered = []
+    for (const elementData of userArray) {
+      let queryUser = {}
+      let nama = ''
+      let username = ''
+      if (elementData.attributes.role[0].toLowerCase() === 'mahasiswa') {
+        queryUser = await getOneMahasiswaByNIM(elementData.username)
+        if (queryUser) {
+          nama = queryUser.nama
+          username = queryUser.nim
+        }
+      } else if (elementData.attributes.role[0].toLowerCase() === 'dosen') {
+        queryUser = await findDosenByNIP(elementData.username)
+        if (queryUser) {
+          nama = queryUser.nama_dosen
+          username = queryUser.nip
+        }
+      } else if (
+        elementData.attributes.role[0].toLowerCase() === 'tata_usaha'
+      ) {
+        queryUser = await findTataUsahaByNIP(elementData.username)
+        if (queryUser) {
+          nama = queryUser.nama_staff
+          username = queryUser.nip
+        }
+      }
+
+      if (elementData.username.toLowerCase() === username) {
+        elementData.nama = nama
+      } else {
+        elementData.nama = ''
+      }
+
+      let cond1 =
+        elementData.attributes.role[0].toLowerCase() ===
+        roleParams.toLowerCase()
+      if (roleParams === '') {
+        cond1 = true
+      }
+      const cond2 = elementData.username
+        .toLowerCase()
+        .includes(key.toLowerCase())
+      const cond3 = elementData.email.toLowerCase().includes(key.toLowerCase())
+      if (cond1 && (cond2 || cond3)) {
+        resultFiltered.push(elementData)
+      }
+    }
+    return resultFiltered
+  } catch (error) {
+    return error
   }
 }
