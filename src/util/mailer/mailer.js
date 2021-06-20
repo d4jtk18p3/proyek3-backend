@@ -18,11 +18,23 @@ transporter.verify((err, success) => {
   console.log('Your config is correct')
 })
 
+export const verifyMail = async (email, username, token) =>
+  transporter.sendMail({
+    from: 'Politeknik Negeri Bandung',
+    to: email,
+    subject: 'Email Verifikasi Akun Politeknik Negeri Bandung',
+    template: 'verify',
+    context: {
+      user: username,
+      verificationToken: token
+    }
+  })
+
 export const resetPassword = async (email, username, token) =>
   transporter.sendMail({
     from: 'Politeknik Negeri Bandung',
     to: email,
-    subject: 'Permintaan ',
+    subject: 'Permintaan Reset Password',
     template: 'forgetpassword',
     context: {
       user: username,
