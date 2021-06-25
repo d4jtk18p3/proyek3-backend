@@ -41,4 +41,6 @@ router.post(
 
 router.post('/delete-permission-admin', UserController.deletePermissionAdmin)
 
+router.post('/:userId/reset-password', UserController.resetPassword)
+
 export default router
