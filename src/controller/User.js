@@ -1,13 +1,8 @@
 import { insertOneDosen, destroyDosenByNip } from '../dao/Dosen'
 import { insertOneMahasiswa, deleteMahasiswabyId } from '../dao/Mahasiswa'
 import { insertOneTataUsaha, deleteTataUsahaByNIP } from '../dao/TataUsaha'
-<<<<<<< HEAD
 import { validationResult } from 'express-validator'
-import { getAdminClient, adminAuth } from '../config/keycloak-admin'
 import { getFCMUser, updateFCMUserEmail } from '../dao/User'
-=======
-import { validationResult } from 'express-validator/check'
->>>>>>> 472c30f... Gunakan keycloak server lokal
 import { uuid } from 'uuidv4'
 import jwt from 'jsonwebtoken'
 import { resetPassword as resetPasswordEmail, createUserEmail } from '../util/mailer/mailer'
@@ -309,7 +304,7 @@ export const resetPassword = async (req, res) => {
     {
       attributes: {
         hint,
-        isActive: true 
+        isActive: true
       }
     }
   )
