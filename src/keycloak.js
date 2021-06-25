@@ -44,16 +44,15 @@ const initAdminClient = async (issuer, client, tokenSet) => {
       token_endpoint_auth_method: 'none'
     })
 
-    if (!tokenSet) {
-      tokenSet = tokenSet || await client.grant({
+    if (tokenSet) {
+      timeoutDuration = REFRESH_TIME
+      tokenSet = await client.refresh(tokenSet.refresh_token)
+    } else {
+      tokenSet = await client.grant({
         grant_type: 'password',
         username: ADMIN_USERNAME,
         password: ADMIN_PASSWORD
       })
-    } else {
-      timeoutDuration = REFRESH_TIME
-
-      await client.refresh(tokenSet.refresh_token)
     }
 
     adminClient.setAccessToken(tokenSet.access_token)
@@ -61,7 +60,7 @@ const initAdminClient = async (issuer, client, tokenSet) => {
     console.log('Keycloak admin client authenticated')
   } catch (err) {
     console.log('Unable to authenticate keycloak admin client')
-    console.log(err)
+    console.error(err)
     console.log(`Retrying in ${timeoutDuration / 1000} seconds`)
   } finally {
     setTimeout(() => {
