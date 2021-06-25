@@ -4,7 +4,7 @@ import { insertOneTataUsaha, deleteTataUsahaByNIP } from '../dao/TataUsaha'
 import { validationResult } from 'express-validator/check'
 import { uuid } from 'uuidv4'
 import jwt from 'jsonwebtoken'
-import { resetPassword, createUserEmail } from '../util/mailer/mailer'
+import { resetPassword as resetPasswordEmail, createUserEmail } from '../util/mailer/mailer'
 import { adminClient as kcAdminClient } from '../keycloak'
 
 export const createUser = async (req, res, next) => {
@@ -261,6 +261,40 @@ export const updateAccount = async (req, res, next) => {
   }
 }
 
+export const resetPassword = async (req, res) => {
+  const userId = req.params.userId
+  const password = req.body.password
+  const hint = req.body.hint
+  const user = await kcAdminClient.users.findOne({
+    id: userId
+  })
+
+  if (!user) {
+    res.status(500).end()
+    return
+  }
+
+  await kcAdminClient.users.resetPassword({
+    id: userId,
+    credential: {
+      temporary: false,
+      type: 'password',
+      value: password
+    }
+  })
+  await kcAdminClient.users.update(
+    { id: userId },
+    {
+      attributes: {
+        hint,
+        isActive: true 
+      }
+    }
+  )
+
+  res.status(204).end()
+}
+
 export const resetPasswordRequest = async (req, res, next) => {
   try {
     const validatonResult = validationResult(req)
@@ -290,7 +324,7 @@ export const resetPasswordRequest = async (req, res, next) => {
       { expiresIn: 60 * 60 * 15 }
     )
 
-    await resetPassword(email, userKc[0].username, token)
+    await resetPasswordEmail(email, userKc[0].username, token)
 
     res.status(200).json({
       message: 'Kami telah mengirim email untuk melakukan reset password'
