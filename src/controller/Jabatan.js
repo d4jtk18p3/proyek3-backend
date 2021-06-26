@@ -1,5 +1,5 @@
 import * as JabatanDAO from '../dao/Jabatan'
-import { validationResult } from 'express-validator/check'
+import { validationResult } from 'express-validator'
 
 export const newJabatan = async (req, res, next) => {
   try {

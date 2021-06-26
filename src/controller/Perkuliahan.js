@@ -1,5 +1,4 @@
 import * as PerkuliahanDAO from '../dao/Perkuliahan'
-// import { validationResult } from 'express-validator/check'
 
 export const getKuliahByIdTA = async (req, res, next) => {
   try {
