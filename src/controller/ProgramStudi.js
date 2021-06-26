@@ -1,5 +1,5 @@
 import * as ProgramStudiDAO from '../dao/ProgramStudi'
-import { validationResult } from 'express-validator/check'
+import { validationResult } from 'express-validator'
 
 export const newProdi = async (req, res, next) => {
   try {

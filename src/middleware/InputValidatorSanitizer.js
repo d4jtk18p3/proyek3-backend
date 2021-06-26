@@ -8,14 +8,14 @@ import * as MahasiswaDAO from '../dao/Mahasiswa'
 
 export const postNewDosen = [
   body('NIP', 'NIP wajib diisi').exists().bail(),
-  body('NIP').custom((value) => {
+  body('NIP').custom(async (value) => {
     return DosenDAO.findDosenByNIP(value).then((dosen) => {
       if (dosen) {
         return Promise.reject(new Error('NIP sudah terdaftar'))
       }
     })
   }),
-  body('namaDosen', 'Nama dosen wajib diisi').exists(),
+  body('namaDosen', 'Nama dosen wajib diisi'),
   body('email', 'format email tidak valid').isEmail(),
   body('permission', 'permission wajib diisi').exists(),
   body('jabatan', 'format jabatan tidak valid atau jabatan tidak ada').isIn([
@@ -60,7 +60,7 @@ export const createUser = [
 ]
 
 export const deleteDosenByNIP = [
-  param('NIP').custom((value) => {
+  param('NIP').custom(async (value) => {
     return DosenDAO.findDosenByNIP(value).then((dosen) => {
       if (dosen) {
         return Promise.reject(
@@ -156,22 +156,28 @@ export const newJurusan = [
   })
 ]
 
-export const resetPasswordRequest = [
-  body('email').exists().isEmail()
-]
+export const resetPasswordRequest = [body('email').exists().isEmail()]
 
 export const resetPassword = [
-  body('token', 'Gagal reset password, silahkan akses halaman forget password lagi').exists(),
+  body(
+    'token',
+    'Gagal reset password, silahkan akses halaman forget password lagi'
+  ).exists(),
   body('newPassword')
     .trim()
-    .exists().withMessage('Anda harus menyertakan password baru')
-    .isLength({ min: 8 }).withMessage('Password minimal 8 karakter')
-    .matches(/[A-Z]/).withMessage('Password harus memiliki huruf kapital')
-    .matches(/[a-z]/).withMessage('Password harus memiliki huruf kecil')
-    .matches(/[0-9]/).withMessage('Password harus memiliki angka')
-    .matches(/[!@#$%^&*]/).withMessage('Password harus memiliki setidaknya satu karakter spesial(!@#$%^&*)'),
-  body('hint')
-    .trim()
-    .exists().withMessage('Hint tidak boleh kosong')
-
+    .exists()
+    .withMessage('Anda harus menyertakan password baru')
+    .isLength({ min: 8 })
+    .withMessage('Password minimal 8 karakter')
+    .matches(/[A-Z]/)
+    .withMessage('Password harus memiliki huruf kapital')
+    .matches(/[a-z]/)
+    .withMessage('Password harus memiliki huruf kecil')
+    .matches(/[0-9]/)
+    .withMessage('Password harus memiliki angka')
+    .matches(/[!@#$%^&*]/)
+    .withMessage(
+      'Password harus memiliki setidaknya satu karakter spesial(!@#$%^&*)'
+    ),
+  body('hint').trim().exists().withMessage('Hint tidak boleh kosong')
 ]

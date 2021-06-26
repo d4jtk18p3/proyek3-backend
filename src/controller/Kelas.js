@@ -1,5 +1,5 @@
 import * as KelasDAO from '../dao/Kelas'
-import { validationResult } from 'express-validator/check'
+import { validationResult } from 'express-validator'
 
 export const newKelas = async (req, res, next) => {
   try {

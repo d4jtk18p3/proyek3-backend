@@ -1,7 +1,7 @@
 import { insertOneDosen, destroyDosenByNip } from '../dao/Dosen'
 import { insertOneMahasiswa, deleteMahasiswabyId } from '../dao/Mahasiswa'
 import { insertOneTataUsaha, deleteTataUsahaByNIP } from '../dao/TataUsaha'
-import { validationResult } from 'express-validator/check'
+import { validationResult } from 'express-validator'
 import { getAdminClient, adminAuth } from '../config/keycloak-admin'
 import { uuid } from 'uuidv4'
 import jwt from 'jsonwebtoken'

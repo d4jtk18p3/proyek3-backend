@@ -1,5 +1,5 @@
 import * as JurusanDAO from '../dao/Jurusan'
-import { validationResult } from 'express-validator/check'
+import { validationResult } from 'express-validator'
 
 export const newJurusan = async (req, res, next) => {
   try {

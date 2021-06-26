@@ -1,6 +1,6 @@
 import * as DosenDAO from '../dao/Dosen'
 import * as PengajarDAO from '../dao/Pengajar'
-import { validationResult } from 'express-validator/check'
+import { validationResult } from 'express-validator'
 
 /*
   Catatan:

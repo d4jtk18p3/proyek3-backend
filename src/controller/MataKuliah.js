@@ -1,5 +1,5 @@
 import * as MataKuliahDAO from '../dao/MataKuliah'
-import { validationResult } from 'express-validator/check'
+import { validationResult } from 'express-validator'
 
 export const newMataKuliah = async (req, res, next) => {
   try {
