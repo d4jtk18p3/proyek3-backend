@@ -3,6 +3,7 @@ import { insertOneMahasiswa, deleteMahasiswabyId } from '../dao/Mahasiswa'
 import { insertOneTataUsaha, deleteTataUsahaByNIP } from '../dao/TataUsaha'
 import { validationResult } from 'express-validator'
 import { getAdminClient, adminAuth } from '../config/keycloak-admin'
+import { getFCMUser, updateFCMUserEmail } from '../dao/User'
 import { uuid } from 'uuidv4'
 import jwt from 'jsonwebtoken'
 import { resetPassword } from '../util/mailer/mailer'
@@ -230,6 +231,22 @@ export const updateAccount = async (req, res, next) => {
       username: username,
       realm: 'Polban-Realm'
     })
+
+    // Update email used in FCM
+    const userFCM = await getFCMUser(userKc[0].id)
+
+    if (userFCM.id === userKc[0].id) {
+      // user FCM exist
+      // update email used in FCM
+      const updateResult = await updateFCMUserEmail(userKc[0].id, newEmail)
+
+      if (typeof updateResult === 'undefined') {
+        const error = new Error('Insert Mahasiswa ke pg gagal')
+        error.statusCode = 500
+        error.cause = 'Insert Mahasiswa ke pg gagal'
+        throw error
+      }
+    }
 
     if (userKc.length === 0) {
       const error = new Error('Username tidak ditemukan')
