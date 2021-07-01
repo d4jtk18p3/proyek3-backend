@@ -41,4 +41,11 @@ router.post(
 
 router.post('/delete-permission-admin', UserController.deletePermissionAdmin)
 
+router.put(
+  '/add-firebase-token',
+  ValidatorSanitizer.addFirebaseToken,
+  transactionMiddleware,
+  UserController.addFirebaseToken
+)
+
 export default router

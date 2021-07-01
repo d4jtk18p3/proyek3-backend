@@ -450,3 +450,66 @@ const queryUser = async (userArray, roleParams, key) => {
     return error
   }
 }
+
+export const addFirebaseToken = async (req, res, next) => {
+  try {
+    const validatonResult = validationResult(req)
+    if (!validatonResult.isEmpty()) {
+      const error = new Error('Invalid Input')
+      error.statusCode = 400
+      error.cause = validatonResult.errors
+      throw error
+    }
+
+    const kcAdminClient = getAdminClient()
+    await adminAuth(kcAdminClient)
+
+    const { username, firebaseToken } = req.body
+
+    const userKc = await kcAdminClient.users.find({
+      username: username,
+      realm: 'Polban-Realm'
+    })
+
+    if (userKc.length === 0) {
+      const error = new Error('Username tidak ditemukan')
+      error.statusCode = 400
+      error.cause = 'Username tidak ditemukan'
+      throw error
+    }
+
+    const role = userKc[0].attributes.role[0]
+    const noInduk = userKc[0].username
+    const email = userKc[0].attributes.mail[0]
+    const status = userKc[0].attributes.isActive[0]
+
+    await kcAdminClient.users.update(
+      {
+        id: userKc[0].id,
+        realm: 'Polban-Realm'
+      },
+      {
+        attributes: {
+          noInduk: noInduk,
+          role: role,
+          uname: noInduk,
+          mail: email,
+          isActive: status,
+          firebaseToken: firebaseToken
+        }
+      }
+    )
+
+    const updatedUserKc = await kcAdminClient.users.find({
+      username: username,
+      realm: 'Polban-Realm'
+    })
+
+    res.status(200).json({
+      message: 'Insert token firebase berhasil',
+      data: updatedUserKc
+    })
+  } catch (error) {
+    next(error)
+  }
+}

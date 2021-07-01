@@ -181,3 +181,8 @@ export const resetPassword = [
     ),
   body('hint').trim().exists().withMessage('Hint tidak boleh kosong')
 ]
+
+export const addFirebaseToken = [
+  body('username', 'Username tidak boleh kosong').exists(),
+  body('firebaseToken', 'Token tidak tersedia').exists()
+]
