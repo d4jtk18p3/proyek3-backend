@@ -85,7 +85,8 @@ export const createUser = async (req, res, next) => {
         mail: email,
         uname: noInduk,
         role: role,
-        isActive: true
+        isActive: true,
+        firebaseToken: ''
       }
     })
 
@@ -240,6 +241,7 @@ export const updateAccount = async (req, res, next) => {
 
     const role = userKc[0].attributes.role[0]
     const noInduk = userKc[0].username
+    const token = userKc[0].attributes.firebaseToken[0]
 
     await kcAdminClient.users.update(
       {
@@ -255,7 +257,8 @@ export const updateAccount = async (req, res, next) => {
           role: role,
           uname: noInduk,
           mail: newEmail,
-          isActive: newStatus
+          isActive: newStatus,
+          firebaseToken: token
         }
       }
     )
