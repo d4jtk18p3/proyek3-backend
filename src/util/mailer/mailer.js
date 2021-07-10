@@ -21,7 +21,7 @@ transporter.verify((err, success) => {
 export const verifyMail = async (email, username, token) => {
   const address = {
     name: 'Politeknik Negeri Bandung',
-    address: process.env.NOTIF_EMAIL_EMAIL
+    address: process.env.RESET_EMAIL_EMAIL
   }
   transporter.sendMail({
     from: address,
@@ -38,7 +38,7 @@ export const verifyMail = async (email, username, token) => {
 export const resetPassword = async (email, username, token) => {
   const address = {
     name: 'Politeknik Negeri Bandung',
-    address: process.env.NOTIF_EMAIL_EMAIL
+    address: process.env.RESET_EMAIL_EMAIL
   }
   transporter.sendMail({
     from: address,
