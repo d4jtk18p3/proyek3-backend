@@ -18,9 +18,13 @@ transporter.verify((err, success) => {
   console.log('Your config is correct')
 })
 
-export const verifyMail = async (email, username, token) =>
+export const verifyMail = async (email, username, token) => {
+  const address = {
+    name: 'Politeknik Negeri Bandung',
+    address: process.env.NOTIF_EMAIL_EMAIL
+  }
   transporter.sendMail({
-    from: 'Politeknik Negeri Bandung',
+    from: address,
     to: email,
     subject: 'Email Verifikasi Akun Politeknik Negeri Bandung',
     template: 'verify',
@@ -29,10 +33,15 @@ export const verifyMail = async (email, username, token) =>
       verificationToken: token
     }
   })
+}
 
-export const resetPassword = async (email, username, token) =>
+export const resetPassword = async (email, username, token) => {
+  const address = {
+    name: 'Politeknik Negeri Bandung',
+    address: process.env.NOTIF_EMAIL_EMAIL
+  }
   transporter.sendMail({
-    from: 'Politeknik Negeri Bandung',
+    from: address,
     to: email,
     subject: 'Permintaan Reset Password',
     template: 'forgetpassword',
@@ -41,6 +50,7 @@ export const resetPassword = async (email, username, token) =>
       verificationToken: token
     }
   })
+}
 
 const handlebarOptions = {
   viewEngine: {
