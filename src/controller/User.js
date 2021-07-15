@@ -235,10 +235,10 @@ export const updateAccount = async (req, res, next) => {
     // Update email used in FCM
     const userFCM = await getFCMUser(userKc[0].id)
 
-    if (userFCM.id === userKc[0].id) {
+    if (userFCM.id === userKc[0].username) {
       // user FCM exist
-      // update email used in FCM
-      const updateResult = await updateFCMUserEmail(userKc[0].id, newEmail)
+      // update email used in FCM search by NIM/NIP
+      const updateResult = await updateFCMUserEmail(userKc[0].username, newEmail)
 
       if (typeof updateResult === 'undefined') {
         const error = new Error('Insert Mahasiswa ke pg gagal')
