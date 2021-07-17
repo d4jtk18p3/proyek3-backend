@@ -3,6 +3,8 @@ import morgan from 'morgan'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 
+import { init as keycloakInit } from './keycloak'
+
 // import keycloak from './middleware/keycloak'
 import dosenRouter from './routes/Dosen'
 import mahasiswaRouter from './routes/Mahasiswa'
@@ -16,6 +18,9 @@ import JabatanRouter from './routes/Jabatan'
 import JurusanRouter from './routes/Jurusan'
 
 const app = express()
+
+keycloakInit()
+
 app.use(cors())
 // Non aktifkan dulu keycloak agar tidak ada validasi token
 // app.use(keycloak.middleware())
