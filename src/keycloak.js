@@ -6,7 +6,7 @@ const AdminClient = keycloakAdmin.default
 const ADMIN_CLIENT_ID = process.env.KEYCLOAK_ADMIN_CLIENT_ID
 const ADMIN_USERNAME = process.env.KEYCLOAK_ADMIN_USERNAME
 const ADMIN_PASSWORD = process.env.KEYCLOAK_ADMIN_PASSWORD
-const BASE_URL = process.env.KEYCLOAK_BASE_URL
+const BASE_URL = `${process.env.KEYCLOAK_BASE_URL}auth`
 // const CLIENT_ID = process.env.KEYCLOAK_CLIENT_ID
 const REALM_NAME = process.env.KEYCLOAK_REALMN_NAME
 const REFRESH_TIME = 30 * 1000
@@ -34,7 +34,6 @@ const initAdminClient = async (issuer, client, tokenSet) => {
     var timeoutDuration = RETRY_TIME
 
     console.log('Authenticating keycloak admin client')
-
     issuer = issuer || await openidClient.Issuer.discover(
       `${BASE_URL}/realms/master`
     )
