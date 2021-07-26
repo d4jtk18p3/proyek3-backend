@@ -65,7 +65,7 @@ const initAdminClient = async (issuer, client, tokenSet) => {
     console.log('Unable to authenticate keycloak admin client')
     console.error(err)
     console.log(`Retrying in ${timeoutDuration / 1000} seconds`)
-   
+
     setTimeout(() => {
       initAdminClient()
     }, timeoutDuration)
