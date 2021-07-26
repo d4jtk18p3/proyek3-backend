@@ -57,13 +57,17 @@ const initAdminClient = async (issuer, client, tokenSet) => {
     adminClient.setAccessToken(tokenSet.access_token)
 
     console.log('Keycloak admin client authenticated')
+
+    setTimeout(() => {
+      initAdminClient(issuer, client, tokenSet)
+    }, timeoutDuration)
   } catch (err) {
     console.log('Unable to authenticate keycloak admin client')
     console.error(err)
     console.log(`Retrying in ${timeoutDuration / 1000} seconds`)
-  } finally {
+   
     setTimeout(() => {
-      initAdminClient(issuer, client, tokenSet)
+      initAdminClient()
     }, timeoutDuration)
   }
 }
